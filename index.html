@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- this is a login page -->
+    <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>labyrinth</title>
+</head>
+<body>
+        <!-- gray : 8c92ac  purple :49416D    green: A1CCA5   -->
+    <div class="container">
+        <div class = "indexinfo">
+            <h1 id="header"> Welcome to Labyrinth! </h1>
+            <p id="info"> Manage your lab reservations and streamline your workflow. Reserve your lab space effortlessly with Laborat, where efficiency meets convenience. </p>
+
+        </div>
+
+        <form action= "./homepage.html">
+            <!-- add method= POST  later--> 
+            
+            <div class="login">
+                <h1 id="loginheader">USER LOGIN</h1>
+                    <img src="username.png" id="userpng">
+                    <input type="text" name="username" id="username" placeholder="Enter your username">
+                    <br>
+                
+
+                    <img src="password.png" id="passpng">
+                    <input type="password" name="password" id="password" placeholder="Enter your password">
+                    <br>
+                    <label id ="rememberme">
+                        <input type="checkbox" name="remember" id="remember"> Remember Me
+                    </label>
+                    <br>
+                    
+            
+                    <input type="submit" value="Login">
+                    <p id="registertext">Don't have an account? <a href="register.php">Register</a></p>
+            </div>
+
+
+
+        </form>
+
+
+
+        
+</body>
+</html>
