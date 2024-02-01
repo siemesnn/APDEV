@@ -1,0 +1,12 @@
+:root {
+    --one: #2E3440;
+    --two: #3B4252;
+    --three: #4C566A;
+    --four: #D8DEE9;
+    --five: #E5E9F0;
+    --six: #ECEFF4;
+    
+
+    /* For user  */
+    --profilePicSize: 100px
+}

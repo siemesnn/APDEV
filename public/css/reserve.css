@@ -1,0 +1,84 @@
+
+.notSidebar {
+    flex: 1;
+}
+
+table {
+    width: 100%; /* Adjust the width as needed */
+    max-width: 800px; /* Optionally, set a maximum width */
+    height: 80%; /* Adjust the height as needed */
+    border-collapse: collapse;
+    /* add shadow */
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    padding-bottom: 90px;
+    margin-bottom: 40px;
+}
+
+th, td {
+    border: none;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 20px;
+    padding-right: 20px;/* Adjust the padding to make each cell bigger */
+    text-align: center;
+    font-size: 16px; /* Adjust the font-size to make the text larger */
+}
+
+th {
+    background-color: #f2f2f2;
+}
+.greeting {
+    color: var(--one);
+    font-size: 20px;
+    margin-bottom: 20px;
+    padding-left: 90px;
+}
+
+body {
+    background-color: var(--five);
+    height: 100vh;
+}
+
+.week{
+    padding-left: 120px;
+}
+
+.weekHeader{
+    display: flex;
+    align-items: center;
+}
+
+#AM{
+    margin-left: 630px;
+    margin-right: 10px;
+}
+
+#AM, #PM{
+    cursor: pointer;
+    background-color: var(--one);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 12px;
+}
+
+#timeslot{
+    width:50px;
+}
+
+#reservebutton{
+    cursor: pointer;
+    background-color: var(--one);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    margin-left: 680px;
+    margin-right: 10px;
+    
+    /* move the button upwards */
+    margin-top: -40px;
+
+    /* make the button bigger */
+    padding: 15px 20px;
+}

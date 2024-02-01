@@ -1,0 +1,59 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+}
+
+.Sidebar {
+    background-color: var(--two);
+    border-right: 1px solid #e7e7e7;
+    width: 290px;
+    z-index: 1;
+    overflow-x: hidden;
+    padding-top: 20px;
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Align children in the center along the cross-axis */
+    
+}
+
+.image-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: 80px;
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This property ensures the image covers the entire container */
+  }
+  
+  .sidebar-links {
+    list-style-type: none;
+    padding: 0; /* Remove default padding */
+}
+
+/* Style anchor links */
+.Sidebar a {
+    color: var(--five); /* Set the color to your desired value */
+    text-decoration: none; /* Remove underline */
+    box-shadow: none; /* Initial box shadow */
+    transition: box-shadow 0.3s ease; 
+}
+
+.Sidebar a:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#toggleButton{
+    background-color: var(--one);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 12px;
+    margin-left: 640px;
+    margin-right: 10px;
+}

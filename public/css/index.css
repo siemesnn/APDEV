@@ -1,0 +1,95 @@
+
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center vertically */
+    margin: 0;
+    min-height: 100vh;
+
+    /* Gradient background --one,--two --four left to right*/
+    background: linear-gradient(to left, var(--one), var(--two), var(--four));
+
+    font-family: 'Times New Roman', Times, serif;
+    
+    
+    
+}
+
+.container {
+    display: flex;
+    /* height: 100vh; */
+    height: 80%;
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.login { 
+    flex: 4;
+    padding: 120px;
+    font-size: 20px;
+    background-color: var(--five);
+    box-sizing: border-box;
+    margin-top: 0%;
+}
+
+.indexinfo {
+    flex: 6;
+    padding-top: 120px;
+    padding-left: 80px;
+    padding-right: 80px;
+    font-size: 20px;
+    text-align: justify;
+    background-color: var(--two);
+    color: white;
+    box-sizing: border-box;
+    margin-top: 0%;
+
+}
+
+#rememberme, #registertext{
+    font-size: 13px;
+}
+
+h1 {
+    font-size: large;
+}
+
+
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+h1 {
+    font-size: large;
+}
+
+/* Add this CSS to style the form elements */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Adjust the submit button styling if needed */
+input[type="submit"] {
+    cursor: pointer;
+    background-color: var(--one);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 12px;
+}
+
+
+
+#userpng, #passpng{
+    width:18px;
+    height:18px;
+    /* add space */
+    margin-top: 9px;
+}

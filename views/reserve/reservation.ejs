@@ -1,0 +1,126 @@
+<%- include('../header') -%>
+<%- include('../sidebar') -%>
+
+<!-- NEED TO FIX -->
+<!-- days should change if today is tuesday, the table should start on wed
+it should also include the actual date today
+also show the WEEK OF _____________ should be dynamic
+fix the spacing of everything -->
+<!-- tag for css -->
+<link rel="stylesheet" href="css/reserve.css">
+
+<div class="notSidebar">
+
+    <div class="greeting">
+        <h2> Hello, <%= username %> </h2>
+    </div>
+
+    <div class="week">
+        <div class="weekHeader">
+            <h2> Week of <span id="date"> </span> </h2>
+            <button id="toggleButton">AM/PM</button>
+        </div>
+        <form action="/resconfirmation" method="post">
+            <table id="timeTable">
+                <thead>
+                    <tr>
+                        <th id="timeslot">Timeslot</th>
+                        <th id="Monday"></th>
+                        <th id="Tuesday"></th>
+                        <th id="Wednesday"></th>
+                        <th id="Thursday"></th>
+                        <th id="Friday"></th>
+                        <th id="Saturday"></th>
+                        <th id="Sunday"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic content will be added here using JavaScript -->
+                </tbody>
+            </table>
+            <input type="submit" value="Reserve" id="reservebutton">
+        </form>
+    </div>
+
+</div>
+<script>
+    const toggleButton = document.getElementById('toggleButton');
+    let period = 'AM'; // Default period
+
+    toggleButton.addEventListener('click', function () {
+        period = period === 'AM' ? 'PM' : 'AM';
+        generateTimeSlots(); // Regenerate timeslots based on the updated period
+    });
+
+    function generateTimeSlots() {
+        const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        const timeTable = document.querySelector('#timeTable');
+        const timeTableBody = timeTable.querySelector('tbody');
+        timeTableBody.innerHTML = ''; // Clear existing content
+
+        const currentDate = new Date();
+        const currentDayIndex = currentDate.getDay(); // Get the index of the current day (0-6)
+        const daysToShow = 8; // Show the current day and the next 7 days
+
+        // Generate regular timeslots
+        const timeslots = period === 'AM' ? generateAMTimeSlots() : generatePMTimeSlots();
+
+        // Add a row for each timeslot
+        for (let i = 0; i < timeslots.length; i++) {
+            const row = timeTableBody.insertRow();
+            const timeCell = row.insertCell(0);
+            timeCell.textContent = timeslots[i];
+
+            for (let j = 0; j < daysOfWeek.length; j++) {
+                const checkboxCell = row.insertCell(j + 1);
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `${daysOfWeek[j]}_${i + 1}`;
+                checkbox.name = 'availability';
+                checkboxCell.appendChild(checkbox);
+            }
+        }
+
+        // Add a separator between the current day row and the regular timeslots
+        const separatorRow = timeTableBody.insertRow();
+        separatorRow.innerHTML = '<td colspan="8" class="separator"></td>';
+
+        // Set the date for Monday to Sunday
+        for (let i = 0; i < 7; i++) {
+            const nextDate = new Date(currentDate);
+            nextDate.setDate(currentDate.getDate() + i);
+            document.getElementById(daysOfWeek[i]).textContent = formatDate(nextDate);
+        }
+    }
+
+    function generateAMTimeSlots() {
+        // Generate AM timeslots from 8:00 AM to 11:30 AM with 30-minute intervals
+        const amSlots = [];
+        for (let hour = 8; hour <= 11; hour++) {
+            amSlots.push(`${hour}:00 - ${hour}:30`);
+            amSlots.push(`${hour}:30 - ${hour + 1}:00`);
+        }
+        return amSlots;
+    }
+
+    function generatePMTimeSlots() {
+        // Generate PM timeslots from 12:00 PM to 8:00 PM with 30-minute intervals
+        const pmSlots = [];
+        for (let hour = 12; hour <= 19; hour++) {
+            pmSlots.push(`${hour}:00 - ${hour}:30`);
+            pmSlots.push(`${hour}:30 - ${hour + 1}:00`);
+        }
+        return pmSlots;
+    }
+
+    function formatDate(date) {
+        const options = { weekday: 'short', month: 'short', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+    }
+
+    // Initial generation
+    generateTimeSlots();
+
+</script>
+
+<%- include('../footer') -%>
