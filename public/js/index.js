@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(event) {
         // Create POST request to /api/users/login
 
+        // NANA WAS HERE HEHEHEHEHEHEHHE
         fetch('/api/users/login', {
             method: 'POST',
             headers: {
