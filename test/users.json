@@ -1,0 +1,67 @@
+{
+    "users" : {
+        "user1" : {
+            "ID" : "1",
+            "name" : "Jeongwoo",
+            "email" : "woopy@dlsu.edu.ph",
+            "password" : "123",
+            "username": "woopy",
+            "pictureURL" :"https://pin.it/70mdDoaxh",
+            "role": "student",
+            "description" : "IT Student",
+            "reservations" : {
+                "reservation1" : {
+                    "ID" : "1",
+                    "date" : "2024-02-14",
+                    "time" : "10:00",
+                    "AMPM" : "AM",
+                    "duration" : "1",
+                    "lab" : "1",
+                    "status" : "completed"
+                }
+            }
+        },
+        "user2" : {
+            "ID" : "2",
+            "name" : "Junkyu",
+            "email" : "junkyu@example.com",
+            "password" : "456",
+            "username" : "bonbon",
+            "pictureURL" :"https://example.com/junkyu",
+            "role": "student",
+            "description" : "Computer Science Student",
+            "reservations" : {
+                "reservation1" : {
+                    "ID" : "2",
+                    "date" : "2024-02-15",
+                    "time" : "14:30",
+                    "AMPM" : "PM",
+                    "duration" : "2",
+                    "lab" : "2",
+                    "status" : "pending"
+                }
+            }
+        },
+        "user3" : {
+            "ID" : "3",
+            "name" : "Haruto",
+            "email" : "haruto@example.com",
+            "password" : "789",
+            "username": "ruru",
+            "pictureURL" :"https://example.com/haruto",
+            "role": "student",
+            "description" : "Engineering Student",
+            "reservations" : {
+                "reservation1" : {
+                    "ID" : "3",
+                    "date" : "2024-02-16",
+                    "time" : "09:00",
+                    "AMPM" : "AM",
+                    "duration" : "1",
+                    "lab" : "3",
+                    "status" : "pending"
+                }
+            }
+        }
+    }
+}

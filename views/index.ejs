@@ -1,6 +1,7 @@
 <%- include('header') -%>
 
     <link rel="stylesheet" href="css/index.css">
+    <script src="js/index.js"></script>
         <!-- gray : 8c92ac  purple :49416D    green: A1CCA5   -->
     <div class="container">
         <div class = "indexinfo">
@@ -9,7 +10,7 @@
 
         </div>
 
-        <form action="/home" method="post">
+        <form action="" method="post" id="login-form">
             <!-- add method= POST  later--> 
             
             <div class="login">
@@ -28,7 +29,7 @@
                     <br>
                     
             
-                    <input type="submit" value="Login">
+                    <input type="submit" value="Login" id="login">
                     <p id="registertext">Don't have an account? <a href="register.html">Register</a></p>
             </div>
 

@@ -2,17 +2,26 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const databasejson = require('./test/users.json')
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
+
+// Parse json test data
+const users = databasejson.users;
+
 
 // Use body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// API Endpoints
+app.use('/api/users', userRoutes);  
+
 // Set up session middleware
 app.use(session({
-    secret: 'your-secret-key',
+    secret: 'pwet',
     resave: false,
     saveUninitialized: true
 }));
@@ -22,37 +31,26 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static('public'));
 
+
 // Handle GET request to the root route (index page)
 app.get('/', (req, res) => {
-    res.render('index', { title: 'Login Page' });
-});
-
-// Handle POST request when the login form is submitted
-app.post('/home', (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    console.log('Username:', username);
-
-    // Assume all logins are valid for testing/development
-    // For production, replace this with your actual authentication logic
-    const isAuthenticated = true;
-
-    if (isAuthenticated) {
-        // Store the authenticated username in the session
-        req.session.username = username;
-
-        // Redirect to the homepage or render the homepage view
-        res.redirect(`/home?username=${username}`);
+    const session = req.session;
+    if (session.isLogged) {
+        res.redirect('/home');
     } else {
-        // Authentication failed, you can redirect back to the login page or handle accordingly
-        res.redirect('/');
+        res.render('index', { title: 'Login Page' });
     }
 });
 
-// Handle GET request to the /home route
+
+// Handle post request to the /home route
 app.get('/home', (req, res) => {
     // Retrieve the username from the session or query parameter
-    const username = req.session.username || req.query.username || 'Guest'; // Default to 'Guest' if not found
+    const username = req.query.username;
+
+    // Save the username to the session
+    req.session.username = username;
+    req.isAuthenticated = true;
 
     res.render('reserve/reservation', { title: 'Home Page', username: username });
 });
@@ -60,9 +58,22 @@ app.get('/home', (req, res) => {
 // Handle GET request to the /profile route
 app.get('/profile', (req, res) => {
     // Retrieve the username from the session or query parameter
-    const username = req.session.username || req.query.username || 'Guest'; // Default to 'Guest' if not found
+    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
 
-    res.render('editprofile', { title: 'Profile Page', username: username });
+    // res.render('editprofile', 
+    //     {
+    //         title: 'Profile Page', 
+    //         username: username 
+        
+    //     }    
+    // );
+
+    res.send(
+        {
+            title: 'Profile Page', 
+            username: username 
+        }
+    )
 });
 
 //Handle GET request to the /resconfirmation route
