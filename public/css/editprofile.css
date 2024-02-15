@@ -22,11 +22,7 @@ body {
 
 
 .info{
-<<<<<<< Updated upstream
-    position: fixed;
-=======
     position: fixed; 
->>>>>>> Stashed changes
     padding-left: 120px;
     padding-top: 70px;
     overflow: hidden;
@@ -35,22 +31,13 @@ body {
 
 
 .image-container-profile {
-<<<<<<< Updated upstream
-    position: fixed;
-    top: 50px; /* Align the container to the top of the viewport */
-=======
    position: fixed;
     top: 90px; /* Align the container to the top of the viewport */
->>>>>>> Stashed changes
     right: 50px; /* Align the container to the right of the viewport */
     width: 300px;
     height: 300px;
     border-radius: 50%;
-<<<<<<< Updated upstream
-    padding: 10px;
-=======
     /*padding: 10px;    */
->>>>>>> Stashed changes
     overflow: hidden;
 }
 
@@ -61,10 +48,7 @@ body {
   }
 
 
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
   @media (max-width: 1400px) {
     body {
         min-width: 1400px;
@@ -84,11 +68,8 @@ body {
         padding-top: 70px; 
     }
 
-<<<<<<< Updated upstream
-=======
     
 
->>>>>>> Stashed changes
 }
 
 
@@ -123,8 +104,6 @@ body {
     width: 600px; /* Adjust width as needed */
     height: 160px; /* Adjust height as needed */
     font-size: 12px; /* Adjust the font size */
-<<<<<<< Updated upstream
-=======
     vertical-align: top;
     padding-top: 50px;
 }
@@ -157,5 +136,4 @@ body {
 
 .profile-buttons .red-text {
     color: red; /* Change text color to red */
->>>>>>> Stashed changes
 }
