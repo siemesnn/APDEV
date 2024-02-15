@@ -15,112 +15,149 @@ fix the spacing of everything -->
         <h2 id="usernameid"> Hello, <%= username %> </h2>
     </div>
 
-    <div class="week">
-        <div class="weekHeader">
-            <h2> Week of <span id="date"> </span> </h2>
-            <button id="toggleButton">AM/PM</button>
+    <form>
+        <label for="dates">Choose a date:</label>
+        <select id="dates" name="dates"></select>
+
+        <label for="times">Choose a time:</label>
+        <select id="times" name="times"></select>
+
+        
+
+        <div class="seatContainer">
+            <input type="hidden" id="01" name="seat1" value="0">
+            <img id="seat1" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat1')">
+    
+            <input type="hidden" id="02" name="seat2" value="0">
+            <img id="seat2" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat2')">
+
+            
+            <input type="hidden" id="03" name="seat2" value="2">
+            <img id="seat3" class="seat" src="assets/taken.png" alt="Taken Seat" onclick="toggleSeatStatus('seat3')">
+            <!-- Add more seats as needed -->
         </div>
-        <form action="/resconfirmation" method="post">
-            <table id="timeTable">
-                <thead>
-                    <tr>
-                        <th id="timeslot">Timeslot</th>
-                        <th id="Monday"></th>
-                        <th id="Tuesday"></th>
-                        <th id="Wednesday"></th>
-                        <th id="Thursday"></th>
-                        <th id="Friday"></th>
-                        <th id="Saturday"></th>
-                        <th id="Sunday"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dynamic content will be added here using JavaScript -->
-                </tbody>
-            </table>
-            <input type="submit" value="Reserve" id="reservebutton">
-        </form>
-    </div>
+        <input type="submit" value="Submit">
+    </form>
 
-</div>
-<script>
-    const toggleButton = document.getElementById('toggleButton');
-    let period = 'AM'; // Default period
+        <div class ="legend">
+            <img src="assets/available.png" alt="Available Seat"> Available
+            <img src="assets/selected.png" alt="Selected Seat"> Selected
+            <img src="assets/taken.png" alt="Taken Seat"> Taken
 
-    toggleButton.addEventListener('click', function () {
-        period = period === 'AM' ? 'PM' : 'AM';
-        generateTimeSlots(); // Regenerate timeslots based on the updated period
-    });
+        </div>
 
-    function generateTimeSlots() {
-        const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        const timeTable = document.querySelector('#timeTable');
-        const timeTableBody = timeTable.querySelector('tbody');
-        timeTableBody.innerHTML = ''; // Clear existing content
+    <script>
+        // Function to generate date options for the next 7 days
+        function generateDateOptions() {
+            const select = document.getElementById('dates');
+            const today = new Date();
 
-        const currentDate = new Date();
-        const currentDayIndex = currentDate.getDay(); // Get the index of the current day (0-6)
-        const daysToShow = 8; // Show the current day and the next 7 days
+            for (let i = 0; i < 8; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() + i);
 
-        // Generate regular timeslots
-        const timeslots = period === 'AM' ? generateAMTimeSlots() : generatePMTimeSlots();
-
-        // Add a row for each timeslot
-        for (let i = 0; i < timeslots.length; i++) {
-            const row = timeTableBody.insertRow();
-            const timeCell = row.insertCell(0);
-            timeCell.textContent = timeslots[i];
-
-            for (let j = 0; j < daysOfWeek.length; j++) {
-                const checkboxCell = row.insertCell(j + 1);
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.id = `${daysOfWeek[j]}_${i + 1}`;
-                checkbox.name = 'availability';
-                checkboxCell.appendChild(checkbox);
+                const option = document.createElement('option');
+                option.value = date.toISOString().split('T')[0];
+                option.textContent = date.toDateString();
+                select.appendChild(option);
             }
         }
 
-        // Add a separator between the current day row and the regular timeslots
-        const separatorRow = timeTableBody.insertRow();
-        separatorRow.innerHTML = '<td colspan="8" class="separator"></td>';
+        // Function to generate time options with 30-minute intervals
+        function generateTimeOptions() {
+            const select = document.getElementById('times');
+            const startTime = new Date();
+            startTime.setHours(8, 0, 0); // Set start time to 8:00 AM
 
-        // Set the date for Monday to Sunday
-        for (let i = 0; i < 7; i++) {
-            const nextDate = new Date(currentDate);
-            nextDate.setDate(currentDate.getDate() + i);
-            document.getElementById(daysOfWeek[i]).textContent = formatDate(nextDate);
+            const endTime = new Date();
+            endTime.setHours(18, 0, 0); // Set end time to 6:00 PM
+
+            const interval = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+            while (startTime < endTime) {
+                const option = document.createElement('option');
+                option.value = startTime.toTimeString().split(' ')[0];
+                option.textContent = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                select.appendChild(option);
+
+                startTime.setTime(startTime.getTime() + interval);
+            }
         }
+
+        generateDateOptions();
+        generateTimeOptions();
+
+        function toggleSeatStatus(seatId) {
+    const seat = document.getElementById(seatId);
+    const seatInput = document.getElementById(`${seatId}Input`); // Initialize seatInput
+    const availableImage = 'assets/available.png';
+    const selectedImage = 'assets/selected.png';
+    const takenImage = 'assets/taken.png';
+
+    // Check if the seat is taken
+    if (seat.src.includes(takenImage)) {
+        // Show a custom information popup
+        const reservedBy = getReservedBy(); // Replace this with a function to get reservation information
+
+        const infoPopup = document.createElement('div');
+        infoPopup.className = 'info-popup';
+        infoPopup.textContent = `Reserved by: ${reservedBy}`;
+        document.body.appendChild(infoPopup);
+
+        // Hide the info popup after a delay (e.g., 3 seconds)
+        setTimeout(() => {
+            infoPopup.remove();
+        }, 3000);
+
+        return;
     }
 
-    function generateAMTimeSlots() {
-        // Generate AM timeslots from 8:00 AM to 11:30 AM with 30-minute intervals
-        const amSlots = [];
-        for (let hour = 8; hour <= 11; hour++) {
-            amSlots.push(`${hour}:00 - ${hour}:30`);
-            amSlots.push(`${hour}:30 - ${hour + 1}:00`);
+    // If the seat is already selected or taken, do nothing
+    if (seat.src.includes(selectedImage) || seatInput.value === '2') {
+        return;
+    }
+
+    // Deselect all seats first
+    const allSeats = document.querySelectorAll('.seat');
+    allSeats.forEach((s) => {
+        if (!s.src.includes(takenImage)) {
+            s.src = availableImage;
+            s.classList.remove('selected');
         }
-        return amSlots;
-    }
+    });
 
-    function generatePMTimeSlots() {
-        // Generate PM timeslots from 12:00 PM to 8:00 PM with 30-minute intervals
-        const pmSlots = [];
-        for (let hour = 12; hour <= 19; hour++) {
-            pmSlots.push(`${hour}:00 - ${hour}:30`);
-            pmSlots.push(`${hour}:30 - ${hour + 1}:00`);
+    // Toggle the selected state of the clicked seat
+    if (seat.src.includes(availableImage)) {
+        seat.src = selectedImage;
+        seat.classList.add('selected');
+        seatInput.value = '1'; // Set the input value to 1 for selected
+    } else {
+        seat.src = availableImage;
+        seat.classList.remove('selected');
+        seatInput.value = '0'; // Set the input value to 0 for available
+    }
+}
+
+// Replace this function with logic to get reservation information
+function getReservedBy() {
+    // Example: Fetch reservation information from the server or use stored data
+    // Replace this with your actual logic to get the reservation information
+    return 'John Doe'; // Example value
+}
+
+
+
+        document.getElementById('seatForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+    // You can retrieve the form data using JavaScript FormData API
+        const formData = new FormData(this);
+        for (const pair of formData.entries()) {
+            console.log(pair[0], pair[1]);
         }
-        return pmSlots;
-    }
+});
 
-    function formatDate(date) {
-        const options = { weekday: 'short', month: 'short', day: 'numeric' };
-        return date.toLocaleDateString('en-US', options);
-    }
-
-    // Initial generation
-    generateTimeSlots();
-
-</script>
-
+        // Call the functions to generate date and time opti
+        
+    </script>
 <%- include('../footer') -%>

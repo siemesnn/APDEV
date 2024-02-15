@@ -1,0 +1,104 @@
+
+.notSidebar {
+    flex: 1;
+}
+
+body {
+    flex: 1;
+    background-color: var(--five);
+    height: 100vh;
+    margin:0;
+    min-width: 1250px;
+}
+
+.greeting-profile {
+    position: fixed;
+    color: var(--one);
+    font-size: 20px;
+    margin-bottom: 20px;
+    padding-left: 90px;
+}
+
+
+
+.info{
+    position: fixed;
+    padding-left: 120px;
+    padding-top: 70px;
+    overflow: hidden;
+}
+
+
+
+.image-container-profile {
+    position: fixed;
+    top: 50px; /* Align the container to the top of the viewport */
+    right: 50px; /* Align the container to the right of the viewport */
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.image-container-profile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This property ensures the image covers the entire container */
+  }
+
+
+  @media (max-width: 1400px) {
+    body {
+        min-width: 1400px;
+    }
+
+    .greeting-profile {
+        padding-left: 20px; /* Adjust the left padding for smaller screens */
+    }
+
+    .info {
+        padding-left: 20px; /* Adjust the left padding for smaller screens */
+        padding-top: 70px; /* Adjust the top padding for smaller screens */
+    }
+
+    .current-reservations {
+        padding-left: 20px; /* Adjust the left padding for smaller screens */
+        padding-top: 70px; 
+    }
+
+}
+
+
+.current-reservations {
+    position: fixed;
+    overflow: hidden;
+    background-color: white;
+    width: 600px; /* Adjust width as needed */
+    height: 300px; /* Adjust height as needed */
+    margin: 0;
+    padding: 0;
+
+}
+
+.current-reservations h3 {
+    background-color: transparent;
+    margin-bottom: 10px;
+}
+
+.current-reservations ul {
+    list-style-type: none;
+    padding: 10px 10px;
+    margin:0;
+}
+
+.current-reservations ul li {
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+#descriptionInput {
+    width: 600px; /* Adjust width as needed */
+    height: 160px; /* Adjust height as needed */
+    font-size: 12px; /* Adjust the font size */
+}

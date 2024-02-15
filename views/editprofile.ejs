@@ -1,13 +1,53 @@
 <%- include('header') -%>
 <%- include('sidebar') -%>
 
-<h2>hello</h2>
-
 <!-- need current reservations, description -->
 <!-- need to add a button to edit profile -->
 <!-- need to add a button to change password -->
 <!-- need to add a button to delete account -->
 <!-- need to add a button to logout -->
 <!-- need to add a button to go back to homepage -->
+<link rel="stylesheet" href="css/editprofile.css">
+
+<div class="notSidebar">
+
+    <div class="greeting-profile">
+        <h2> User Profile </h2>
+    </div>
+
+    <div class="info">
+        <h3> Name: <%= user.name %> </h3>
+        <h3> Description: </h3>
+
+        <input type="text" id="descriptionInput" name="description" value= "<%=user.description%> " readonly>
+        
+        
+        <h3><a href="currentreservations.ejs">Current Reservations: </a></h3>
+        
+        <div class="current-reservations">
+        <ul>
+            <li>Reservation 1</li>
+            <li>Reservation 2</li>
+            <li>Reservation 3</li>
+            <!-- Add more reservation items here -->
+        </ul>
+    </div>
+    </div>
+
+    <!-- List view box for current reservations -->
+    
+
+    <div class="image-container-profile">
+        <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp"> <br> <br>
+    </div>
+
+    
+
+    
+
+
+        
+ </div>
+
 
 <%- include('footer') -%>
