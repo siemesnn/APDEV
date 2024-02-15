@@ -1,0 +1,201 @@
+<%- include('header') -%>
+<%- include('sidebar') -%>
+
+<link rel="stylesheet" href="css/myreservation.css">
+
+<div class="notSidebar">
+
+    <div class="greeting-profile">
+        <h2> Reservations </h2>
+    </div>
+
+    <div class="table-container">
+        <table class="reservations-table">
+            <thead>
+                <tr>
+                    <th>Lab</th>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Reservation Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <td>Lab A</td>
+                    <td>2024-02-15</td>
+                    <td>10:00 AM</td>
+                    <td>12:00 AM</td>
+                    <td>John Doe</td>
+                </tr>
+                
+
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="button-container">
+        <button onclick="navigateTo('reservation.ejs')" class="button" id="editReservationButton">Edit Reservation</button>
+        <button class="button" id="cancelReservationButton">Cancel Reservation</button>
+   </div>
+
+       
+ </div>
+
+
+<%- include('footer') -%>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the table element
+        var table = document.getElementById("reservations-table");
+        
+        // Add click event listener to the table rows
+        table.addEventListener("click", function(event) {
+            // Remove the 'selected' class from all rows
+            var rows = table.querySelectorAll("tr");
+            rows.forEach(function(row) {
+                row.classList.remove("select");
+            });
+            
+            // Check if the clicked element is a table row
+            if (event.target.tagName === "TR") {
+                // Add the 'selected' class to the clicked row
+                var clickedRow = event.target;
+                clickedRow.classList.add("select");
+            }
+        });
+    });
+</script>
+
+
+
+
