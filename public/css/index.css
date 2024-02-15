@@ -1,4 +1,5 @@
-
+@import url('https://fonts.googleapis.com/css?family=Lexend Deca');
+@import url('https://fonts.googleapis.com/css?family=Inter');
 
 body{
     display: flex;
@@ -7,10 +8,10 @@ body{
     margin: 0;
     min-height: 100vh;
 
-    /* Gradient background --one,--two --four left to right*/
-    background: linear-gradient(to left, var(--one), var(--two), var(--four));
+    /* Gradient background --one,--two --three left to right*/
+    background: linear-gradient(to left, var(--one), var(--two), var(--three));
 
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Inter'; 
     
     
     
@@ -34,6 +35,7 @@ body{
     margin-top: 0%;
 }
 
+/*tagline or intro about site*/
 .indexinfo {
     flex: 6;
     padding-top: 120px;
@@ -42,21 +44,37 @@ body{
     font-size: 20px;
     text-align: justify;
     background-color: var(--two);
-    color: white;
+    color: var(--three);
     box-sizing: border-box;
     margin-top: 0%;
+    font-family: 'Lexend Deca';
 
 }
 
-#rememberme, #registertext{
-    font-size: 13px;
+#rememberme{
+    font-size: 12px;
+    font-family: 'Inter';
+} 
+
+#registertext{
+    margin-top: 8%;
+    font-size: 12px;
+    font-family: 'Inter';
 }
 
+/*Welcome to Labyrinth text */
+#header { 
+    font-family: 'Lexend Deca';
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+/* user log in text */
 h1 {
+    font-family: 'Inter';
     font-size: large;
+    text-align: center;
 }
-
-
 
 body {
     display: flex;
@@ -65,9 +83,6 @@ body {
     margin: 0;
 }
 
-h1 {
-    font-size: large;
-}
 
 /* Add this CSS to style the form elements */
 form {
@@ -84,7 +99,6 @@ input[type="submit"] {
     padding: 10px 15px;
     font-size: 12px;
 }
-
 
 
 #userpng, #passpng{
