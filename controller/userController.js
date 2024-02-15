@@ -15,6 +15,7 @@ exports.loginUser = (req, res) => {
     // Send appropriate status
     if (user) {
         res.status(200).send({ username: username });
+        // 
     } else {
         res.status(401).send('Invalid username or password');
     }
