@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
     if (session.isLogged) {
         res.redirect('/home');
     } else {
-        res.render('index', { title: 'Login Page' });
+        res.render('index', { title: 'Labyrinth - Login Page' });
     }
 });
 
@@ -52,7 +52,7 @@ app.get('/home', (req, res) => {
     req.session.username = username;
     req.isAuthenticated = true;
 
-    res.render('reserve/reservation', { title: 'Home Page', username: username });
+    res.render('reserve/reservation', { title: 'Labyrinth - Home Page', username: username });
 });
 
 // Handle GET request to the /profile route
