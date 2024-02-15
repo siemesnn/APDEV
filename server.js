@@ -21,7 +21,7 @@ app.use('/api/users', userRoutes);
 
 // Set up session middleware
 app.use(session({
-    secret: 'pwet',
+    secret: 'apdev123',
     resave: false,
     saveUninitialized: true
 }));
@@ -41,6 +41,13 @@ app.get('/', (req, res) => {
         res.render('index', { title: 'Labyrinth - Login Page' });
     }
 });
+
+
+//Handle GET request to the /register router (register-account)
+app.get('/register', (req, res) => {
+    res.render('register-account', { title: 'Labyrinth - Register Account' });
+});
+
 
 
 // Handle post request to the /home route
