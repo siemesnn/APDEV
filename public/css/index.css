@@ -12,9 +12,6 @@ body{
     background: linear-gradient(to left, var(--one), var(--two), var(--three));
 
     font-family: 'Inter'; 
-    
-    
-    
 }
 
 .container {
@@ -41,8 +38,9 @@ body{
     padding-top: 120px;
     padding-left: 80px;
     padding-right: 80px;
-    font-size: 20px;
-    text-align: justify;
+    font-size: 25px;
+    text-align: left;
+    line-height: 150%;
     background-color: var(--two);
     color: var(--three);
     box-sizing: border-box;
@@ -98,6 +96,10 @@ input[type="submit"] {
     border: none;
     padding: 10px 15px;
     font-size: 12px;
+    width: 120px;
+    border-radius: 5px;
+    margin-top: 10%;
+    margin-left: 20%;
 }
 
 
