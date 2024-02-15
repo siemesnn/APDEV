@@ -59,20 +59,16 @@ app.get('/home', (req, res) => {
 app.get('/profile', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
-    const description = req.session.description || 'No description provided';
+    const description = req.session.description;
+    console.log('Description in session:', description); // Add this line for debugging
 
-    req.session.username = username;
-    req.session.description = description;
-
-    res.render('editprofile', 
-         {
-             title: 'Profile Page', 
-             username: username, 
-             description: description //doesnt work yet
-        
-         }    
-     )
+    res.render('editprofile', {
+        title: 'Profile Page',
+        username: username,
+        description: description
+    });
 });
+
 
 
 // Handle GET request to the /reserve route
