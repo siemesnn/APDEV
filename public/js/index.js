@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const password = document.getElementById('password');
 
     form.addEventListener('submit', function(event) {
+        event.preventDefault();
         // Create POST request to /api/users/login
 
         // NANA WAS HERE HEHEHEHEHEHEHHE
