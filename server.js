@@ -52,7 +52,7 @@ app.get('/home', (req, res) => {
     req.session.username = username;
     req.isAuthenticated = true;
 
-    res.render('reserve/reservation', { title: 'Labyrinth - Home Page', username: username });
+    res.render('selectlabs', { title: 'Labyrinth - Home Page', username: username });
 });
 
 // Handle GET request to the /profile route
