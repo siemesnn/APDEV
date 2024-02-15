@@ -41,6 +41,18 @@ body{
     font-family: 'Inter';
     font-size: 20px;
     color: var(--one);
+    margin-top: 40px;
+}
+
+#go-back
+{
+    background-color: var(--one);
+    border: none;
+    border-radius: 5px;
+    color: var(--three);
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 14px;
 }
 
 
@@ -50,19 +62,20 @@ body {
     margin: 0;
 }
 
-h1 {
-    font-size: large;
-}
 
 
 /* Adjust the submit button styling if needed */
-input[type="submit"] {
-    cursor: pointer;
+#confirm-btn
+{
     background-color: var(--one);
-    color: white;
     border: none;
+    border-radius: 5px;
+    margin-top: 50px;
+    margin-left: 200px;
+    color: var(--three);
     padding: 10px 15px;
-    font-size: 12px;
+    text-align: center;
+    font-size: 14px;
 }
 
 
