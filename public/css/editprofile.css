@@ -5,7 +5,7 @@
 
 body {
     flex: 1;
-    background-color: var(--five);
+    background-color: var(--three);
     height: 100vh;
     margin:0;
     min-width: 1250px;
@@ -64,41 +64,46 @@ body {
     }
 
     .current-reservations {
-        padding-left: 20px; /* Adjust the left padding for smaller screens */
-        padding-top: 70px; 
+        padding-left: 0px; /* Adjust the left padding for smaller screens */
+    }
+
+    .image-container-profile,
+    .profile-buttons {
+        display: none; /* Hide the profile picture on smaller screens */
     }
 
     
 
 }
 
-
 .current-reservations {
-    position: fixed;
-    overflow: hidden;
-    background-color: white;
-    width: 600px; /* Adjust width as needed */
-    height: 300px; /* Adjust height as needed */
-    margin: 0;
-    padding: 0;
-
+    overflow: auto; /* Enable scrolling if the content exceeds the height */
+    max-height: 300px; /* Set a maximum height for the table to enable scrolling */
 }
 
-.current-reservations h3 {
-    background-color: transparent;
-    margin-bottom: 10px;
+.current-reservations table {
+    width: 100%; /* Make the table fill the entire width of its container */
+    border-collapse: collapse; /* Collapse table borders */
 }
 
-.current-reservations ul {
-    list-style-type: none;
-    padding: 10px 10px;
-    margin:0;
+.current-reservations th, .current-reservations td {
+    background-color: var(--three);
+    padding: 8px; /* Add padding to table cells */
+    text-align: center; /* Align text to the center within table cells */
+    border-bottom: 1px solid var(--one); /* Add bottom border to table cells */
 }
 
-.current-reservations ul li {
-    margin-bottom: 5px;
-    text-align: left;
+.current-reservations th {
+    background-color: var(--one); /* Set background color for table header */
+    color: white;
 }
+
+.current-reservations tbody tr:nth-child(even) td {
+    background-color: #eee2ff; /* Set alternate background color for even rows */
+}
+
+
+
 
 #descriptionInput {
     width: 600px; /* Adjust width as needed */
@@ -109,7 +114,7 @@ body {
 }
 
 .profile-buttons {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 105px;
     margin-top: 430px; /* Adjust as needed */
@@ -136,4 +141,20 @@ body {
 
 .profile-buttons .red-text {
     color: red; /* Change text color to red */
+}
+
+.sub-button {
+    display: block;
+    margin-top: 15px; /* Adjust the top margin as needed */
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #6c757d; /* Use your desired sub-button color */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sub-button:hover {
+    background-color: #495057; /* Change the background color on hover */
 }
