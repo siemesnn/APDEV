@@ -21,7 +21,7 @@ app.use('/api/users', userRoutes);
 
 // Set up session middleware
 app.use(session({
-    secret: 'pwet',
+    secret: 'apdev123',
     resave: false,
     saveUninitialized: true
 }));
@@ -43,6 +43,13 @@ app.get('/', (req, res) => {
 });
 
 
+//Handle GET request to the /register router (register-account)
+app.get('/register', (req, res) => {
+    res.render('register-account', { title: 'Labyrinth - Register Account' });
+});
+
+
+
 // Handle post request to the /home route
 app.get('/home', (req, res) => {
     // Retrieve the username from the session or query parameter
@@ -52,19 +59,65 @@ app.get('/home', (req, res) => {
     req.session.username = username;
     req.isAuthenticated = true;
 
-    res.render('reserve/reservation', { title: 'Labyrinth - Home Page', username: username });
+    res.render('selectlabs', { title: 'Labyrinth - Home Page', username: username });
 });
 
 // Handle GET request to the /profile route
 app.get('/profile', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
-    const user = users.find(user => user.username === username);
+    const description = req.session.description;
+    console.log('Description: ', description);
 
-
-    // fetch request from the API (/api/users/retrieveUser) to get the user data then render the profile page with user data as an json objec
-    res.render('editprofile', { title: 'Profile Page', username: username, user: user });
+    res.render('editprofile', 
+         {
+             title: 'Profile Page', 
+             username: username, 
+             description: description //doesnt work yet
+        
+         }    
+     )
 });
+
+
+// Handle GET request to the /reserve route
+app.get('/reserve', (req, res) => {
+    // Retrieve the username from the session or query parameter
+    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+
+    res.render('currentreservations', 
+         {
+             title: 'Profile Page', 
+             username: username, 
+        
+         }    
+     )
+});
+
+// Handle GET request to the /profile route
+app.get('/edittprofile', (req, res) => {
+    // Retrieve the username from the session or query parameter
+    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+    const description = req.session.description;
+    console.log('Description: ', description);
+
+    res.render('edittingprofile', 
+         {
+             title: 'Profile Page', 
+             username: username, 
+             description: description //doesnt work yet
+        
+         }    
+     );
+
+    //res.send(
+    //    {
+    //        title: 'Profile Page', 
+    //        username: username 
+     //   }
+   // );
+});
+
 
 //Handle GET request to the /resconfirmation route
 app.get('/resconfirmation', (req, res) => {

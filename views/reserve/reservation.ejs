@@ -16,27 +16,104 @@ fix the spacing of everything -->
     </div>
 
     <form>
+
+        <div class="date-time">
         <label for="dates">Choose a date:</label>
         <select id="dates" name="dates"></select>
 
         <label for="times">Choose a time:</label>
         <select id="times" name="times"></select>
-
+        </div>
         
-
-        <div class="seatContainer">
+<div class = "container-a">
+        <div class="seatContainer1">
             <input type="hidden" id="01" name="seat1" value="0">
             <img id="seat1" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat1')">
     
             <input type="hidden" id="02" name="seat2" value="0">
             <img id="seat2" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat2')">
 
-            
+            <div class="popup" id="popup"></div>
             <input type="hidden" id="03" name="seat2" value="2">
-            <img id="seat3" class="seat" src="assets/taken.png" alt="Taken Seat" onclick="toggleSeatStatus('seat3')">
+            <img id="seat1Image" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat1')" onmouseleave="hidePopup()">
+            <!-- Test code -->
             <!-- Add more seats as needed -->
         </div>
-        <input type="submit" value="Submit">
+
+        <div class="seatContainer2">
+            <input type="hidden" id="04" name="seat4" value="0">
+            <img id="seat4" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat4')">
+    
+            <input type="hidden" id="05" name="seat5" value="0">
+            <img id="seat5" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat5')">
+
+            <div class="popup" id="popup"></div>
+            <input type="hidden" id="06" name="seat6" value="2">
+            <img id="seat6" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat6')" onmouseleave="hidePopup()">
+            <!-- Test code -->
+            <!-- Add more seats as needed -->
+        </div>
+
+        <div class="seatContainer3">
+            <input type="hidden" id="07" name="seat7" value="0">
+            <img id="seat7" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat7')">
+    
+            <input type="hidden" id="08" name="seat8" value="0">
+            <img id="seat8" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat8')">
+
+            <div class="popup" id="popup"></div>
+            <input type="hidden" id="09" name="seat9" value="2">
+            <img id="seat9" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat9')" onmouseleave="hidePopup()">
+
+        </div>
+</div>
+<div class="container-b">
+
+        <div class="seatContainer4">
+            <input type="hidden" id="10" name="seat1" value="0">
+            <img id="seat10" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat10')">
+            
+            <input type="hidden" id="11" name="seat2" value="0">
+            <img id="seat11" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat11')">
+        
+            <div class="popup" id="popup10"></div> <!-- Popup for the last seat of this container -->
+            
+            <input type="hidden" id="12" name="seat3" value="2">
+            <img id="seat12" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat12')" onmouseleave="hidePopup()">
+        </div>
+        
+        <div class="seatContainer5">
+            <input type="hidden" id="13" name="seat4" value="0">
+            <img id="seat13" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat13')">
+            
+            <input type="hidden" id="14" name="seat5" value="0">
+            <img id="seat14" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat14')">
+        
+            <div class="popup" id="popup14"></div> <!-- Popup for the last seat of this container -->
+        
+            <input type="hidden" id="15" name="seat6" value="2">
+            <img id="seat15" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat15')" onmouseleave="hidePopup()">
+        </div>
+        
+        <div class="seatContainer6">
+            <input type="hidden" id="16" name="seat7" value="0">
+            <img id="seat16" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat16')">
+            
+            <input type="hidden" id="17" name="seat8" value="0">
+            <img id="seat17" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat17')">
+        
+            <div class="popup" id="popup17"></div> <!-- Popup for the last seat of this container -->
+        
+            <input type="hidden" id="18" name="seat9" value="2">
+            <img id="seat18" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat18')" onmouseleave="hidePopup()">
+        </div>
+    
+</div>
+      <div class="button-container">
+        <input class="reserve-button" type="Reserve" value="Reserve">
+        
+    </div>
+
     </form>
 
         <div class ="legend">
@@ -87,75 +164,43 @@ fix the spacing of everything -->
         generateDateOptions();
         generateTimeOptions();
 
-        function toggleSeatStatus(seatId) {
+        let selectedSeatId = null;
+
+function toggleSeatStatus(seatId) {
     const seat = document.getElementById(seatId);
-    const seatInput = document.getElementById(`${seatId}Input`); // Initialize seatInput
-    const availableImage = 'assets/available.png';
-    const selectedImage = 'assets/selected.png';
-    const takenImage = 'assets/taken.png';
 
-    // Check if the seat is taken
-    if (seat.src.includes(takenImage)) {
-        // Show a custom information popup
-        const reservedBy = getReservedBy(); // Replace this with a function to get reservation information
-
-        const infoPopup = document.createElement('div');
-        infoPopup.className = 'info-popup';
-        infoPopup.textContent = `Reserved by: ${reservedBy}`;
-        document.body.appendChild(infoPopup);
-
-        // Hide the info popup after a delay (e.g., 3 seconds)
-        setTimeout(() => {
-            infoPopup.remove();
-        }, 3000);
-
-        return;
-    }
-
-    // If the seat is already selected or taken, do nothing
-    if (seat.src.includes(selectedImage) || seatInput.value === '2') {
-        return;
-    }
-
-    // Deselect all seats first
-    const allSeats = document.querySelectorAll('.seat');
-    allSeats.forEach((s) => {
-        if (!s.src.includes(takenImage)) {
-            s.src = availableImage;
-            s.classList.remove('selected');
+    if (seat.src.endsWith('available.png')) {
+        if (selectedSeatId) {
+            const lastSelectedSeat = document.getElementById(selectedSeatId);
+            lastSelectedSeat.src = 'assets/available.png'; // Change last selected seat back to available.png
         }
-    });
-
-    // Toggle the selected state of the clicked seat
-    if (seat.src.includes(availableImage)) {
-        seat.src = selectedImage;
-        seat.classList.add('selected');
-        seatInput.value = '1'; // Set the input value to 1 for selected
-    } else {
-        seat.src = availableImage;
-        seat.classList.remove('selected');
-        seatInput.value = '0'; // Set the input value to 0 for available
+        seat.src = 'assets/selected.png'; // Change image to selected.png
+        selectedSeatId = seatId;
+    } else if (seat.src.endsWith('selected.png')) {
+        seat.src = 'assets/available.png'; // Change image back to available.png
+        selectedSeatId = null;
     }
 }
 
-// Replace this function with logic to get reservation information
-function getReservedBy() {
-    // Example: Fetch reservation information from the server or use stored data
-    // Replace this with your actual logic to get the reservation information
-    return 'John Doe'; // Example value
-}
+function showPopup(seatId) {
+        const seat = document.getElementById(seatId);
+        const popup = document.getElementById('popup');
+        const reservationInfo = seat.dataset.reservation; // Assuming reservation information is stored in a 'data-reservation' attribute
 
+        // Position the popup next to the seat
+        popup.style.top = seat.offsetTop + 'px';
+        popup.style.left = seat.offsetLeft + seat.offsetWidth + 'px';
 
+        // Display reservation info in the popup
+        popup.textContent = 'Reserved by: ' + reservationInfo;
+        popup.style.display = 'block';
+    }
 
-        document.getElementById('seatForm').addEventListener('submit', function (event) {
-        event.preventDefault();
+    function hidePopup() {
+        const popup = document.getElementById('popup');
+        popup.style.display = 'none';
+    }
 
-    // You can retrieve the form data using JavaScript FormData API
-        const formData = new FormData(this);
-        for (const pair of formData.entries()) {
-            console.log(pair[0], pair[1]);
-        }
-});
 
         // Call the functions to generate date and time opti
         

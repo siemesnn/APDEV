@@ -1,4 +1,5 @@
-
+@import url('https://fonts.googleapis.com/css?family=Lexend Deca');
+@import url('https://fonts.googleapis.com/css?family=Inter');
 
 body{
     display: flex;
@@ -7,13 +8,10 @@ body{
     margin: 0;
     min-height: 100vh;
 
-    /* Gradient background --one,--two --four left to right*/
-    background: linear-gradient(to left, var(--one), var(--two), var(--four));
+    /* Gradient background --one,--two --three left to right*/
+    background: linear-gradient(to left, var(--one), var(--two), var(--three));
 
-    font-family: 'Times New Roman', Times, serif;
-    
-    
-    
+    font-family: 'Inter'; 
 }
 
 .container {
@@ -29,34 +27,52 @@ body{
     flex: 4;
     padding: 120px;
     font-size: 20px;
-    background-color: var(--five);
+    background-color: var(--three);
     box-sizing: border-box;
     margin-top: 0%;
 }
 
+/*tagline or intro about site*/
 .indexinfo {
     flex: 6;
     padding-top: 120px;
     padding-left: 80px;
     padding-right: 80px;
-    font-size: 20px;
-    text-align: justify;
+    font-size: 25px;
+    text-align: left;
+    line-height: 150%;
     background-color: var(--two);
-    color: white;
+    color: var(--three);
     box-sizing: border-box;
     margin-top: 0%;
+    font-family: 'Lexend Deca';
 
 }
 
-#rememberme, #registertext{
-    font-size: 13px;
+#rememberme{
+    font-size: 12px;
+    font-family: 'Inter';
+} 
+
+#registertext{
+    margin-top: 8%;
+    font-size: 12px;
+    font-family: 'Inter';
 }
 
+/*Welcome to Labyrinth text */
+#header { 
+    font-family: 'Lexend Deca';
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+/* user log in text */
 h1 {
+    font-family: 'Inter';
     font-size: large;
+    text-align: center;
 }
-
-
 
 body {
     display: flex;
@@ -65,9 +81,6 @@ body {
     margin: 0;
 }
 
-h1 {
-    font-size: large;
-}
 
 /* Add this CSS to style the form elements */
 form {
@@ -83,8 +96,11 @@ input[type="submit"] {
     border: none;
     padding: 10px 15px;
     font-size: 12px;
+    width: 120px;
+    border-radius: 5px;
+    margin-top: 10%;
+    margin-left: 20%;
 }
-
 
 
 #userpng, #passpng{
