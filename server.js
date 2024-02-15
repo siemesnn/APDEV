@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 // Parse json test data
-const users = databasejson.users;
+const users = Object.values(databasejson.users);
 
 
 // Use body-parser middleware
@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
     if (session.isLogged) {
         res.redirect('/home');
     } else {
-        res.render('index', { title: 'Login Page' });
+        res.render('index', { title: 'Labyrinth - Login Page' });
     }
 });
 
@@ -52,28 +52,18 @@ app.get('/home', (req, res) => {
     req.session.username = username;
     req.isAuthenticated = true;
 
-    res.render('reserve/reservation', { title: 'Home Page', username: username });
+    res.render('reserve/reservation', { title: 'Labyrinth - Home Page', username: username });
 });
 
 // Handle GET request to the /profile route
 app.get('/profile', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+    const user = users.find(user => user.username === username);
 
-    // res.render('editprofile', 
-    //     {
-    //         title: 'Profile Page', 
-    //         username: username 
-        
-    //     }    
-    // );
 
-    res.send(
-        {
-            title: 'Profile Page', 
-            username: username 
-        }
-    )
+    // fetch request from the API (/api/users/retrieveUser) to get the user data then render the profile page with user data as an json objec
+    res.render('editprofile', { title: 'Profile Page', username: username, user: user });
 });
 
 //Handle GET request to the /resconfirmation route

@@ -14,19 +14,6 @@ table {
     margin-bottom: 40px;
 }
 
-th, td {
-    border: none;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-left: 20px;
-    padding-right: 20px;/* Adjust the padding to make each cell bigger */
-    text-align: center;
-    font-size: 16px; /* Adjust the font-size to make the text larger */
-}
-
-th {
-    background-color: #f2f2f2;
-}
 .greeting {
     color: var(--one);
     font-size: 20px;
@@ -39,32 +26,6 @@ body {
     height: 100vh;
 }
 
-.week{
-    padding-left: 120px;
-}
-
-.weekHeader{
-    display: flex;
-    align-items: center;
-}
-
-#AM{
-    margin-left: 630px;
-    margin-right: 10px;
-}
-
-#AM, #PM{
-    cursor: pointer;
-    background-color: var(--one);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    font-size: 12px;
-}
-
-#timeslot{
-    width:50px;
-}
 
 #reservebutton{
     cursor: pointer;
