@@ -1,11 +1,15 @@
 :root {
-    --one: #2E3440;
-    --two: #3B4252;
-    --three: #4C566A;
-    --four: #D8DEE9;
-    --five: #E5E9F0;
-    --six: #ECEFF4;
-    
+    --one: #5b5175; /*for sidebar and button colors*/
+    --two: #8D80AD;
+    --three: #ECEAF0; /*color of main bg*/
+    --four: #8B4B81;
+    --five: #8C2F73;
+    --six: #B02F72;
+    --seven: #C22F72; 
+    --eight: #C44D81; 
+    --nine: #4E83A2; 
+    --ten: #3F7FA1; 
+    --eleven: #6688A3;
 
     /* For user  */
     --profilePicSize: 100px
