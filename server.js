@@ -21,7 +21,7 @@ app.use('/api/users', userRoutes);
 
 // Set up session middleware
 app.use(session({
-    secret: 'pwet',
+    secret: 'apdev123',
     resave: false,
     saveUninitialized: true
 }));
@@ -78,12 +78,12 @@ app.post('/reservation', (req, res) => {
         });
 });
 
-
-
 // Handle GET request to the /profile route
 app.get('/profile', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+    const description = req.session.description;
+    console.log('Description in session:', description); // Add this line for debugging
 
     // Retrieve user as an object 
     const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
@@ -116,9 +116,10 @@ app.get('/edittprofile', (req, res) => {
         
         }    
     );
-
 });
 
+
+// Handle GET request to the /profile route
 app.get('/viewprofile', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
@@ -134,6 +135,7 @@ app.get('/viewprofile', (req, res) => {
     
     });
 });
+
 
 // Handle GET request to the /reserve route
 app.get('/reserve', (req, res) => {
@@ -159,7 +161,7 @@ app.get('/resconfirmation', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || req.query.username || 'Guest'; // Default to 'Guest' if not found
 
-    res.render('reserve/resconfirmation', { title: 'Labyrinth - Reservation Confirmation', username: username });
+    res.render('reserve/resconfirmation', { title: 'Reservation Confirmation', username: username });
 });
 
 app.post('/resconfirmation', (req, res) => {
@@ -170,7 +172,7 @@ app.post('/resconfirmation', (req, res) => {
     // Perform authentication logic here
 
     // Redirect to the homepage or render the homepage view
-    res.render('reserve/resconfirmation', { title: 'Labyrinth - Reservation Confirmation', username: username });
+    res.render('reserve/resconfirmation', { title: 'Reservation Confirmation', username: username });
 });
 
 // Start the server
