@@ -11,7 +11,7 @@
 
     <div class="info">
         <h3> Name: <%= user.name %> </h3>
-        <h3> Description: <%= user.description %> </h3>
+        <h3> Description: </h3>
 
         <input type="text" id="descriptionInput" name="description" value=" <%= user.description %>" readonly>
         
@@ -33,54 +33,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Lab A</td>
-                        <td>01</td>
-                        <td>2024-02-15</td>
-                        <td>10:00 AM</td>
-                        <td>12:00 AM</td>
-                        <td>John Doe</td>
-                    </tr>
-                    <tr>
-                        <td>Lab A</td>
-                        <td>05</td>
-                        <td>2024-02-15</td>
-                        <td>10:00 AM</td>
-                        <td>12:00 AM</td>
-                        <td>Anonymous</td>
-                    </tr>
-                    <tr>
-                        <td>Lab A</td>
-                        <td>03</td>
-                        <td>2024-02-15</td>
-                        <td>10:00 AM</td>
-                        <td>12:00 AM</td>
-                        <td>John Doe</td>
-                    </tr>
-                    <tr>
-                        <td>Lab A</td>
-                        <td>01</td>
-                        <td>2024-02-15</td>
-                        <td>10:00 AM</td>
-                        <td>12:00 AM</td>
-                        <td>John Doe</td>
-                    </tr>
-                    <tr>
-                        <td>Lab A</td>
-                        <td>05</td>
-                        <td>2024-02-15</td>
-                        <td>10:00 AM</td>
-                        <td>12:00 AM</td>
-                        <td>Anonymous</td>
-                    </tr>
-                    <tr>
-                        <td>Lab A</td>
-                        <td>03</td>
-                        <td>2024-02-15</td>
-                        <td>10:00 AM</td>
-                        <td>12:00 AM</td>
-                        <td>John Doe</td>
-                    </tr>
+                    <% for (const reservationId in user.reservations) { %>
+                        <% const reservation = user.reservations[reservationId]; %>
+                        <tr>
+                            <td><%= reservation.lab %></td>
+                            <td><%= reservation.seat %></td>
+                            <td><%= reservation.date %></td>
+                            <td><%= reservation.time %> <%= reservation.AMPM %></td>
+                            <!-- Calculate End Time based on Start Time and Duration -->
+                            <td><%= reservation.end_time %> <%= reservation.end_AMPM %></td>
+                            <td><%= reservation.res_name %></td>
+                        </tr>
+                    <% } %>
+                   
                 </tbody>
             </table>
         </div>
@@ -106,4 +71,47 @@
     function navigateTo(url) {
         window.location.href = url;
     }
+
+    function calculateEndTime(startTime, duration, AMPM) {
+        // Split the startTime string into hours and minutes
+        const [startHour, startMinute] = startTime.split(':').map(Number);
+        
+        // Convert startTime to 24-hour format
+        let hour = startHour;
+        if (AMPM === 'PM' && startHour !== 12) {
+            hour += 12;
+        } else if (AMPM === 'AM' && startHour === 12) {
+            hour = 0;
+        }
+        
+        // Calculate total minutes from startTime
+        let totalMinutes = hour * 60 + startMinute;
+        
+        // Add duration in terms of 30-minute units
+        totalMinutes += duration * 30;
+        
+        // Calculate end hour and minute
+        const endHour = Math.floor(totalMinutes / 60) % 24;
+        const endMinute = totalMinutes % 60;
+        
+        // Convert end hour to 12-hour format
+        const formattedHour = (endHour % 12 === 0) ? 12 : endHour % 12;
+        
+        // Determine AM/PM for end time
+        const formattedAMPM = endHour < 12 ? 'AM' : 'PM';
+        
+        // Format end time as a string
+        const endTime = `${formattedHour}:${endMinute.toString().padStart(2, '0')} ${formattedAMPM}`;
+        
+        return endTime;
+    }
+    
+    // Example usage
+    const startTime = '10:00';
+    const duration = 1; // Assuming 1 unit of duration is 30 minutes
+    const AMPM = 'AM';
+    
+    const endTime = calculateEndTime(startTime, duration, AMPM);
+    console.log(endTime); // Output: 10:30 AM
+    
 </script>

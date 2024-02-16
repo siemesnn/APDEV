@@ -81,7 +81,7 @@ app.get('/profile', (req, res) => {
 
     res.render('editprofile', 
         {
-            title: 'Profile Page', 
+            title: 'Labyrinth - Profile Page', 
             username: username,
             user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
         
@@ -100,7 +100,7 @@ app.get('/edittprofile', (req, res) => {
 
     res.render('edittingprofile', 
         {
-            title: 'Edit Profile Page', 
+            title: 'Labyrinth - Edit Profile Page', 
             username: username,
             user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
         
@@ -118,7 +118,7 @@ app.get('/viewprofile', (req, res) => {
 
 
     res.render('viewprofile', {
-        title: 'Edit Profile Page', 
+        title: 'Labyrinth - View Profile Page', 
         username: username,
         user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
     
@@ -131,11 +131,14 @@ app.get('/viewprofile', (req, res) => {
 app.get('/reserve', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
 
     res.render('currentreservations', 
          {
-             title: 'Profile Page', 
+             title: 'Labyrinth - Current Reservations Page', 
              username: username, 
+             user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+
         
          }    
      )

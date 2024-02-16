@@ -15,8 +15,23 @@
                     "date" : "2024-02-14",
                     "time" : "10:00",
                     "AMPM" : "AM",
+                    "end_time" : "11:00",
+                    "end_AMPM" : "AM",
                     "duration" : "1",
                     "lab" : "1",
+                    "res_name" : "Jeongwoo",
+                    "status" : "completed"
+                },
+                "reservation2" : {
+                    "ID" : "11",
+                    "date" : "2024-02-15",
+                    "time" : "10:00",
+                    "AMPM" : "AM",
+                    "end_time" : "1:00",
+                    "end_AMPM" : "PM",
+                    "duration" : "1",
+                    "lab" : "1",
+                    "res_name" : "Anonymous",
                     "status" : "completed"
                 }
             }
