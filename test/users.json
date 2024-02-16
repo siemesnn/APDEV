@@ -6,7 +6,7 @@
             "email" : "woopy@dlsu.edu.ph",
             "password" : "123",
             "username": "woopy",
-            "pictureURL" :"https://pin.it/70mdDoaxh",
+            "pictureURL" :"assets/jeongwoo.jpg",
             "role": "student",
             "description" : "IT Student",
             "reservations" : {
@@ -51,8 +51,11 @@
                     "date" : "2024-02-15",
                     "time" : "14:30",
                     "AMPM" : "PM",
+                    "end_time" : "15:30",
+                    "end_AMPM" : "PM",
                     "duration" : "2",
                     "lab" : "2",
+                    "res_name" : "Anonymous",
                     "status" : "pending"
                 }
             }
@@ -72,8 +75,11 @@
                     "date" : "2024-02-16",
                     "time" : "09:00",
                     "AMPM" : "AM",
+                    "end_time" : "9:30",
+                    "end_AMPM" : "AM",
                     "duration" : "1",
                     "lab" : "3",
+                    "res_name" : "Haruto",
                     "status" : "pending"
                 }
             }
@@ -96,8 +102,11 @@
                 "date" : "2024-02-16",
                 "time" : "09:00",
                 "AMPM" : "AM",
-                "duration" : "1",
+                "end_time" : "11:30",
+                "end_AMPM" : "AM",
+                "duration" : "5",
                 "lab" : "3",
+                "res_name" : "Anonymous",
                 "status" : "pending"
             }
         }

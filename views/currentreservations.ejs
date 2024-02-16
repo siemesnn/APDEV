@@ -32,8 +32,7 @@
                             <td><%= reservation.time %> <%= reservation.AMPM %></td>
                             <!-- Calculate End Time based on Start Time and Duration -->
                             <td><%= reservation.end_time %> <%= reservation.end_AMPM %></td>
-                            <td><%= reservation.res_name %></td>
-                        </tr>
+                            <td><a href="/viewprofile"><%= reservation.res_name %></a></td>                        </tr>
                     <% } %>
                    
                 </tbody>
