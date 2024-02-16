@@ -9,27 +9,29 @@
             <br>
             <p id="info"> INFO HERE </p>
             
-            <button type="button" id="go-back" onclick="goBack()">Go Back</button>
-        
-            <button type="submit" id="confirm-btn" onclick="confirmReservation()">Confirm</button>
+        <button onclick="goBack()">Go Back</button>
+        <!-- submit button -->
+            <input type="submit" value="Confirm">
+            
+        <form action="/confirmed" method="post">
 
         </div>
+        <!-- confirm button -->
+
+            <!-- add method= POST  later--> 
+        <!-- add a GO BACK button linked to /reservation -->
+
 
 <script>
-    // go back to previous page
-    function goBack() 
-    {
+    function goBack() {
         window.history.back();
-    }  
-
-    // pop up that reservation is confirmed
-    function confirmReservation() 
-    {
-        alert("Your reservation has been confirmed!");
-        window.location.href = "/home"; //goes back to homepage
     }
 
+    
 </script>
+
+
+        </form>
 
 <%- include('../footer') -%>
 
