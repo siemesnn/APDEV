@@ -16,10 +16,10 @@
     </div>
 
     <div class="info">
-        <h3> Name: <%= username %> </h3>
+        <h3> Name: <%= user.name %> </h3>
         <h3>Edit Description: </h3>
 
-        <input type="text" id="descriptionInput" name="description" value=" test <%= description %>">
+        <input type="text" id="descriptionInput" name="description" value=" <%= user.description %>">
         
         
         <h3>Current Reservations:</h3>
@@ -39,54 +39,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Lab A</td>
-                        <td>01</td>
-                        <td>2024-02-15</td>
-                        <td>10:00 AM</td>
-                        <td>12:00 AM</td>
-                        <td>John Doe</td>
-                    </tr>
-                    <tr>
-                        <td>Lab A</td>
-                        <td>05</td>
-                        <td>2024-02-15</td>
-                        <td>10:00 AM</td>
-                        <td>12:00 AM</td>
-                        <td>Anonymous</td>
-                    </tr>
-                    <tr>
-                        <td>Lab A</td>
-                        <td>03</td>
-                        <td>2024-02-15</td>
-                        <td>10:00 AM</td>
-                        <td>12:00 AM</td>
-                        <td>John Doe</td>
-                    </tr>
-                    <tr>
-                        <td>Lab A</td>
-                        <td>01</td>
-                        <td>2024-02-15</td>
-                        <td>10:00 AM</td>
-                        <td>12:00 AM</td>
-                        <td>John Doe</td>
-                    </tr>
-                    <tr>
-                        <td>Lab A</td>
-                        <td>05</td>
-                        <td>2024-02-15</td>
-                        <td>10:00 AM</td>
-                        <td>12:00 AM</td>
-                        <td>Anonymous</td>
-                    </tr>
-                    <tr>
-                        <td>Lab A</td>
-                        <td>03</td>
-                        <td>2024-02-15</td>
-                        <td>10:00 AM</td>
-                        <td>12:00 AM</td>
-                        <td>John Doe</td>
-                    </tr>
+                    <% for (const reservationId in user.reservations) { %>
+                        <% const reservation = user.reservations[reservationId]; %>
+                        <tr>
+                            <td><%= reservation.lab %></td>
+                            <td><%= reservation.seat %></td>
+                            <td><%= reservation.date %></td>
+                            <td><%= reservation.time %> <%= reservation.AMPM %></td>
+                            <!-- Calculate End Time based on Start Time and Duration -->
+                            <td><%= reservation.end_time %> <%= reservation.end_AMPM %></td>
+                            <td><%= reservation.res_name %></td>
+                        </tr>
+                    <% } %>
+                   
                 </tbody>
             </table>
         </div>    

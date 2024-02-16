@@ -6,7 +6,7 @@
             "email" : "woopy@dlsu.edu.ph",
             "password" : "123",
             "username": "woopy",
-            "pictureURL" :"https://pin.it/70mdDoaxh",
+            "pictureURL" :"assets/jeongwoo.jpg",
             "role": "student",
             "description" : "IT Student",
             "reservations" : {
@@ -15,8 +15,25 @@
                     "date" : "2024-02-14",
                     "time" : "10:00",
                     "AMPM" : "AM",
+                    "end_time" : "11:00",
+                    "end_AMPM" : "AM",
                     "duration" : "1",
                     "lab" : "1",
+                    "seat" : "7",
+                    "res_name" : "Jeongwoo",
+                    "status" : "completed"
+                },
+                "reservation2" : {
+                    "ID" : "11",
+                    "date" : "2024-02-15",
+                    "time" : "10:00",
+                    "AMPM" : "AM",
+                    "end_time" : "1:00",
+                    "end_AMPM" : "PM",
+                    "duration" : "1",
+                    "lab" : "1",
+                    "seat" : "6",
+                    "res_name" : "Anonymous",
                     "status" : "completed"
                 }
             }
@@ -36,8 +53,12 @@
                     "date" : "2024-02-15",
                     "time" : "14:30",
                     "AMPM" : "PM",
+                    "end_time" : "15:30",
+                    "end_AMPM" : "PM",
                     "duration" : "2",
                     "lab" : "2",
+                    "seat" : "5",
+                    "res_name" : "Anonymous",
                     "status" : "pending"
                 }
             }
@@ -57,8 +78,12 @@
                     "date" : "2024-02-16",
                     "time" : "09:00",
                     "AMPM" : "AM",
+                    "end_time" : "9:30",
+                    "end_AMPM" : "AM",
                     "duration" : "1",
                     "lab" : "3",
+                    "seat" : "2",
+                    "res_name" : "Haruto",
                     "status" : "pending"
                 }
             }
@@ -81,8 +106,12 @@
                 "date" : "2024-02-16",
                 "time" : "09:00",
                 "AMPM" : "AM",
-                "duration" : "1",
+                "end_time" : "11:30",
+                "end_AMPM" : "AM",
+                "duration" : "5",
                 "lab" : "3",
+                "seat" : "1",
+                "res_name" : "Anonymous",
                 "status" : "pending"
             }
         }

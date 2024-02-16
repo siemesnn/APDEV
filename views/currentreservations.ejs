@@ -14,6 +14,7 @@
             <thead>
                 <tr>
                     <th>Lab</th>
+                    <th>Seat</th>
                     <th>Date</th>
                     <th>Start Time</th>
                     <th>End Time</th>
@@ -21,136 +22,27 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td><a href="/viewprofile">John Doe</a></td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>Anonymous</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Lab A</td>
-                    <td>2024-02-15</td>
-                    <td>10:00 AM</td>
-                    <td>12:00 AM</td>
-                    <td>John Doe</td>
-                </tr>
-                
-
-                <!-- Add more rows as needed -->
-            </tbody>
+                <tbody>
+                    <% for (const reservationId in user.reservations) { %>
+                        <% const reservation = user.reservations[reservationId]; %>
+                        <tr>
+                            <td><%= reservation.lab %></td>
+                            <td><%= reservation.seat %></td>
+                            <td><%= reservation.date %></td>
+                            <td><%= reservation.time %> <%= reservation.AMPM %></td>
+                            <!-- Calculate End Time based on Start Time and Duration -->
+                            <td><%= reservation.end_time %> <%= reservation.end_AMPM %></td>
+                            <td><a href="/viewprofile"><%= user.name %></a></td>                        </tr>
+                    <% } %>
+                   
+                </tbody>
         </table>
     </div>
 
     <div class="button-container">
         <button onclick="navigateTo('reservation.ejs')" class="button" id="editReservationButton">Edit Reservation</button>
         <button class="button" id="cancelReservationButton">Cancel Reservation</button>
-   </div>
+    </div>
 
        
  </div>
@@ -180,6 +72,24 @@
             }
         });
     });
+
+    // Get a reference to the button
+    const cancelReservationButton = document.getElementById("cancelReservationButton");
+
+    // Add event listener to the button
+    cancelReservationButton.addEventListener("click", function() {
+        // Show the confirmation dialog
+        const confirmed = confirm("Are you sure you want to cancel the reservation?");
+
+        // If the user confirms, do something
+        if (confirmed) {
+            alert("Reservation cancellation canceled.");
+
+        } else {
+           
+        }
+    });
+
 </script>
 
 
