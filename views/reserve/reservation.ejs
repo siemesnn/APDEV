@@ -12,12 +12,13 @@ fix the spacing of everything -->
 <div class="notSidebar">
 
     <div class="greeting">
-        <h2 id="usernameid"> Hello, <%= username %> </h2>
+        <h2 id="lab-name"> Seats for <%= username %> </h2>
     </div>
 
     <form>
 
         <div class="date-time">
+        
         <label for="dates">Choose a date:</label>
         <select id="dates" name="dates"></select>
 
@@ -25,7 +26,7 @@ fix the spacing of everything -->
         <select id="times" name="times"></select>
         </div>
         
-<div class = "container-a">
+    <div class = "container-a">
         <div class="seatContainer1">
             <input type="hidden" id="01" name="seat1" value="0">
             <img id="seat1" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat1')">
@@ -66,8 +67,10 @@ fix the spacing of everything -->
             <img id="seat9" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat9')" onmouseleave="hidePopup()">
 
         </div>
-</div>
-<div class="container-b">
+    </div>
+
+
+    <div class="container-b">
 
         <div class="seatContainer4">
             <input type="hidden" id="10" name="seat1" value="0">
@@ -107,21 +110,18 @@ fix the spacing of everything -->
             <input type="hidden" id="18" name="seat9" value="2">
             <img id="seat18" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat18')" onmouseleave="hidePopup()">
         </div>
-    
-</div>
-      <div class="button-container">
-        <input class="reserve-button" type="Reserve" value="Reserve">
-        
+    </div>
+            
+    <div class ="legend">
+        <img src="assets/available.png" alt="Available Seat"> Available
+        <img src="assets/selected.png" alt="Selected Seat"> Selected
+        <img src="assets/taken.png" alt="Taken Seat"> Taken
+
     </div>
 
-    </form>
-
-        <div class ="legend">
-            <img src="assets/available.png" alt="Available Seat"> Available
-            <img src="assets/selected.png" alt="Selected Seat"> Selected
-            <img src="assets/taken.png" alt="Taken Seat"> Taken
-
-        </div>
+    <div>
+        <input class="reserve-button" type="Reserve" value="Reserve">
+    </div>
 
     <script>
         // Function to generate date options for the next 7 days
@@ -201,8 +201,6 @@ function showPopup(seatId) {
         popup.style.display = 'none';
     }
 
-
-        // Call the functions to generate date and time opti
         
     </script>
 <%- include('../footer') -%>

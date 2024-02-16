@@ -62,6 +62,19 @@ app.get('/home', (req, res) => {
     res.render('selectlabs', { title: 'Labyrinth - Home Page', username: username });
 });
 
+app.post('/reservation', (req, res) => {
+    // Retrieve the username from the session or query parameter
+    const username = req.query.username;
+
+    // Save the username to the session
+    req.session.username = username;
+    req.isAuthenticated = true;
+
+    res.render('reserve/reservation', { title: 'Labyrinth - Reservation', username: username });
+});
+
+
+
 // Handle GET request to the /profile route
 app.get('/profile', (req, res) => {
     // Retrieve the username from the session or query parameter
@@ -79,6 +92,18 @@ app.get('/profile', (req, res) => {
         
         }    
     );
+app.get('/viewprofile', (req, res) => {
+    // Retrieve the username from the session or query parameter
+    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+    const description = req.session.description;
+    console.log('Description in session:', description); // Add this line for debugging
+
+    res.render('viewprofile', {
+        title: 'Profile Page',
+        username: username,
+        description: description
+    });
+});
 
 });
 
@@ -126,9 +151,19 @@ app.get('/resconfirmation', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || req.query.username || 'Guest'; // Default to 'Guest' if not found
 
-    res.render('reserve/resconfirmation', { title: 'Reservation Confirmation', username: username });
+    res.render('reserve/resconfirmation', { title: 'Labyrinth - Reservation Confirmation', username: username });
 });
 
+app.post('/resconfirmation', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    console.log('Username:', username);
+
+    // Perform authentication logic here
+
+    // Redirect to the homepage or render the homepage view
+    res.render('reserve/resconfirmation', { title: 'Labyrinth - Reservation Confirmation', username: username });
+});
 
 // Start the server
 app.listen(port, () => {
