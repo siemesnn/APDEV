@@ -63,30 +63,5 @@
                 }
             }
         }
-    },
-
-
-    "user4" : {
-        "ID" : "4",
-        "name" : "Haruto",
-        "email" : "haruto@example.com",
-        "password" : "789",
-        "username": "ruru",
-        "pictureURL" :"https://example.com/haruto",
-        "role": "admin",
-        "description" : "Engineering Student",
-        "reservations" : {
-            "reservation1" : {
-                "ID" : "3",
-                "date" : "2024-02-16",
-                "time" : "09:00",
-                "AMPM" : "AM",
-                "duration" : "1",
-                "lab" : "3",
-                "status" : "pending"
-            }
-        }
     }
-
-
 }
