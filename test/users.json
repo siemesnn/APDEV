@@ -49,7 +49,7 @@
             "password" : "789",
             "username": "ruru",
             "pictureURL" :"https://example.com/haruto",
-            "role": "student",
+            "role": "admin",
             "description" : "Engineering Student",
             "reservations" : {
                 "reservation1" : {

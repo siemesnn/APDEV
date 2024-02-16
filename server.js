@@ -63,14 +63,19 @@ app.get('/home', (req, res) => {
 });
 
 app.post('/reservation', (req, res) => {
-    // Retrieve the username from the session or query parameter
-    const username = req.query.username;
+    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
 
-    // Save the username to the session
-    req.session.username = username;
-    req.isAuthenticated = true;
+    // Retrieve user as an object 
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
 
-    res.render('reserve/reservation', { title: 'Labyrinth - Reservation', username: username });
+
+    res.render('reserve/reservation', 
+        {
+            title: 'Reservation Page', 
+            username: username,
+            user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+        
+        });
 });
 
 
@@ -92,6 +97,9 @@ app.get('/profile', (req, res) => {
         
         }    
     );
+
+
+
 app.get('/viewprofile', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found

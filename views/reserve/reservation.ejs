@@ -14,9 +14,10 @@ fix the spacing of everything -->
     <div class="greeting">
         <h2 id="lab-name"> Seats for <%= username %> </h2>
     </div>
-
     <form>
-
+        <div class = "admin-view">
+            
+        </div>
         <div class="date-time">
         
         <label for="dates">Choose a date:</label>
@@ -200,7 +201,17 @@ function showPopup(seatId) {
         const popup = document.getElementById('popup');
         popup.style.display = 'none';
     }
+    const userRole = '<%= user.role %>'; // Replace with the actual variable storing user role
+    const adminView = document.querySelector('.admin-view'); // Corrected the selector
 
+    if (userRole === 'admin') {
+        // Clear existing content
+        adminView.innerHTML = '';
         
-    </script>
+        // Add the admin form to the admin view
+        adminView.innerHTML = '<div class="admin-form" id="adminForm"><form><label for="adminInput">Reserve seat for: </label><input type="text" id="adminInput" name="adminInput"></form></div>';
+    } else {
+        // If the user is not an admin, you may want to hide the admin view
+        adminView.style.display = 'none';
+    }    </script>
 <%- include('../footer') -%>
