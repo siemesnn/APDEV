@@ -82,8 +82,6 @@ app.post('/reservation', (req, res) => {
 app.get('/profile', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
-    const description = req.session.description;
-    console.log('Description in session:', description); // Add this line for debugging
 
     // Retrieve user as an object 
     const user = users.find(user => user.username === username); // Like this muna since wala pang db : )

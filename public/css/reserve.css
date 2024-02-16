@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Lexend Deca');
+@import url('https://fonts.googleapis.com/css?family=Inter');
+
 
 .notSidebar {
     flex: 1;
@@ -36,7 +39,6 @@ table {
 }
 
 body {
-    background-color: var(--five);
     height: 100vh;
 }
 
@@ -71,6 +73,8 @@ form{
     width: 10px;
     height:20px;
 }
+
+
 .popup {
     position: absolute;
     background-color: var(--three);
@@ -83,8 +87,7 @@ form{
 }
 
 .container-a{
-     /* Adjust the value as needed to increase or decrease the space */
-     padding-left: 503px;
+    margin-left: 250px;
 }
 .container-a,
 .container-b {
@@ -99,12 +102,12 @@ form{
 
 /* Additional styling for seat containers as needed */
 .date-time{
+    padding-left: 250px;
     padding-bottom: 20px;
-    padding-left: 530px;
     padding-top: 30px;
 }
 
 .legend{
     margin-top: 40px;
-    padding-left: 570px;
+    padding-left: 300px;
 }

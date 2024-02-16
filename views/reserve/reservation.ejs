@@ -110,7 +110,6 @@
     
 </div>
       <div class="button-container">
-        <input class="reserve-button" type="Reserve" value="Reserve">
         
     </div>
             
@@ -196,25 +195,10 @@ function showPopup(seatId) {
         popup.style.top = seat.offsetTop + 'px';
         popup.style.left = seat.offsetLeft + seat.offsetWidth + 'px';
 
-        // Display reservation info in the popup
-        popup.textContent = 'Reserved by: Jeongwoo' ;
-        popup.style.display = 'block';
-    }
-
-    function hidePopup() {
-        const popup = document.getElementById('popup');
-        popup.style.display = 'none';
-    }
-    const userRole = '<%= user.role %>'; // Replace with the actual variable storing user role
-    const adminView = document.querySelector('.admin-view'); // Corrected the selector
-
-    if (userRole === 'admin') {
-        // Clear existing content
-        adminView.innerHTML = '';
          // Create a link element and set its attributes
         const link = document.createElement('a');
-        link.href = '/viewprofile.ejs';
-        link.textContent = 'Reserved by: ' + 'Junkyu';
+        link.href = '/viewprofile';
+        link.textContent = 'Reserved by: ' + 'Jeongwoo';
         link.style.display = 'block';
 
         // Replace the popup's content with the link
@@ -223,7 +207,16 @@ function showPopup(seatId) {
 
         // Show the popup
         popup.style.display = 'block';
+        }
+        
+        
+    const userRole = '<%= user.role %>'; // Replace with the actual variable storing 
+    const adminView = document.querySelector('.admin-view'); // Corrected the selector
 
+    if (userRole === 'admin') {
+        // Clear existing content
+        adminView.innerHTML = '';
+         // Create a link element and set its attributes
         // Add the admin form to the admin view
         adminView.innerHTML = '<div class="admin-form" id="adminForm"><form><label for="adminInput">Reserve seat for: </label><input type="text" id="adminInput" name="adminInput"></form></div>';
     }
@@ -232,7 +225,5 @@ function showPopup(seatId) {
         adminView.style.display = 'none';
     }    </script>
 
-        // Call the functions to generate date and time opti
-        
     </script>
 <%- include('../footer') -%>
