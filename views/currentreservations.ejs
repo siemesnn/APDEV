@@ -32,7 +32,7 @@
                             <td><%= reservation.time %> <%= reservation.AMPM %></td>
                             <!-- Calculate End Time based on Start Time and Duration -->
                             <td><%= reservation.end_time %> <%= reservation.end_AMPM %></td>
-                            <td><a href="/viewprofile"><%= reservation.res_name %></a></td>                        </tr>
+                            <td><a href="/viewprofile"><%= user.name %></a></td>                        </tr>
                     <% } %>
                    
                 </tbody>
@@ -42,7 +42,7 @@
     <div class="button-container">
         <button onclick="navigateTo('reservation.ejs')" class="button" id="editReservationButton">Edit Reservation</button>
         <button class="button" id="cancelReservationButton">Cancel Reservation</button>
-   </div>
+    </div>
 
        
  </div>
@@ -72,6 +72,24 @@
             }
         });
     });
+
+    // Get a reference to the button
+    const cancelReservationButton = document.getElementById("cancelReservationButton");
+
+    // Add event listener to the button
+    cancelReservationButton.addEventListener("click", function() {
+        // Show the confirmation dialog
+        const confirmed = confirm("Are you sure you want to cancel the reservation?");
+
+        // If the user confirms, do something
+        if (confirmed) {
+            alert("Reservation cancellation canceled.");
+
+        } else {
+           
+        }
+    });
+
 </script>
 
 
