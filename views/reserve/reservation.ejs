@@ -192,21 +192,18 @@ function showPopup(seatId) {
         popup.style.left = seat.offsetLeft + seat.offsetWidth + 'px';
 
          // Create a link element and set its attributes
-    const link = document.createElement('a');
-    link.href = '/viewprofile.ejs';
-    link.textContent = 'Reserved by: ' + 'Junkyu';
-    link.style.display = 'block';
+        const link = document.createElement('a');
+        link.href = '/viewprofile.ejs';
+        link.textContent = 'Reserved by: ' + 'Junkyu';
+        link.style.display = 'block';
 
-    // Replace the popup's content with the link
-    popup.innerHTML = '';
-    popup.appendChild(link);
+        // Replace the popup's content with the link
+        popup.innerHTML = '';
+        popup.appendChild(link);
 
-    // Show the popup
-    popup.style.display = 'block';
-    }
-
-  
-
+        // Show the popup
+        popup.style.display = 'block';
+        }
         
     </script>
 <%- include('../footer') -%>
