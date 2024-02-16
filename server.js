@@ -43,6 +43,13 @@ app.get('/', (req, res) => {
 });
 
 
+//Handle GET request to the /register router (register-account)
+app.get('/register', (req, res) => {
+    res.render('register-account', { title: 'Labyrinth - Register Account' });
+});
+
+
+
 // Handle post request to the /home route
 app.get('/home', (req, res) => {
     // Retrieve the username from the session or query parameter
@@ -56,14 +63,19 @@ app.get('/home', (req, res) => {
 });
 
 app.post('/reservation', (req, res) => {
-    // Retrieve the username from the session or query parameter
-    const username = req.query.username;
+    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
 
-    // Save the username to the session
-    req.session.username = username;
-    req.isAuthenticated = true;
+    // Retrieve user as an object 
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
 
-    res.render('reserve/reservation', { title: 'Labyrinth - Reservation', username: username });
+
+    res.render('reserve/reservation', 
+        {
+            title: 'Reservation Page', 
+            username: username,
+            user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+        
+        });
 });
 
 
@@ -72,8 +84,6 @@ app.post('/reservation', (req, res) => {
 app.get('/profile', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
-    const description = req.session.description;
-    console.log('Description in session:', description); // Add this line for debugging
 
     // Retrieve user as an object 
     const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
@@ -125,8 +135,6 @@ app.get('/viewprofile', (req, res) => {
     });
 });
 
-
-
 // Handle GET request to the /reserve route
 app.get('/reserve', (req, res) => {
     // Retrieve the username from the session or query parameter
@@ -144,29 +152,6 @@ app.get('/reserve', (req, res) => {
      )
 });
 
-// Handle GET request to the /profile route
-//app.get('/edittprofile', (req, res) => {
-    // Retrieve the username from the session or query parameter
- //   const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
- //   const description = req.session.description;
- //   console.log('Description: ', description);
-
-  //  res.render('edittingprofile', 
-  //       {
-  //           title: 'Profile Page', 
- //            username: username, 
- //            description: description //doesnt work yet
-        
- //        }    
- //    );
-
-    //res.send(
-    //    {
-    //        title: 'Profile Page', 
-    //        username: username 
-     //   }
-   // );
-//});
 
 
 //Handle GET request to the /resconfirmation route
@@ -192,62 +177,3 @@ app.post('/resconfirmation', (req, res) => {
 app.listen(port, () => {
     console.log(`Listening to the server on http://localhost:${port}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const express = require('express');
-// const path = require('path'); 
-// const app= express();
-// const bodyParser = require('body-parser');
-// app.use(bodyParser.urlencoded({ extended: true }));
-// const port=process.env.PORT||3000;
-
-// //home route
-
-// app.set('view engine', 'ejs');
-
-// //set path folder
-// app.use(express.static('public'));
-
-// app.set('views', path.join(__dirname, 'views'));
-
-
-// app.get('/', (req, res) => {
-//     res.render('index', {title: 'Login Page'});
-// })
-
-// app.get('/', (req, res) => {
-//     res.sendFile(__dirname + 'js/index.html'); remove this maybe 
-// });
-// app.post('/home', (req, res) => {
-//     const username = req.body.username;
-//     const password = req.body.password;
-//     console.log('Username:', username); this one also 
-
-//     // Perform authentication logic here
-
-//     // Redirect to the homepage or render the homepage view
-//     res.render('reserve/homepage', { title: 'Home Page', username: username }); remove this line
-// });
-
-
-
-// app.get('/home', (req,res) => {
-//     res.render('reserve/homepage', {title: 'Home Page'});
-// });
-
-// app.listen(port, () => {console.log("Listening to the server on http://localhost:3000")});

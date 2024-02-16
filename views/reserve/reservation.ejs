@@ -12,9 +12,10 @@
     <div class = "instruction">
         <h3>Please select a seat you want to reserve</h3>
     </div>
-
     <form>
-
+        <div class = "admin-view">
+            
+        </div>
         <div class="date-time">
         
         <label for="dates">Choose a date:</label>
@@ -191,6 +192,21 @@ function showPopup(seatId) {
         popup.style.top = seat.offsetTop + 'px';
         popup.style.left = seat.offsetLeft + seat.offsetWidth + 'px';
 
+        // Display reservation info in the popup
+        popup.textContent = 'Reserved by: Jeongwoo' ;
+        popup.style.display = 'block';
+    }
+
+    function hidePopup() {
+        const popup = document.getElementById('popup');
+        popup.style.display = 'none';
+    }
+    const userRole = '<%= user.role %>'; // Replace with the actual variable storing user role
+    const adminView = document.querySelector('.admin-view'); // Corrected the selector
+
+    if (userRole === 'admin') {
+        // Clear existing content
+        adminView.innerHTML = '';
          // Create a link element and set its attributes
         const link = document.createElement('a');
         link.href = '/viewprofile.ejs';
@@ -203,7 +219,12 @@ function showPopup(seatId) {
 
         // Show the popup
         popup.style.display = 'block';
-        }
-        
-    </script>
+
+        // Add the admin form to the admin view
+        adminView.innerHTML = '<div class="admin-form" id="adminForm"><form><label for="adminInput">Reserve seat for: </label><input type="text" id="adminInput" name="adminInput"></form></div>';
+    }
+    else {
+        // If the user is not an admin, you may want to hide the admin view
+        adminView.style.display = 'none';
+    }    </script>
 <%- include('../footer') -%>
