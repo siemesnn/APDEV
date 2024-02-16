@@ -13,8 +13,16 @@
         <h3> Name: <%= username %> </h3>
         <h3> Description: </h3>
 
+<<<<<<< Updated upstream
         <!-- Display the description -->
         <input type="text" id="descriptionInput" name="description" value="<%= description %>" readonly>
+=======
+        <h3> Name: <%= user.name %> </h3>
+        <h3> Description: <%= user.description %> </h3>
+
+        <input type="text" id="descriptionInput" name="description" value=" <%= user.description %>" readonly>
+        
+>>>>>>> Stashed changes
         
         <h3><a href="/reserve">Current Reservations: </a></h3>
             
