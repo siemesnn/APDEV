@@ -62,6 +62,22 @@ app.get('/home', (req, res) => {
     res.render('selectlabs', { title: 'Labyrinth - Home Page', username: username });
 });
 
+app.post('/reservation', (req, res) => {
+    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+
+    // Retrieve user as an object 
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+
+
+    res.render('reserve/reservation', 
+        {
+            title: 'Reservation Page', 
+            username: username,
+            user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+        
+        });
+});
+
 // Handle GET request to the /profile route
 app.get('/profile', (req, res) => {
     // Retrieve the username from the session or query parameter
@@ -69,65 +85,75 @@ app.get('/profile', (req, res) => {
     const description = req.session.description;
     console.log('Description in session:', description); // Add this line for debugging
 
-    res.render('editprofile', {
-        title: 'Profile Page',
-        username: username,
-        description: description
-    });
+    // Retrieve user as an object 
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+
+
+    res.render('editprofile', 
+        {
+            title: 'Labyrinth - Profile Page', 
+            username: username,
+            user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+        
+        }    
+    );
+
 });
+
+app.get('/edittprofile', (req, res) => {
+    // Retrieve the username from the session or query parameter
+    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+
+    // Retrieve user as an object 
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+
+
+    res.render('edittingprofile', 
+        {
+            title: 'Labyrinth - Edit Profile Page', 
+            username: username,
+            user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+        
+        }    
+    );
+});
+
+
 // Handle GET request to the /profile route
 app.get('/viewprofile', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
-    const description = req.session.description;
-    console.log('Description in session:', description); // Add this line for debugging
+
+    // Retrieve user as an object 
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+
 
     res.render('viewprofile', {
-        title: 'Profile Page',
+        title: 'Labyrinth - View Profile Page', 
         username: username,
-        description: description
+        user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+    
     });
 });
-
 
 
 // Handle GET request to the /reserve route
 app.get('/reserve', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
 
     res.render('currentreservations', 
          {
-             title: 'Profile Page', 
+             title: 'Labyrinth - Current Reservations Page', 
              username: username, 
+             user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+
         
          }    
      )
 });
 
-// Handle GET request to the /profile route
-app.get('/edittprofile', (req, res) => {
-    // Retrieve the username from the session or query parameter
-    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
-    const description = req.session.description;
-    console.log('Description: ', description);
-
-    res.render('edittingprofile', 
-         {
-             title: 'Profile Page', 
-             username: username, 
-             description: description //doesnt work yet
-        
-         }    
-     );
-
-    //res.send(
-    //    {
-    //        title: 'Profile Page', 
-    //        username: username 
-     //   }
-   // );
-});
 
 
 //Handle GET request to the /resconfirmation route
@@ -153,62 +179,3 @@ app.post('/resconfirmation', (req, res) => {
 app.listen(port, () => {
     console.log(`Listening to the server on http://localhost:${port}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const express = require('express');
-// const path = require('path'); 
-// const app= express();
-// const bodyParser = require('body-parser');
-// app.use(bodyParser.urlencoded({ extended: true }));
-// const port=process.env.PORT||3000;
-
-// //home route
-
-// app.set('view engine', 'ejs');
-
-// //set path folder
-// app.use(express.static('public'));
-
-// app.set('views', path.join(__dirname, 'views'));
-
-
-// app.get('/', (req, res) => {
-//     res.render('index', {title: 'Login Page'});
-// })
-
-// app.get('/', (req, res) => {
-//     res.sendFile(__dirname + 'js/index.html'); remove this maybe 
-// });
-// app.post('/home', (req, res) => {
-//     const username = req.body.username;
-//     const password = req.body.password;
-//     console.log('Username:', username); this one also 
-
-//     // Perform authentication logic here
-
-//     // Redirect to the homepage or render the homepage view
-//     res.render('reserve/homepage', { title: 'Home Page', username: username }); remove this line
-// });
-
-
-
-// app.get('/home', (req,res) => {
-//     res.render('reserve/homepage', {title: 'Home Page'});
-// });
-
-// app.listen(port, () => {console.log("Listening to the server on http://localhost:3000")});

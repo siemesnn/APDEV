@@ -1,22 +1,22 @@
 <%- include('../header') -%>
 <%- include('../sidebar') -%>
 
-<!-- NEED TO FIX -->
-<!-- days should change if today is tuesday, the table should start on wed
-it should also include the actual date today
-also show the WEEK OF _____________ should be dynamic
-fix the spacing of everything -->
-<!-- tag for css -->
 <link rel="stylesheet" href="css/reserve.css">
 
 <div class="notSidebar">
 
     <div class="greeting">
+        <h2 id="lab-name"> Available slots</h2>
         <h2 id="usernameid"> Hello, <%= username %> </h2>
     </div>
 
+    <div class = "instruction">
+        <h3>Please select a seat you want to reserve</h3>
+    </div>
     <form>
-
+        <div class = "admin-view">
+            
+        </div>
         <div class="date-time">
         <label for="dates">Choose a date:</label>
         <select id="dates" name="dates"></select>
@@ -113,15 +113,20 @@ fix the spacing of everything -->
         <input class="reserve-button" type="Reserve" value="Reserve">
         
     </div>
-
+            
+    <div class ="legend">
+        <img src="assets/available.png" alt="Available Seat"> Available 
+        <img src="assets/selected.png" alt="Selected Seat"> Selected
+        <img src="assets/taken.png" alt="Taken Seat"> Taken
     </form>
 
-        <div class ="legend">
-            <img src="assets/available.png" alt="Available Seat"> Available
-            <img src="assets/selected.png" alt="Selected Seat"> Selected
-            <img src="assets/taken.png" alt="Taken Seat"> Taken
 
-        </div>
+    <div>
+        <form action="/resconfirmation" method="post">
+            <input type="submit" value="Reserve" id="reserve-button">
+        </form>
+    </div>
+
 
     <script>
         // Function to generate date options for the next 7 days
@@ -200,7 +205,32 @@ function showPopup(seatId) {
         const popup = document.getElementById('popup');
         popup.style.display = 'none';
     }
+    const userRole = '<%= user.role %>'; // Replace with the actual variable storing user role
+    const adminView = document.querySelector('.admin-view'); // Corrected the selector
 
+    if (userRole === 'admin') {
+        // Clear existing content
+        adminView.innerHTML = '';
+         // Create a link element and set its attributes
+        const link = document.createElement('a');
+        link.href = '/viewprofile.ejs';
+        link.textContent = 'Reserved by: ' + 'Junkyu';
+        link.style.display = 'block';
+
+        // Replace the popup's content with the link
+        popup.innerHTML = '';
+        popup.appendChild(link);
+
+        // Show the popup
+        popup.style.display = 'block';
+
+        // Add the admin form to the admin view
+        adminView.innerHTML = '<div class="admin-form" id="adminForm"><form><label for="adminInput">Reserve seat for: </label><input type="text" id="adminInput" name="adminInput"></form></div>';
+    }
+    else {
+        // If the user is not an admin, you may want to hide the admin view
+        adminView.style.display = 'none';
+    }    </script>
 
         // Call the functions to generate date and time opti
         
