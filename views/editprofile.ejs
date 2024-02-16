@@ -10,10 +10,10 @@
     </div>
 
     <div class="info">
-        <h3> Name: <%= username %> </h3>
-        <h3> Description: <%= description %> </h3>
+        <h3> Name: <%= user.name %> </h3>
+        <h3> Description: <%= user.description %> </h3>
 
-        <input type="text" id="descriptionInput" name="description" value=" test <%= description %>" readonly>
+        <input type="text" id="descriptionInput" name="description" value=" test <%= user.description %>" readonly>
         
         
         <h3><a href="/reserve">Current Reservations: </a></h3>

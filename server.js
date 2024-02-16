@@ -21,7 +21,7 @@ app.use('/api/users', userRoutes);
 
 // Set up session middleware
 app.use(session({
-    secret: 'apdev123',
+    secret: 'pwet',
     resave: false,
     saveUninitialized: true
 }));
@@ -66,21 +66,21 @@ app.get('/home', (req, res) => {
 app.get('/profile', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
-    const description = req.session.description || 'No description provided';
 
-    req.session.username = username;
-    req.session.description = description;
+    // Retrieve user as an object 
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+
 
     res.render('editprofile', 
-         {
-             title: 'Profile Page', 
-             username: username, 
-             description: description //doesnt work yet
+        {
+            title: 'Profile Page', 
+            username: username,
+            user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
         
-         }    
-     )
-});
+        }    
+    );
 
+});
 
 // Handle GET request to the /reserve route
 app.get('/reserve', (req, res) => {
@@ -129,16 +129,6 @@ app.get('/resconfirmation', (req, res) => {
     res.render('reserve/resconfirmation', { title: 'Reservation Confirmation', username: username });
 });
 
-app.post('/resconfirmation', (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    console.log('Username:', username);
-
-    // Perform authentication logic here
-
-    // Redirect to the homepage or render the homepage view
-    res.render('reserve/resconfirmation', { title: 'Reservation Confirmation', username: username });
-});
 
 // Start the server
 app.listen(port, () => {
