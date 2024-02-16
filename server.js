@@ -75,23 +75,53 @@ app.get('/profile', (req, res) => {
     const description = req.session.description;
     console.log('Description in session:', description); // Add this line for debugging
 
-    res.render('editprofile', {
-        title: 'Profile Page',
-        username: username,
-        description: description
-    });
+    // Retrieve user as an object 
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+
+
+    res.render('editprofile', 
+        {
+            title: 'Labyrinth - Profile Page', 
+            username: username,
+            user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+        
+        }    
+    );
+
 });
-// Handle GET request to the /profile route
+
+app.get('/edittprofile', (req, res) => {
+    // Retrieve the username from the session or query parameter
+    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+
+    // Retrieve user as an object 
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+
+
+    res.render('edittingprofile', 
+        {
+            title: 'Labyrinth - Edit Profile Page', 
+            username: username,
+            user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+        
+        }    
+    );
+
+});
+
 app.get('/viewprofile', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
-    const description = req.session.description;
-    console.log('Description in session:', description); // Add this line for debugging
+
+    // Retrieve user as an object 
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+
 
     res.render('viewprofile', {
-        title: 'Profile Page',
+        title: 'Labyrinth - View Profile Page', 
         username: username,
-        description: description
+        user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+    
     });
 });
 
@@ -101,31 +131,34 @@ app.get('/viewprofile', (req, res) => {
 app.get('/reserve', (req, res) => {
     // Retrieve the username from the session or query parameter
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
 
     res.render('currentreservations', 
          {
-             title: 'Profile Page', 
+             title: 'Labyrinth - Current Reservations Page', 
              username: username, 
+             user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+
         
          }    
      )
 });
 
 // Handle GET request to the /profile route
-app.get('/edittprofile', (req, res) => {
+//app.get('/edittprofile', (req, res) => {
     // Retrieve the username from the session or query parameter
-    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
-    const description = req.session.description;
-    console.log('Description: ', description);
+ //   const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+ //   const description = req.session.description;
+ //   console.log('Description: ', description);
 
-    res.render('edittingprofile', 
-         {
-             title: 'Profile Page', 
-             username: username, 
-             description: description //doesnt work yet
+  //  res.render('edittingprofile', 
+  //       {
+  //           title: 'Profile Page', 
+ //            username: username, 
+ //            description: description //doesnt work yet
         
-         }    
-     );
+ //        }    
+ //    );
 
     //res.send(
     //    {
@@ -133,7 +166,7 @@ app.get('/edittprofile', (req, res) => {
     //        username: username 
      //   }
    // );
-});
+//});
 
 
 //Handle GET request to the /resconfirmation route
