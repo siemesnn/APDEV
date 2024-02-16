@@ -19,6 +19,7 @@
                     "end_AMPM" : "AM",
                     "duration" : "1",
                     "lab" : "1",
+                    "seat" : "7",
                     "res_name" : "Jeongwoo",
                     "status" : "completed"
                 },
@@ -31,6 +32,7 @@
                     "end_AMPM" : "PM",
                     "duration" : "1",
                     "lab" : "1",
+                    "seat" : "6",
                     "res_name" : "Anonymous",
                     "status" : "completed"
                 }
@@ -55,6 +57,7 @@
                     "end_AMPM" : "PM",
                     "duration" : "2",
                     "lab" : "2",
+                    "seat" : "5",
                     "res_name" : "Anonymous",
                     "status" : "pending"
                 }
@@ -79,6 +82,7 @@
                     "end_AMPM" : "AM",
                     "duration" : "1",
                     "lab" : "3",
+                    "seat" : "2",
                     "res_name" : "Haruto",
                     "status" : "pending"
                 }
@@ -106,6 +110,7 @@
                 "end_AMPM" : "AM",
                 "duration" : "5",
                 "lab" : "3",
+                "seat" : "1",
                 "res_name" : "Anonymous",
                 "status" : "pending"
             }

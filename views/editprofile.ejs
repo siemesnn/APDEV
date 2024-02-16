@@ -58,9 +58,29 @@
 
     <div class="profile-buttons">
         <button onclick="navigateTo('/edittprofile')" class="profile-button">Edit Profile</button>
-        <button class="profile-button">Change Password</button>
+        <button class="profile-button" id="changePasswordButton">Change Password</button>
+
+        <div id="passwordChangeModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" id="closePasswordChangeModal">&times;</span>
+                <div class="input-container">
+                    <input type="password" id="newPasswordInput" placeholder="Enter new password">
+                </div>
+                <div class="input-container">
+                    <input type="password" id="confirmNewPasswordInput" placeholder="Re-enter new password">
+                </div>
+                <div class="button-container">
+                    <button id="confirmPasswordChangeButton">Confirm</button>
+                    <button id="cancelPasswordChangeButton">Cancel</button>
+                </div>
+            </div>
+        </div>
+        
+        
+
+                
         <button onclick="navigateTo('/')" class="profile-button">Logout</button>
-        <button class="profile-button red-text">Delete Account</button>
+        <button class="profile-button red-text" id="deleteAccountButton">Delete Account</button>
     </div>
        
 </div>
@@ -72,46 +92,55 @@
         window.location.href = url;
     }
 
-    function calculateEndTime(startTime, duration, AMPM) {
-        // Split the startTime string into hours and minutes
-        const [startHour, startMinute] = startTime.split(':').map(Number);
-        
-        // Convert startTime to 24-hour format
-        let hour = startHour;
-        if (AMPM === 'PM' && startHour !== 12) {
-            hour += 12;
-        } else if (AMPM === 'AM' && startHour === 12) {
-            hour = 0;
+    // Get a reference to the button
+    const deleteAccountButton = document.getElementById("deleteAccountButton");
+
+    // Add event listener to the button
+    deleteAccountButton.addEventListener("click", function() {
+        // Show the confirmation dialog
+        const confirmed = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+
+        // If the user confirms, proceed with account deletion
+        if (confirmed) {
+            alert("Your account has been deleted."); // Temporary alert for demonstration
+        } else {
+           alert("Account deletion canceled.");
         }
-        
-        // Calculate total minutes from startTime
-        let totalMinutes = hour * 60 + startMinute;
-        
-        // Add duration in terms of 30-minute units
-        totalMinutes += duration * 30;
-        
-        // Calculate end hour and minute
-        const endHour = Math.floor(totalMinutes / 60) % 24;
-        const endMinute = totalMinutes % 60;
-        
-        // Convert end hour to 12-hour format
-        const formattedHour = (endHour % 12 === 0) ? 12 : endHour % 12;
-        
-        // Determine AM/PM for end time
-        const formattedAMPM = endHour < 12 ? 'AM' : 'PM';
-        
-        // Format end time as a string
-        const endTime = `${formattedHour}:${endMinute.toString().padStart(2, '0')} ${formattedAMPM}`;
-        
-        return endTime;
-    }
+    });
+
+    const changePasswordButton = document.getElementById("changePasswordButton");
+    const passwordChangeModal = document.getElementById("passwordChangeModal");
+    const newPasswordInput = document.getElementById("newPasswordInput");
+    const confirmPasswordChangeButton = document.getElementById("confirmPasswordChangeButton");
+    const cancelPasswordChangeButton = document.getElementById("cancelPasswordChangeButton");
+    const closePasswordChangeModal = document.getElementById("closePasswordChangeModal");
+
+    changePasswordButton.addEventListener("click", function() {
+        passwordChangeModal.style.display = "block";
+    });
+
+    closePasswordChangeModal.addEventListener("click", function() {
+        passwordChangeModal.style.display = "none";
+    });
+
+    cancelPasswordChangeButton.addEventListener("click", function() {
+        passwordChangeModal.style.display = "none";
+    });
+
+    confirmPasswordChangeButton.addEventListener("click", function() {
+        const newPassword = newPasswordInput.value;
+        if (newPassword.trim() === "") {
+            alert("Please enter a valid password.");
+            return;
+        }
+        // Here you can perform password change logic
+        // For demonstration, we're just showing an alert
+        alert("Password changed successfully.");
+        passwordChangeModal.style.display = "none";
+        // You can also clear the input field if needed
+        newPasswordInput.value = "";
+    });
     
-    // Example usage
-    const startTime = '10:00';
-    const duration = 1; // Assuming 1 unit of duration is 30 minutes
-    const AMPM = 'AM';
-    
-    const endTime = calculateEndTime(startTime, duration, AMPM);
-    console.log(endTime); // Output: 10:30 AM
-    
+
+
 </script>
