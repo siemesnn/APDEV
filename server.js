@@ -4,12 +4,16 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const databasejson = require('./test/users.json')
 const userRoutes = require('./routes/userRoutes');
+const {client, connectToMongoDB, DB_NAME} = require('./model/database.js');
 
 const app = express();
 const port = process.env.PORT || 8080;
 
 // Parse json test data
 const users = Object.values(databasejson.users);
+
+// Connect to MongoDB
+connectToMongoDB();
 
 
 // Use body-parser middleware
