@@ -1,0 +1,25 @@
+{{> ../header}}
+
+<link rel="stylesheet" href="css/resconf.css">
+
+<div class="container">
+  <div class="indexinfo">
+    <h1>You have chosen to reserve</h1>
+    <br>
+    <p id="info">INFO HERE</p>
+    
+    <button onclick="goBack()">Go Back</button>
+    
+    <form action="/confirmed" method="post">
+      <input type="submit" value="Confirm">
+    </form>
+  </div>
+</div>
+
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
+
+{{> ../footer}}

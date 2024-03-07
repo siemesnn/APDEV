@@ -2,50 +2,49 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const databasejson = require('./test/users.json')
+const hbs = require('hbs');
 const userRoutes = require('./routes/userRoutes');
-const {client, connectToMongoDB, DB_NAME} = require('./model/database.js');
+const { client, connectToMongoDB, DB_NAME } = require('./model/database.js');
 
 const app = express();
 const port = process.env.PORT || 8080;
 
-// Parse json test data
-const users = Object.values(databasejson.users);
+//fixing css
+app.use(express.static('public'));
+
+app.set('view engine', '.hbs');
+app.set('views', path.join(__dirname, 'views'));
+
 
 // Connect to MongoDB
 connectToMongoDB();
-
-
 // Use body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // API Endpoints
-app.use('/api/users', userRoutes);  
+app.use('/api/users', userRoutes);
 
 // Set up session middleware
-app.use(session({
+app.use(
+  session({
     secret: 'apdev123',
     resave: false,
-    saveUninitialized: true
-}));
+    saveUninitialized: true,
+  })
+);
 
-// Set the view engine and path folder
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static('public'));
 
 
 // Handle GET request to the root route (index page)
 app.get('/', (req, res) => {
-    const session = req.session;
-    if (session.isLogged) {
-        res.redirect('/home');
-    } else {
-        res.render('index', { title: 'Labyrinth - Login Page' });
-    }
+  const session = req.session;
+  if (session.isLogged) {
+    res.redirect('/home');
+  } else {
+    res.render('index', { title: 'Labyrinth - Login Page' });
+  }
 });
-
 
 //Handle GET request to the /register router (register-account)
 app.get('/register', (req, res) => {
@@ -180,4 +179,4 @@ app.post('/resconfirmation', (req, res) => {
 // Start the server
 app.listen(port, () => {
     console.log(`Listening to the server on http://localhost:${port}`);
-});
+})
