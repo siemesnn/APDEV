@@ -1,0 +1,50 @@
+{{!-- {{> header }} --}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/sidebar-admin.css">
+    <link rel="stylesheet" href="css/colors.css">
+    <title>{{title}}</title>
+</head>
+<body>
+
+<link rel="stylesheet" href="css/index.css">
+<script src="js/index.js"></script>
+
+<div class="container">
+  <div class="indexinfo">
+    <h1 id="header">Welcome to Labyrinth!</h1>
+    <p id="info">
+      Manage your lab reservations and streamline your workflow. Reserve your lab space effortlessly with Labyrinth, where efficiency meets convenience.
+    </p>
+  </div>
+
+  <form action="/api/users/login" method="post" id="login-form">
+    <div class="login">
+      <h1 id="loginheader">USER LOGIN</h1>
+      <img src="assets/username.png" id="userpng">
+      <input type="text" name="username" id="username" placeholder="Enter your username">
+      <br>
+
+      <img src="assets/password.png" id="passpng">
+      <input type="password" name="password" id="password" placeholder="Enter your password">
+      <br>
+      <label id="rememberme">
+        <input type="checkbox" name="remember" id="remember"> Remember Me
+      </label>
+      <br>
+
+      <input type="submit" value="Login" id="login">
+      <p id="registertext">
+        Don't have an account? <a href="/register">Register</a>
+      </p>
+    </div>
+  </form>
+
+{{!-- {{> footer }} --}}
+ 
+</body>
+</html>
