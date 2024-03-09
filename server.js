@@ -7,7 +7,7 @@ const userRoutes = require('./routes/userRoutes');
 const { client, connectToMongoDB, DB_NAME } = require('./model/database.js');
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 //fixing css
 app.use(express.static('public'));
@@ -18,6 +18,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Connect to MongoDB
 connectToMongoDB();
+
 // Use body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -62,7 +63,7 @@ app.get('/home', (req, res) => {
     req.session.username = username;
     req.isAuthenticated = true;
 
-    res.render('selectlabs', { title: 'Labyrinth - Home Page', username: username });
+    res.render('homepage', { title: 'Labyrinth - Home Page', username: username });
 });
 
 app.post('/reservation', (req, res) => {
