@@ -1,0 +1,104 @@
+{{!-- this is viewproile.ejs ver--}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/sidebar-admin.css">
+    <link rel="stylesheet" href="css/colors.css">
+    <title>{{title}}</title>
+</head>
+
+<aside class="Sidebar">
+    <div class="image-container">
+      <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp">
+      <br>
+      <br>
+    </div>
+  
+    <ul class="sidebar-links">
+      <li>
+        <br><br>
+        <a href="/home">Reserve</a>
+      </li>
+      <li>
+        <br><br>
+        <a href="/reserve">My Reservations</a>
+      </li>
+      <li>
+        <br><br>
+        <a href="/profile" id="profile">My Profile</a>
+      </li>
+    </ul>
+  </aside>
+
+<link rel="stylesheet" href="css/editprofile.css">
+
+<div class="notSidebar">
+
+    <div class="greeting-profile">
+        <h2> User Profile </h2>
+    </div>
+
+    <div class="info">
+        <h3> Name: {{ user.name }} </h3>
+        <h3>Edit Description: </h3>
+
+        <input type="text" id="descriptionInput" name="description" value=" test {{ user.description }}">
+        
+        
+        <h3>Current Reservations: </h3>
+            
+        <!-- List view box for current reservations -->
+
+        <div class="current-reservations">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lab</th>
+                        <th>Seat</th>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Reservation Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each user.reservations}}
+                        <tr>
+                            <td>{{ this.lab }}</td>
+                            <td>{{ this.seat }}</td>
+                            <td>{{ this.date }}</td>
+                            <td>{{ this.time }} {{ this.AMPM }}</td>
+                            <!-- Calculate End Time based on Start Time and Duration -->
+                            <td>{{ this.end_time }} {{ this.end_AMPM }}</td>
+                            <td>{{ this.res_name }}</td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add buttons here -->
+        <button onclick="navigateTo('/reserve')" class="button sub-button">Return</button>
+        
+
+    </div>
+
+    
+
+    <div class="image-container-profile">
+        <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp"> <br> <br>
+    </div>
+
+
+       
+ </div>
+
+<script>
+    function navigateTo(url) {
+        window.location.href = url;
+    }
+</script>

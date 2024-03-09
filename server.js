@@ -83,38 +83,41 @@ app.post('/reservation', (req, res) => {
 });
 
 // Handle GET request to the /profile route
+//for viewing to b editted pa hehe
 app.get('/profile', (req, res) => {
     // Retrieve the username from the session or query parameter
-    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+    //const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
 
     // Retrieve user as an object 
-    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+    //const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
 
 
-    res.render('editprofile', 
+    res.render('profile_edit', 
         {
             title: 'Labyrinth - Profile Page', 
-            username: username,
-            user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+            //username: username,
+            //user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
         
         }    
     );
 
 });
 
+
+//for viewing commented out const etc.
 app.get('/edittprofile', (req, res) => {
     // Retrieve the username from the session or query parameter
-    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+    //const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
 
     // Retrieve user as an object 
-    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+    //const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
 
 
-    res.render('edittingprofile', 
+    res.render('profile_editting_page', 
         {
             title: 'Labyrinth - Edit Profile Page', 
-            username: username,
-            user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+            //username: username,
+            //user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
         
         }    
     );
@@ -122,34 +125,37 @@ app.get('/edittprofile', (req, res) => {
 
 
 // Handle GET request to the /profile route
+//for viewing commented out const etc.
 app.get('/viewprofile', (req, res) => {
     // Retrieve the username from the session or query parameter
-    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+    //const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
 
     // Retrieve user as an object 
-    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+    //const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
 
 
-    res.render('viewprofile', {
+    res.render('profile_view', {
         title: 'Labyrinth - View Profile Page', 
-        username: username,
-        user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+        //username: username,
+       // user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
     
     });
 });
 
 
 // Handle GET request to the /reserve route
+//for viewing commented out const etc.
+
 app.get('/reserve', (req, res) => {
     // Retrieve the username from the session or query parameter
-    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
-    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+    //const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+    //const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
 
-    res.render('currentreservations', 
+    res.render('reservations_current', 
          {
              title: 'Labyrinth - Current Reservations Page', 
-             username: username, 
-             user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+             //username: username, 
+             //user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
 
         
          }    
