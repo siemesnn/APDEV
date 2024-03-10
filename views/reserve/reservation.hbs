@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/sidebar-admin.css">
+    <link rel="stylesheet" href="css/colors.css">
+    <title>{{title}}</title>
+</head>
+<body>
+
+    <div class="notSidebar">
+
+        <div class="greeting">
+            <h2 id="lab-name"> Available slots</h2>
+            <h2 id="usernameid"> Hello, {{username}} </h2>
+        </div>
+
+        <div class="instruction">
+            <h3>Please select a seat you want to reserve</h3>
+        </div>
+
+        <form>
+            <div class="admin-view">
+            </div>
+
+            <div class="date-time">
+                <label for="dates">Choose a date:</label>
+                <select id="dates" name="dates"></select>
+
+                <label for="times">Choose a time:</label>
+                <select id="times" name="times"></select>
+            </div>
+
+            <div class="container-a">
+                <div class="seatContainer1">
+                    <input type="hidden" id="01" name="seat1" value="0">
+                    <img id="seat1" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat1')">
+
+                    <input type="hidden" id="02" name="seat2" value="0">
+                    <img id="seat2" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat2')">
+
+                    <div class="popup" id="popup"></div>
+
+                    <input type="hidden" id="03" name="seat3" value="2">
+                    <img id="seat1Image" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat1')" onmouseleave="hidePopup()">
+                    <!-- Test code -->
+                    <!-- Add more seats as needed -->
+                </div>
+
+                <!-- Add more seat containers as needed -->
+            </div>
+
+            <div class="button-container">
+            </div>
+
+            <div class="legend">
+                <img src="assets/available.png" alt="Available Seat"> Available <br>
+                <img src="assets/selected.png" alt="Selected Seat"> Selected<br>
+                <img src="assets/taken.png" alt="Taken Seat"> Taken
+            </div>
+
+            <div>
+                <form action="/resconfirmation" method="post">
+                    <input type="submit" value="Reserve" id="reserve-button">
+                </form>
+            </div>
+
+        </form>
+
+        <script>
+        // Function to generate date options for the next 7 days
+        function generateDateOptions() {
+            const select = document.getElementById('dates');
+            const today = new Date();
+
+            for (let i = 0; i < 8; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() + i);
+
+                const option = document.createElement('option');
+                option.value = date.toISOString().split('T')[0];
+                option.textContent = date.toDateString();
+                select.appendChild(option);
+            }
+        }
+
+        // Function to generate time options with 30-minute intervals
+        function generateTimeOptions() {
+            const select = document.getElementById('times');
+            const startTime = new Date();
+            startTime.setHours(8, 0, 0); // Set start time to 8:00 AM
+
+            const endTime = new Date();
+            endTime.setHours(18, 0, 0); // Set end time to 6:00 PM
+
+            const interval = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+            while (startTime < endTime) {
+                const option = document.createElement('option');
+                option.value = startTime.toTimeString().split(' ')[0];
+                option.textContent = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                select.appendChild(option);
+
+                startTime.setTime(startTime.getTime() + interval);
+            }
+        }
+
+        generateDateOptions();
+        generateTimeOptions();
+
+        let selectedSeatId = null;
+
+function toggleSeatStatus(seatId) {
+    const seat = document.getElementById(seatId);
+
+    if (seat.src.endsWith('available.png')) {
+        if (selectedSeatId) {
+            const lastSelectedSeat = document.getElementById(selectedSeatId);
+            lastSelectedSeat.src = 'assets/available.png'; // Change last selected seat back to available.png
+        }
+        seat.src = 'assets/selected.png'; // Change image to selected.png
+        selectedSeatId = seatId;
+    } else if (seat.src.endsWith('selected.png')) {
+        seat.src = 'assets/available.png'; // Change image back to available.png
+        selectedSeatId = null;
+    }
+}
+
+function showPopup(seatId) {
+        const seat = document.getElementById(seatId);
+        const popup = document.getElementById('popup');
+        const reservationInfo = seat.dataset.reservation; // Assuming reservation information is stored in a 'data-reservation' attribute
+
+        // Position the popup next to the seat
+        popup.style.top = seat.offsetTop + 'px';
+        popup.style.left = seat.offsetLeft + seat.offsetWidth + 'px';
+
+         // Create a link element and set its attributes
+        const link = document.createElement('a');
+        link.href = '/viewprofile';
+        link.textContent = 'Reserved by: ' + 'Jeongwoo';
+        link.style.display = 'block';
+
+        // Replace the popup's content with the link
+        popup.innerHTML = '';
+        popup.appendChild(link);
+
+        // Show the popup
+        popup.style.display = 'block';
+        }
+        
+        
+    const userRole = '{{user.role}}'; // Replace with the actual variable storing 
+    const adminView = document.querySelector('.admin-view'); // Corrected the selector
+
+    if (userRole === 'admin') {
+        // Clear existing content
+        adminView.innerHTML = '';
+         // Create a link element and set its attributes
+        // Add the admin form to the admin view
+        adminView.innerHTML = '<div class="admin-form" id="adminForm"><form><label for="adminInput">Reserve seat for: </label><input type="text" id="adminInput" name="adminInput"></form></div>';
+    }
+    else {
+        // If the user is not an admin, you may want to hide the admin view
+        adminView.style.display = 'none';
+    }    </script>
+
+    </script>
+        </script>
+
+    </div>
+
+
+</body>
+
+</html>

@@ -1,5 +1,38 @@
-<%- include('header') -%>
-<%- include('sidebar') -%>
+{{!-- this is editproile.ejs ver--}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/sidebar-admin.css">
+    <link rel="stylesheet" href="css/colors.css">
+    <title>{{title}}</title>
+</head>
+
+<aside class="Sidebar">
+    <div class="image-container">
+      <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp">
+      <br>
+      <br>
+    </div>
+  
+    <ul class="sidebar-links">
+      <li>
+        <br><br>
+        <a href="/home">Reserve</a>
+      </li>
+      <li>
+        <br><br>
+        <a href="/reserve">My Reservations</a>
+      </li>
+      <li>
+        <br><br>
+        <a href="/profile" id="profile">My Profile</a>
+      </li>
+    </ul>
+  </aside>
 
 <link rel="stylesheet" href="css/editprofile.css">
 
@@ -10,11 +43,11 @@
     </div>
 
     <div class="info">
-        <h3> Name: <%= user.name %> </h3>
+        <h3> Name: {{ user.name }} </h3>
         <h3> Description: </h3>
 
         <!-- Display the description -->
-        <input type="text" id="descriptionInput" name="description" value="<%= user.description %>" readonly>
+        <input type="text" id="descriptionInput" name="description" value="{{ user.description }}" readonly>
         
         <h3><a href="/reserve">Current Reservations: </a></h3>
             
@@ -33,19 +66,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% for (const reservationId in user.reservations) { %>
-                        <% const reservation = user.reservations[reservationId]; %>
+                    {{#each user.reservations}}
                         <tr>
-                            <td><%= reservation.lab %></td>
-                            <td><%= reservation.seat %></td>
-                            <td><%= reservation.date %></td>
-                            <td><%= reservation.time %> <%= reservation.AMPM %></td>
+                            <td>{{ this.lab }}</td>
+                            <td>{{ this.seat }}</td>
+                            <td>{{ this.date }}</td>
+                            <td>{{ this.time }} {{ this.AMPM }}</td>
                             <!-- Calculate End Time based on Start Time and Duration -->
-                            <td><%= reservation.end_time %> <%= reservation.end_AMPM %></td>
-                            <td><%= reservation.res_name %></td>
+                            <td>{{ this.end_time }} {{ this.end_AMPM }}</td>
+                            <td>{{ this.res_name }}</td>
                         </tr>
-                    <% } %>
-                   
+                    {{/each}}
                 </tbody>
             </table>
         </div>
@@ -53,7 +84,7 @@
     </div>
 
     <div class="image-container-profile">
-        <img src="<%= user.pictureURL %>" alt="userpfp" id="userpfp"> <br> <br>
+        <img src="{{ user.pictureURL }}" alt="userpfp" id="userpfp"> <br> <br>
     </div>
 
     <div class="profile-buttons">
@@ -76,16 +107,11 @@
             </div>
         </div>
         
-        
-
-                
         <button onclick="navigateTo('/')" class="profile-button">Logout</button>
         <button class="profile-button red-text" id="deleteAccountButton">Delete Account</button>
     </div>
        
 </div>
-
-<%- include('footer') -%>
 
 <script>
     function navigateTo(url) {
@@ -140,7 +166,4 @@
         // You can also clear the input field if needed
         newPasswordInput.value = "";
     });
-    
-
-
 </script>

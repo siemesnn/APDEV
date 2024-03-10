@@ -1,5 +1,37 @@
-<%- include('header') -%>
-<%- include('sidebar') -%>
+{{!-- this is currentreservations.ejs ver--}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/sidebar-admin.css">
+    <link rel="stylesheet" href="css/colors.css">
+    <title>{{title}}</title>
+</head>
+<aside class="Sidebar">
+    <div class="image-container">
+      <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp">
+      <br>
+      <br>
+    </div>
+  
+    <ul class="sidebar-links">
+      <li>
+        <br><br>
+        <a href="/home">Reserve</a>
+      </li>
+      <li>
+        <br><br>
+        <a href="/reserve">My Reservations</a>
+      </li>
+      <li>
+        <br><br>
+        <a href="/profile" id="profile">My Profile</a>
+      </li>
+    </ul>
+  </aside>
 
 <link rel="stylesheet" href="css/myreservation.css">
 
@@ -22,20 +54,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tbody>
-                    <% for (const reservationId in user.reservations) { %>
-                        <% const reservation = user.reservations[reservationId]; %>
-                        <tr>
-                            <td><%= reservation.lab %></td>
-                            <td><%= reservation.seat %></td>
-                            <td><%= reservation.date %></td>
-                            <td><%= reservation.time %> <%= reservation.AMPM %></td>
-                            <!-- Calculate End Time based on Start Time and Duration -->
-                            <td><%= reservation.end_time %> <%= reservation.end_AMPM %></td>
-                            <td><a href="/viewprofile"><%= user.name %></a></td>                        </tr>
-                    <% } %>
-                   
-                </tbody>
+                {{#each user.reservations}}
+                    <tr>
+                        <td>{{ this.lab }}</td>
+                        <td>{{ this.seat }}</td>
+                        <td>{{ this.date }}</td>
+                        <td>{{ this.time }} {{ this.AMPM }}</td>
+                        <!-- Calculate End Time based on Start Time and Duration -->
+                        <td>{{ this.end_time }} {{ this.end_AMPM }}</td>
+                        <td><a href="/viewprofile">{{ user.name }}</a></td>
+                    </tr>
+                {{/each}}
+            </tbody>
         </table>
     </div>
 
@@ -44,17 +74,13 @@
         <button class="button" id="cancelReservationButton">Cancel Reservation</button>
     </div>
 
-       
- </div>
-
-
-<%- include('footer') -%>
+</div>
 
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Get the table element
-        var table = document.getElementById("reservations-table");
+        var table = document.querySelector(".reservations-table");
         
         // Add click event listener to the table rows
         table.addEventListener("click", function(event) {
@@ -67,8 +93,7 @@
             // Check if the clicked element is a table row
             if (event.target.tagName === "TR") {
                 // Add the 'selected' class to the clicked row
-                var clickedRow = event.target;
-                clickedRow.classList.add("select");
+                event.target.classList.add("select");
             }
         });
     });
@@ -89,9 +114,4 @@
            
         }
     });
-
 </script>
-
-
-
-
