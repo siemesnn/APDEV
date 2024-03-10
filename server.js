@@ -8,7 +8,6 @@ const { client, connectToMongoDB, DB_NAME } = require('./model/database.js');
 
 const app = express();
 const port = process.env.PORT || 3000;
-
 //fixing css
 app.use(express.static('public'));
 

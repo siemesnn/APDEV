@@ -1,8 +1,12 @@
 const User = require('../model/user');
 const bcrypt = require('bcrypt');
 const {client, DB_NAME } = require('../model/database');
+
+
+
+
 exports.loginUser = async (req, res) => {
-    // Check if the user exists
+    
     try {
         const { username, password } = req.body;
 
