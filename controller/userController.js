@@ -7,7 +7,7 @@ exports.registerUser = async (req, res) => {
     const db = client.db(DB_NAME);
     const users = db.collection('users');
     try {
-        const { username, password, confirmPassword } = req.body;
+        const { name, email, username, password, confirmPassword, role } = req.body;
 
         if (password !== confirmPassword) {
             res.status(400).json({ message: "Passwords do not match!" });
@@ -23,17 +23,17 @@ exports.registerUser = async (req, res) => {
         }
 
         // Hash the password before storing it in the database
-        const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create a new user document using the Mongoose model
         const newUser = new User({
+            name,
+            email,
             username,
-            password: hashedPassword,
-            bio: '',
-            memberURL: 'u/' + username,
-            avatar: 'https://www.redditstatic.com/avatars/avatar_default_02_4856A3.png',
-            likedPosts: [],
-            dislikedPosts: [],
+            password,
+            role,
+            description : '',
+            profilePicture: 'https://www.redditstatic.com/avatars/avatar_default_02_4856A3.png',
+            reservations : [],
         });
 
         // Save the new user to the database
