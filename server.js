@@ -55,14 +55,13 @@ app.get('/register', (req, res) => {
 
 // Handle post request to the /home route
 app.get('/home', (req, res) => {
-    // Retrieve the username from the session or query parameter
-    const username = req.query.username;
 
-    // Save the username to the session
-    req.session.username = username;
-    req.isAuthenticated = true;
+    // res.render('homepage', { title: 'Labyrinth - Home Page', username: username });
+    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
 
-    res.render('homepage', { title: 'Labyrinth - Home Page', username: username });
+    res.send(
+        username
+    )
 });
 
 app.post('/reservation', (req, res) => {

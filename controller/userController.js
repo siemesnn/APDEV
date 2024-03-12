@@ -55,24 +55,23 @@ exports.loginUser = async (req, res) => {
         const users = db.collection('users');
         const userLogin = await users.findOne({ username });
 
-        if (!userLogin) {
+        if (userLogin.password === password) {
+
+            if (!req.session) {
+                req.session = {};
+            }
+
+            if (req.session.authenticated) {
+                req.session.username = username;
+                res.status(201).json(req.session)
+            }else {
+                res.session.authenticated = true;
+                req.session.username = username;
+                res.status(201).json(req.session)
+            }
+        }else {
             res.status(401).json({ message: "Invalid credentials!" });
-            return;
         }
-
-        if (userLogin.password !== password) { 
-            res.status(401).json({ message: "Invalid credentials!" });
-            return;
-        }
-
-        // Check if req.session exists, if not, initialize it
-        if (!req.session) {
-            req.session = {};
-        }
-
-        req.session.username = username;
-        req.session.authenticated = true;
-        res.status(201).json(req.session);
 
     } catch (e) {
         res.status(500).json({ message: e.message });
