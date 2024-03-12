@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '/home';
             // window.location.href = `/profile?username=${username}`;
         } else {
-            alert("Wrong paswso")
+            alert("Incorrect paswsord")
         }
     });
 });
