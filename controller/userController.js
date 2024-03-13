@@ -65,7 +65,7 @@ exports.loginUser = async (req, res) => {
                 req.session.username = username;
                 res.status(201).json(req.session)
             }else {
-                res.session.authenticated = true;
+                req.session.authenticated = true;
                 req.session.username = username;
                 res.status(201).json(req.session)
             }
@@ -74,7 +74,7 @@ exports.loginUser = async (req, res) => {
         }
 
     } catch (e) {
-        res.status(500).json({ message: e.message });
+        res.send(req.session)
     }
 };
 

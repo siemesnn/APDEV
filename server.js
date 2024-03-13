@@ -5,6 +5,7 @@ const session = require('express-session');
 const hbs = require('hbs');
 const userRoutes = require('./routes/userRoutes');
 const { client, connectToMongoDB, DB_NAME } = require('./model/database.js');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,31 +20,32 @@ app.set('views', path.join(__dirname, 'views'));
 connectToMongoDB();
 
 // Use body-parser middleware
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(
+    session({
+      secret: 'apdev123',
+      resave: false,
+      saveUninitialized: true,
+    })
+);
 
 // API Endpoints
 app.use('/api/users', userRoutes);
 
-// Set up session middleware
-app.use(
-  session({
-    secret: 'apdev123',
-    resave: false,
-    saveUninitialized: true,
-  })
-);
 
 
 
 // Handle GET request to the root route (index page)
 app.get('/', (req, res) => {
-  const session = req.session;
-  if (session.isLogged) {
-    res.redirect('/home');
+  if (req.session.authenticated) {
+    // res.redirect('/home');
+    res.status(200).json(req.session)
   } else {
     res.render('index', { title: 'Labyrinth - Login Page' });
-  }
+    }
 });
 
 //Handle GET request to the /register router (register-account)
@@ -54,15 +56,17 @@ app.get('/register', (req, res) => {
 
 
 // Handle post request to the /home route
+// Update your /home route handler
 app.get('/home', (req, res) => {
-
-    // res.render('homepage', { title: 'Labyrinth - Home Page', username: username });
-    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
-
-    res.send(
-        username
-    )
+    if (req.session.authenticated) {
+        res.status(200).json({ message: 'Home Page', username: req.session.username });
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
+    }
 });
+
+
+
 
 app.post('/reservation', (req, res) => {
     const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
