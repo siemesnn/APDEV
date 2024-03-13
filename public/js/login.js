@@ -9,17 +9,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const response = await fetch('/api/users/login', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
         });
 
-        const data = await response.json();
-
         if (response.ok) {
+            const data = await response.json();
+            console.log(data);
             window.location.href = '/home';
-            // window.location.href = `/profile?username=${username}`;
-        } else {
-            alert("Wrong paswso")
         }
+
+
     });
 });

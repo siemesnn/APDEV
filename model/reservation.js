@@ -10,7 +10,7 @@ const reservationSchema = new Schema({
     duration: Number,
     lab: String,
     seat: String,
-    res_name: String,
+    reserved_by: String,
     status: {type: String, required: true, enum: ['completed', 'pending']},
   });
   
