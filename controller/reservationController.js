@@ -4,14 +4,12 @@ const {client, DB_NAME } = require('../model/database');
 
 
 const reservationSchema = new Schema({
-    reservationID: Number,
     date: Date,
     time: String,
     duration: Number,
     lab: String,
     seat: String,
     reserved_by: String,
-    status: {type: String, required: true, enum: ['completed', 'pending']},
   });
 
 
