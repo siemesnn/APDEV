@@ -69,7 +69,7 @@ app.get('/home', (req, res) => {
 
 
 app.post('/reservation', (req, res) => {
-
+    //this is for testing u can change this!
     res.render('reserve/reservation', { title: 'Labyrinth - Reservation Page' });
 
     //const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
