@@ -69,19 +69,22 @@ app.get('/home', (req, res) => {
 
 
 app.post('/reservation', (req, res) => {
-    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+
+    res.render('reserve/reservation', { title: 'Labyrinth - Reservation Page' });
+
+    //const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
 
     // Retrieve user as an object 
-    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+    //const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
 
 
-    res.render('reserve/reservation', 
-        {
-            title: 'Reservation Page', 
-            username: username,
-            user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
+    //res.render('reserve/reservation', 
+       // {
+          //  title: 'Reservation Page', 
+            //username: username,
+           // user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
         
-        });
+       // });
 });
 
 // Handle GET request to the /profile route

@@ -92,7 +92,16 @@
     </div>
 </div>
 
+<script>
+    //when button is hovered, background color changes
+    document.querySelector('.see-availability-button').addEventListener('mouseover', function() {
+    this.style.backgroundColor = 'light';
+    });
 
+    document.querySelector('.see-availability-button').addEventListener('mouseout', function() {
+    this.style.backgroundColor = '';
+    });
+</script>
  
 </body>
 </html>
