@@ -59,7 +59,7 @@ app.get('/register', (req, res) => {
 // Update your /home route handler
 app.get('/home', (req, res) => {
     if (req.session.authenticated) {
-        res.status(200).json({ message: 'Home Page', username: req.session.username });
+        res.render('homepage', { title: 'Labyrinth - Home Page', username: req.session.username });
     } else {
         res.status(401).json({ message: 'Unauthorized' });
     }
