@@ -34,6 +34,8 @@ app.use(
 
 // API Endpoints
 app.use('/api/users', userRoutes);
+// app.use('/api/reservations', reservationRoutes);
+
 
 
 
@@ -89,24 +91,28 @@ app.post('/reservation', (req, res) => {
 
 // Handle GET request to the /profile route
 //for viewing to b editted pa hehe
-app.get('/profile', (req, res) => {
-    // Retrieve the username from the session or query parameter
-    //const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+app.get('/profile', async (req, res) => {
+    try {
+        const username = req.session.username; 
+        const db = client.db(DB_NAME);
+        const users = db.collection('users');
+        const user = await users.findOne({ username });
 
-    // Retrieve user as an object 
-    //const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
-
-
-    res.render('profile_edit', 
-        {
-            title: 'Labyrinth - Profile Page', 
-            //username: username,
-            //user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
-        
-        }    
-    );
-
+        if (user) {
+            res.render('profile_edit', {
+                title: 'Labyrinth - Profile Page',
+                user: user // Pass the user object to the template
+            });
+        } else {
+            // Handle case where user is not found (optional)
+            res.status(404).render('error', { message: 'User not found' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).render('error', { message: 'Internal server error' });
+    }
 });
+
 
 
 //for viewing commented out const etc.
