@@ -71,6 +71,7 @@ app.get('/home', (req, res) => {
 
 
 app.post('/reservation', (req, res) => {
+
     if (req.session.authenticated) {
         res.render('reserve/reservation', { title: 'Labyrinth - Reservation Page', username: req.session.username });
     } else {
