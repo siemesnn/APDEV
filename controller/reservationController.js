@@ -3,23 +3,10 @@ const {client, DB_NAME } = require('../model/database');
 
 
 
-const reservationSchema = new Schema({
-    date: Date,
-    time: String,
-    duration: Number,
-    lab: String,
-    seat: String,
-    reserved_by: String,
-  });
-
-
-
-
-// CHANGE TO CREATING RESERVATIONS
 exports.createReservation = async (req, res) => {
 
     const db = client.db(DB_NAME);
-    const users = db.collection('reservation');
+    const reservation = db.collection('reservation');
     try {
         const {date, time, seat, } = req.body;
 
@@ -35,22 +22,56 @@ exports.createReservation = async (req, res) => {
 
         // Create a new user document using the Mongoose model
         const newReservation = new Reservation({
-            reservationID,
             date,
             time: [],
-            password,
-            role,
-            description : '',
-            profilePicture: 'https://www.redditstatic.com/avatars/avatar_default_02_4856A3.png',
-            reservations : [],
+            duration,
+            lab,
+            seat,
+            reserved_by: req.session.username,
+            
         });
 
         // Save the new user to the database
-        await users.insertOne(newUser);
+        await reservation.insertOne(newReservation);
 
-        res.json({ message: "Registration successful" });
+        res.json({ message: "Reserved deservingly!" });
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
 };
 
+
+exports.getReservationByUsername = async (req, res) => {
+    try {
+      // Check if user is logged in
+      if (!req.session || !req.session.username) {
+        return res.status(401).json({ message: "Unauthorized access" });
+      }
+  
+      const username = req.session.username;
+  
+      const db = client.db(DB_NAME);
+      const reservation = db.collection('reservation');
+      const reservationList = await reservation.find({ username: username }).sort({ id: -1 }).toArray();
+  
+      if (!reservationList.length) {
+        return res.status(404).json({ message: "Reservation not found" });
+      }
+  
+      res.json(reservationList);
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
+  };
+
+  
+exports.getAllReservations = async (req, res) => {
+    try {
+        const db = client.db(DB_NAME);
+        const reservation = db.collection('reservation');
+        const reservationList = await reservation.find().sort({ id: -1 }).toArray();
+        res.json(reservationList);
+    } catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+};

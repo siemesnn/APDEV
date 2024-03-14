@@ -80,23 +80,15 @@ exports.loginUser = async (req, res) => {
 
 
 
+exports.getUser = async (req, res) => {
+    try {
+        const db = client.db(DB_NAME);
+        const users = db.collection('users');
+        const user = await users.findOne({ username: req.session.username });
+        res.status(200).json(user);
+    } catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+};
 
 
-    exports.returnUser = (req, res) => {
-        // Check if the user exists
-        const { username, password } = req.body;
-    
-        const users = Object.values(userjson.users); // Convert users object to an array
-    
-        const user = users.find(user => user.username === username && user.password === password);
-    
-        // Debugging information
-        console.log('User:', user);
-    
-        // Send appropriate status and user data
-        if (user) {
-            res.status(200).json(user);
-        } else {
-            res.status(401).send('Invalid username or password');
-        }
-    };
