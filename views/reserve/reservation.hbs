@@ -244,20 +244,39 @@
 
     let selectedSeatId = null;
 
-    //Function to change the color of the seat status
+    // Array to store selected seat IDs
+    let selectedSeatIds = [];
+
+    // Function to change the color of the seat status
     function toggleSeatStatus(seatId) {
         const seat = document.getElementById(seatId);
 
+        // Check if the seat is available
         if (seat.src.endsWith('available.png')) {
-            if (selectedSeatId) {
-                const lastSelectedSeat = document.getElementById(selectedSeatId);
-                lastSelectedSeat.src = 'assets/available.png'; // Change last selected seat back to available.png
+
+            // Check if the seat is already selected
+            const selectedIndex = selectedSeatIds.indexOf(seatId);
+            if (selectedIndex === -1) {
+                
+                // Add the seat to the selected seats array
+                selectedSeatIds.push(seatId);
+                // Change image to selected.png
+                seat.src = 'assets/selected.png';
+            } else {
+                // Remove the seat from the selected seats array
+                selectedSeatIds.splice(selectedIndex, 1);
+                // Change image back to available.png
+                seat.src = 'assets/available.png';
             }
-            seat.src = 'assets/selected.png'; // Change image to selected.png
-            selectedSeatId = seatId;
         } else if (seat.src.endsWith('selected.png')) {
-            seat.src = 'assets/available.png'; // Change image back to available.png
-            selectedSeatId = null;
+            // If the seat is already selected, deselect it
+            const selectedIndex = selectedSeatIds.indexOf(seatId);
+            if (selectedIndex !== -1) {
+                // Remove the seat from the selected seats array
+                selectedSeatIds.splice(selectedIndex, 1);
+                // Change image back to available.png
+                seat.src = 'assets/available.png';
+            }
         }
     }
 
