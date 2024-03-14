@@ -43,8 +43,7 @@ app.use('/api/users', userRoutes);
 // Handle GET request to the root route (index page)
 app.get('/', (req, res) => {
   if (req.session.authenticated) {
-    // res.redirect('/home');
-    res.status(200).json(req.session)
+     res.redirect('/home');
   } else {
     res.render('index', { title: 'Labyrinth - Login Page' });
     }
@@ -70,9 +69,9 @@ app.get('/home', (req, res) => {
 
 
 
-app.post('/reservation', (req, res) => {
-
+app.post('/reservation/:labId', (req, res) => {
     if (req.session.authenticated) {
+        const selectedLab = req.params.labId; // Access lab ID from route parameters
         res.render('reserve/reservation', { title: 'Labyrinth - Reservation Page', username: req.session.username });
     } else {
         res.status(401).json({ message: 'Unauthorized' });

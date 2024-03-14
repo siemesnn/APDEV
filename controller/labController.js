@@ -1,0 +1,1 @@
+const Lab = require('../model/lab');

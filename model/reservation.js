@@ -7,7 +7,10 @@ const reservationSchema = new Schema({
     time: String,
     end_time: String,
     duration: Number,
-    lab: String,
+    lab: {
+      type: Schema.Types.ObjectId,
+      ref: 'Lab' // This should match the model name of your user schema
+    },
     seat: String,
     reserved_by: {
       type: Schema.Types.ObjectId,

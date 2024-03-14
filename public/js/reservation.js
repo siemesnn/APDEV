@@ -1,41 +1,34 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const registerForm = document.getElementById('registerForm');
     const statusMsg = document.getElementById('status-msg');
-    const postSubmit = document.getElementById('post-submit');
 
-    postSubmit.addEventListener('click', async (e) => {
+    registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const title = document.getElementById('title-input').value;
-        const body = document.getElementById('body-input').value;
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
 
-        const response = await fetch('/api/posts/create-post', {
+
+
+        if (username === '' || password === '' || confirmPassword === '') {
+            statusMsg.textContent = "Fields cannot be empty!";
+            return;
+        }
+
+        const response = await fetch('/api/user/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, body }),
+            body: JSON.stringify({ username, password, confirmPassword }),
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            statusMsg.textContent = "Post created";
+            statusMsg.textContent = "Registration successful";
             window.location.href = '/';
         } else {
             statusMsg.textContent = data.message;
         }
     });
-
-    const login = document.getElementById('loginbtn');
-    // If login is null, it means the user is already logged in 
-    if (login === null) {
-        const loggedin = document.getElementById('loggedin');
-        // View profile get username from p tag under button
-        loggedin.addEventListener('click', () => {
-            const username = document.getElementById('logged-user').innerText;
-            window.location.href = `/profile?username=${username}`;
-        });
-    } else {
-        login.addEventListener('click', () => {
-            window.location.href = `/login`;
-        });
-    }
 });
