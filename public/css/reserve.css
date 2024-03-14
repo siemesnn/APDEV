@@ -50,10 +50,21 @@
 }
 
 .date-time{
+    font-size: 14px;
+    font-family: 'Inter';
     margin-top: 30px;
     width: 200px;
     display: flex;
     flex-direction: column;
+}
+
+.anon-checkbox{
+    font-size: 14px;
+    font-family: 'Inter';
+    margin-top: 20px;
+    width: 200px;
+    display: flex;
+    flex-direction: row;
 }
 
 #reserve-button {
@@ -67,8 +78,8 @@
     display: inline-block;
     text-align: center; 
     width:85px;
-    margin-top: 60px; 
-    margin-left: 55px;
+    margin-top: 50px; 
+   
 }
 
 /* background color changes on hover */
