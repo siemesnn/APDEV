@@ -6,6 +6,8 @@ const session = require('express-session');
 router.post('/login', userController.loginUser);
 router.post('/register', userController.registerUser);
 router.get('/profile', userController.getUser, userController.getUserReservations);
+router.get('/edittprofile', userController.getUser, userController.getUserReservations);
+router.get('/reserve', userController.getUser, userController.getUserReservations);
 
 // route.get('/getUser', userController.getUser);
 // router.post('profile-edit', userController.editProfile);
