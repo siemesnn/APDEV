@@ -10,6 +10,7 @@ const reservationSchema = new Schema({
     lab: String,
     anonymous: String,
     reserved_by: String, // This should match the model name of your user schema
+    selected_seat: String,  
   });
   
 const Reservation = mongoose.model('Reservation', reservationSchema);

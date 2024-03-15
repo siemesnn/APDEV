@@ -8,16 +8,18 @@ exports.reserveASeat = async (req, res) => {
     const reservationCollection = db.collection('reservation');
     try {
         const lab = req.params.labId;
-        const { dates, start_time, end_time, anonymous } = req.body;
-    
+        const { dates, start_time, end_time, anonymous, selected_seat } = req.body;
+        const isAnonymous = req.body['anon-checkbox'] === 'anonymous';
+
 
         const newReservation = new Reservation({
             date: dates,
-            time: "9:30",
-            end_time: "10:00",
+            time: start_time,
+            end_time: end_time,
             lab: lab,
-            anonymous: anonymous,
+            anonymous: isAnonymous,
             reserved_by: req.session.username,
+            selected_seat: selected_seat
         });
 
         await reservationCollection.insertOne(newReservation);
