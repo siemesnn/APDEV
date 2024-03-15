@@ -168,6 +168,8 @@ app.post('/reservation/:labId', (req, res) => {
         res.status(401).json({ message: 'Unauthorized' });
 
 //Handle GET request to the /resconfirmation route
+    }
+});
 
 
 // Start the server
