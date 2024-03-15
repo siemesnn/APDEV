@@ -1,41 +1,41 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const statusMsg = document.getElementById('status-msg');
-    const postSubmit = document.getElementById('post-submit');
+document.addEventListener('DOMContentLoaded', function() {
+    function handleReservation(event) {
+        event.preventDefault(); // Prevent default form submission
+    
+        // Extract data from the form
+        const dates = document.getElementById('dates').value;
+        const startTime = document.getElementById('start-time').value;
+        const endTime = document.getElementById('end-time').value;
 
-    postSubmit.addEventListener('click', async (e) => {
-        e.preventDefault();
-
-        const title = document.getElementById('title-input').value;
-        const body = document.getElementById('body-input').value;
-
-        const response = await fetch('/api/posts/create-post', {
+        console.log(dates)
+ 
+        // You can also extract other form data if needed
+    
+        // Perform AJAX request to submit the reservation data
+        // Example using fetch API
+        fetch('/api/labs/reserve', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, body }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            statusMsg.textContent = "Post created";
-            window.location.href = '/';
-        } else {
-            statusMsg.textContent = data.message;
-        }
-    });
-
-    const login = document.getElementById('loginbtn');
-    // If login is null, it means the user is already logged in 
-    if (login === null) {
-        const loggedin = document.getElementById('loggedin');
-        // View profile get username from p tag under button
-        loggedin.addEventListener('click', () => {
-            const username = document.getElementById('logged-user').innerText;
-            window.location.href = `/profile?username=${username}`;
-        });
-    } else {
-        login.addEventListener('click', () => {
-            window.location.href = `/login`;
+            headers: {
+                'Content-Type': 'application/json' // Assuming you're sending JSON data
+            },
+            body: JSON.stringify({ dates, start_time: startTime, end_time: endTime })
+        })
+        .then(response => {
+            if (response.ok) {
+                // Reservation successful, handle response as needed
+                // For example, show a success message to the user
+                alert('Reservation successful!');
+            } else {
+                // Reservation failed, handle error response
+                // For example, show an error message to the user
+                alert('Reservation failed!');
+            }
+        })
+        .catch(error => {
+            // Error occurred during the request, handle accordingly
+            console.error('Error:', error);
+            alert('Reservation failed due to an error!');
         });
     }
-});
+    
+})

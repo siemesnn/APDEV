@@ -122,7 +122,7 @@
 }
 
 /* button format */
-#see-avail
+.see-avail
 {
     cursor: pointer;
     background-color: var(--one);

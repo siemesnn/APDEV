@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const hbs = require('hbs');
 const userRoutes = require('./routes/userRoutes');
+const labroutes = require('./routes/labRoutes');
 const { client, connectToMongoDB, DB_NAME } = require('./model/database.js');
 const cors = require('cors');
 
@@ -34,6 +35,7 @@ app.use(
 
 // API Endpoints
 app.use('/api/users', userRoutes);
+app.use('/api/labs', labroutes);
 // app.use('/api/reservations', reservationRoutes);
 
 
@@ -43,8 +45,7 @@ app.use('/api/users', userRoutes);
 // Handle GET request to the root route (index page)
 app.get('/', (req, res) => {
   if (req.session.authenticated) {
-    // res.redirect('/home');
-    res.status(200).json(req.session)
+     res.redirect('/home');
   } else {
     res.render('index', { title: 'Labyrinth - Login Page' });
     }
@@ -70,14 +71,8 @@ app.get('/home', (req, res) => {
 
 
 
-app.post('/reservation', (req, res) => {
 
-    if (req.session.authenticated) {
-        res.render('reserve/reservation', { title: 'Labyrinth - Reservation Page', username: req.session.username });
-    } else {
-        res.status(401).json({ message: 'Unauthorized' });
-    }
-});
+
 
 // Handle GET request to the /profile route
 //for viewing to b editted pa hehe
@@ -165,55 +160,24 @@ app.get('/viewprofile', (req, res) => {
 // Handle GET request to the /reserve route
 //for viewing commented out const etc.
 
-app.get('/reserve', async (req, res) => {
-    try {
-        const username = req.session.username; 
-        const db = client.db(DB_NAME);
-        const users = db.collection('users');
-        const user = await users.findOne({ username });
-
-        if (user) {
-            const reservation = db.collection('reservation');
-            const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
-
-
-            console.log("User Reservations:", Reservation); // Log the reservations to the console
-
-            res.render('reservations_current', {
-                title: 'Labyrinth - Current Reservations Page', 
-                user: user, // Pass the user object to the template
-                Reservation: Reservation 
-            });
-        } else {
-            // Handle case where user is not found (optional)
-            res.status(404).render('error', { message: 'User not found' });
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).render('error', { message: 'Internal server error' });
-    }
-});
-
+app.post('/reservation/:labId', (req, res) => {
+    if (req.session.authenticated) {
+        const selectedLab = req.params.labId; // Access lab ID from route parameters
+        res.render('reserve/reservation', { title: 'Reserve a Seat', username: req.session.username, labId: selectedLab });
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
 
 
 //Handle GET request to the /resconfirmation route
 app.get('/resconfirmation', (req, res) => {
-    // Retrieve the username from the session or query parameter
-    const username = req.session.username || req.query.username || 'Guest'; // Default to 'Guest' if not found
-
-    res.render('reserve/resconfirmation', { title: 'Reservation Confirmation', username: username });
+    if (req.session.authenticated) {
+        const selectedLab = req.params.labId; // Access lab ID from route parameters
+        res.render('reserve/resconfirmation', { title: 'Reserve a Seat', username: req.session.username, labId: selectedLab });
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
+    }
 });
 
-app.post('/resconfirmation', (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    console.log('Username:', username);
-
-    // Perform authentication logic here
-
-    // Redirect to the homepage or render the homepage view
-    res.render('reserve/resconfirmation', { title: 'Reservation Confirmation', username: username });
-});
 
 // Start the server
 app.listen(port, () => {

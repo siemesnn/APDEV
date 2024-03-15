@@ -3,17 +3,14 @@ const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema({
     
-    date: Date,
+    date: String,
     time: String,
     end_time: String,
     duration: Number,
     lab: String,
-    seat: String,
-    reserved_by: {
-      type: Schema.Types.ObjectId,
-      ref: 'User' // This should match the model name of your user schema
-  },
-
+    anonymous: String,
+    reserved_by: String, // This should match the model name of your user schema
+    selected_seat: String,  
   });
   
 const Reservation = mongoose.model('reservation', reservationSchema);
