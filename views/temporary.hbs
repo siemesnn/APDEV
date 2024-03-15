@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/sidebar-admin.css">
     <link rel="stylesheet" href="/css/colors.css">
     <title>{{title}}</title>
-    {{!-- <script src="/js/reservation.js"></script> --}}
+    <script src="/js/reservation.js"></script>
 </head>
 
 {{!-- sidebar --}}
@@ -51,7 +51,7 @@
 
             <div class="left-panel">
             
-                <form class="reserve-form" action="/api/labs/reserve/{{labId}}" method="POST">
+                <form action="" method="">
                <div class="date-time">
                     <label for="datesLabel">Choose a date: </label>
                     <select id="dates" name="dates"></select>
@@ -239,8 +239,6 @@
 
         // Move to the next hour for start time
         startTime.setTime(startTime.getTime() + intervalStart);
-
-        // Convert start time and end time 
     }
 }
 

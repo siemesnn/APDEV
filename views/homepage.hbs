@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/sidebar-admin.css">
     <link rel="stylesheet" href="css/colors.css">
+    <script src="js/labSelection.js"></script>
     <title>{{title}}</title>
 </head>
 <aside class="Sidebar">
@@ -40,7 +41,7 @@
 <div class="content-block">
 
     <div class="greeting">
-        <h2> Hello, <%= username %> </h2>
+        <h2> Hello, {{username}} </h2>
     </div>
 
     <div class = "instruction">
@@ -50,7 +51,7 @@
     <div class="container">
 
         <!-- container for lab a -->
-        <div class="lab-a">
+        <div class="lab-a" id="lab-a">
             <div class="lab-name">LABORATORY A</div>
             <img class = "icon" src="assets/lab_icon.png" alt="lab-icon-a" id="lab-icon-a">
             <div class="lab-desc">
@@ -58,41 +59,50 @@
                 location: 2nd floor
             </div>
             <!-- when clicked redirected to reservation of seats page (can change /reservation) -->
-            <form action="/reservation" method="post">
-                <input type="submit" value="See Availability" id="see-avail">
+            <form action="/reservation/a" method="post">
+                <input type="submit" value="See Availability" id="1" class="see-avail">
             </form>
         </div> 
 
         <!-- container for lab b -->
-        <div class="lab-b">
+        <div class="lab-b" id="lab-b">
             <div class="lab-name">LABORATORY B</div>
             <img class = "icon" src="assets/lab_icon.png" alt="lab-icon-b" id="lab-icon-b">
             <div class="lab-desc">
                 capacity: 18 seats <br>
                 location: 3rd floor
             </div>
-            <form action="/reservation" method="post">
-                <input type="submit" value="See Availability" id="see-avail">
+            <form action="/reservation/b" method="post">
+                <input type="submit" value="See Availability" id="2" class ="see-avail">
             </form>
         </div>
 
         <!-- container for lab c -->
-        <div class="lab-c">
+        <div class="lab-c" id="lab-c">
             <div class="lab-name">LABORATORY C</div>
             <img class = "icon" src="assets/lab_icon.png" alt="lab-icon-b" id="lab-icon-b">
             <div class="lab-desc">
                 capacity: 18 seats <br>
                 location: 4th floor
             </div>
-            <form action="/reservation" method="post">
-                <input type="submit" value="See Availability" id="see-avail">
+            <form action="/reservation/c" method="post">
+                <input type="submit" value="See Availability" id="3" class="see-avail">
             </form>
         </div>
 
     </div>
 </div>
 
+<script>
+    //when button is hovered, background color changes
+    document.querySelector('.see-availability-button').addEventListener('mouseover', function() {
+    this.style.backgroundColor = 'light';
+    });
 
+    document.querySelector('.see-availability-button').addEventListener('mouseout', function() {
+    this.style.backgroundColor = '';
+    });
+</script>
  
 </body>
 </html>
