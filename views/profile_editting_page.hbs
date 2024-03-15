@@ -48,45 +48,14 @@
 
         <input type="text" id="descriptionInput" name="description" value=" {{ user.description }}">
         
-        
-        <h3>Current Reservations:</h3>
-            
-        <!-- List view box for current reservations -->
-
-        <div class="current-reservations">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Lab</th>
-                        <th>Seat</th>
-                        <th>Date</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Reservation Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each Reservation}}
-                        <tr>
-                            <td>{{#if lab}}{{ lab }}{{else}}N/A{{/if}}</td>
-                            <td>{{#if seat}}{{ seat }}{{else}}N/A{{/if}}</td>
-                            <td>{{#if date}}{{ date }}{{else}}N/A{{/if}}</td>
-                            <td>{{#if time}}{{ time }}{{else}}N/A{{/if}}</td>
-                            <!-- Calculate End Time based on Start Time and Duration -->
-                            <td>{{#if end_time}}{{ end_time }}{{else}}N/A{{/if}}</td>
-                            <td>{{#if reserved_by.username}}{{ reserved_by.username }}{{else}}N/A{{/if}}</td>
-                        </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-        </div>    
+         
 
     </div>
 
     
 
     <div class="image-container-profile">
-        <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp"> <br> <br>
+        <img src="{{ user.pictureURL }}" alt="userpfp" id="userpfp"> <br> <br>
     </div>
 
     <div class="profile-buttons">
@@ -95,7 +64,7 @@
         <button onclick="navigateTo('/profile')" class="profile-button">Cancel</button>
     </div>
 
-</div>
+</div>  
 
 
 

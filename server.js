@@ -84,17 +84,37 @@ app.get('/profile', async (req, res) => {
         const user = await users.findOne({ username });
 
         if (user) {
-            const reservation = db.collection('reservation');
-            const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
+            if (user.role == 'student'){
+                const reservation = db.collection('reservation');
+                const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
 
 
-            console.log("User Reservations:", Reservation); // Log the reservations to the console
+                console.log("User Reservations:", Reservation); // Log the reservations to the console
 
-            res.render('profile_edit', {
-                title: 'Labyrinth - Profile Page', 
-                user: user, // Pass the user object to the template
-                Reservation: Reservation 
-            });
+                res.render('profile_edit', {
+                    title: 'Labyrinth - Profile Page', 
+                    user: user, // Pass the user object to the template
+                    Reservation: Reservation 
+                });
+
+
+            } else{
+                
+                    //const reservation = db.collection('reservation');
+                    //const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
+    
+    
+                    //console.log("User Reservations:", Reservation); // Log the reservations to the console
+    
+                    res.render('admin_profile_edit', {
+                        title: 'Labyrinth - Profile Page', 
+                        user: user, // Pass the user object to the template
+                        //Reservation: Reservation 
+                    });
+
+            }
+            
+            
         } else {
             // Handle case where user is not found (optional)
             res.status(404).render('error', { message: 'User not found' });
@@ -116,16 +136,12 @@ app.get('/edittprofile', async (req, res) => {
         const user = await users.findOne({ username });
 
         if (user) {
-            const reservation = db.collection('reservation');
-            const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
-
-
-            console.log("User Reservations:", Reservation); // Log the reservations to the console
+            
+            //console.log("User Reservations:", Reservation); // Log the reservations to the console
 
             res.render('profile_editting_page', {
                 title: 'Labyrinth - Edit Profile Page', 
                 user: user, // Pass the user object to the template
-                Reservation: Reservation 
             });
         } else {
             // Handle case where user is not found (optional)
