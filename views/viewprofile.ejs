@@ -1,0 +1,84 @@
+<!-- viewing other people profile and reservation */-->
+
+<%- include('header') -%>
+<%- include('sidebar') -%>
+
+<!-- need current reservations, description -->
+<!-- need to add a button to edit profile -->
+<!-- need to add a button to change password -->
+<!-- need to add a button to delete account -->
+<!-- need to add a button to logout -->
+<!-- need to add a button to go back to homepage -->
+<link rel="stylesheet" href="css/editprofile.css">
+
+<div class="notSidebar">
+
+    <div class="greeting-profile">
+        <h2> User Profile </h2>
+    </div>
+
+    <div class="info">
+        <h3> Name: <%= user.name %> </h3>
+        <h3>Edit Description: </h3>
+
+        <input type="text" id="descriptionInput" name="description" value=" test <%= user.description %>">
+        
+        
+        <h3>Current Reservations: </h3>
+            
+        <!-- List view box for current reservations -->
+
+        <div class="current-reservations">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lab</th>
+                        <th>Seat</th>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Reservation Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (const reservationId in user.reservations) { %>
+                        <% const reservation = user.reservations[reservationId]; %>
+                        <tr>
+                            <td><%= reservation.lab %></td>
+                            <td><%= reservation.seat %></td>
+                            <td><%= reservation.date %></td>
+                            <td><%= reservation.time %> <%= reservation.AMPM %></td>
+                            <!-- Calculate End Time based on Start Time and Duration -->
+                            <td><%= reservation.end_time %> <%= reservation.end_AMPM %></td>
+                            <td><%= reservation.res_name %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add buttons here -->
+        <button onclick="navigateTo('/reserve')" class="button sub-button">Return</button>
+        
+
+    </div>
+
+    
+
+    <div class="image-container-profile">
+        <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp"> <br> <br>
+    </div>
+
+
+       
+ </div>
+
+
+<%- include('footer') -%>
+
+
+<script>
+    function navigateTo(url) {
+        window.location.href = url;
+    }
+</script>
