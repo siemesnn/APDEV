@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/sidebar-admin.css">
     <link rel="stylesheet" href="/css/colors.css">
     <title>{{title}}</title>
-    {{!-- <script src="/js/reservation.js"></script> --}}
+    <script defer src="/js/reservation.js"></script>
 </head>
 
 {{!-- sidebar --}}
@@ -40,7 +40,7 @@
 
         <div class="greeting">
             {{!-- change the handlebar to the actual chosen lab --}}
-            <h1 id="lab-name"> Laboratory {{labId}}</h1>
+            <h1 id="lab-name"> Laboratory <span id="lab_id">{{labId}}</span></h1>
             <h2 id="usernameid"> Hello, {{username}} </h2>
         </div>
 
@@ -51,7 +51,7 @@
 
             <div class="left-panel">
             
-                <form class="reserve-form" action="/api/labs/reserve/{{labId}}" method="POST">
+                <form class="reserve-form" action="" method="">
                <div class="date-time">
                     <label for="datesLabel">Choose a date: </label>
                     <select id="dates" name="dates"></select>
@@ -69,8 +69,8 @@
                     
                 </div>
             
-            <input type="submit" value="Reserve" id="reserve-button">
-              
+            {{!-- <button type="submit" value="Reserve" id="reserve-button"> --}}
+              <button id="reserve-button">Reserve</button>
             </div>
            
             <div class="right-panel">
@@ -189,7 +189,10 @@
             </div> {{!-- end of right panel div --}}
             
         </div> {{!-- end of elements container div --}}
-       
+        <div id="confirmationPopup" style="display: none;">
+        <h2>{{confirmationMessage}}</h2>
+    </div>
+
 
 <script>
     // Function to generate date options for the next 7 days

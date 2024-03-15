@@ -7,16 +7,19 @@ exports.reserveASeat = async (req, res) => {
     const db = client.db(DB_NAME);
     const reservationCollection = db.collection('reservation');
     try {
-        const lab = req.params.labId;
         const { dates, start_time, end_time, anonymous, selected_seat } = req.body;
-        const isAnonymous = req.body['anon-checkbox'] === 'anonymous';
+        const labId = req.params.labId; // Access labId from request parameters
 
+        // Assuming you're also passing lab_id in the request body, you can access it as well
+        const lab = req.body.lab_id;
+
+        const isAnonymous = req.body['anon-checkbox'] === 'anonymous';
 
         const newReservation = new Reservation({
             date: dates,
             time: start_time,
             end_time: end_time,
-            lab: lab,
+            lab: labId, // Use labId here instead of lab
             anonymous: isAnonymous,
             reserved_by: req.session.username,
             selected_seat: selected_seat
@@ -24,11 +27,12 @@ exports.reserveASeat = async (req, res) => {
 
         await reservationCollection.insertOne(newReservation);
 
-        res.json({ newReservation }); // Include multiple fields // Only include newReservation
+        res.json({ newReservation });
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
 };
+
 
 
 

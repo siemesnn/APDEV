@@ -1,16 +1,31 @@
-{{> ../header}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/sidebar-admin.css">
+    <link rel="stylesheet" href="css/colors.css">
+    <title>{{title}}</title>
+</head>
+<body>
 
 <link rel="stylesheet" href="css/resconf.css">
 
 <div class="container">
   <div class="indexinfo">
-    <h1>You have chosen to reserve</h1>
+    <h1>You have chosen to reserve </h1>
     <br>
-    <p id="info">INFO HERE</p>
+    <h2 id="info">INFO HERE</h2>
+    <p id="labid">Lab: {{labId}}</p>
+    <p id="selectedseat">Selected Seat{{selected_seat}}</p>
+    <p id="dates">Dates : {{dates}}</p>
+    <p id="seatnum">Seatnum{{Seatnum}}</p>
+    <p id="starttime">Start time: {{start_time}}</p>
+    <p id="endtime">End Time: {{end_time}}</p>
     
     <button onclick="goBack()">Go Back</button>
-    
-    <form action="/confirmed" method="post">
+  
       <input type="submit" value="Confirm">
     </form>
   </div>
@@ -21,5 +36,5 @@
     window.history.back();
   }
 </script>
-
-{{> ../footer}}
+</body>
+</html>
