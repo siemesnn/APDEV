@@ -153,6 +153,43 @@ app.get('/edittprofile', async (req, res) => {
     }
 });
 
+app.get('/reserve', async (req, res) => {
+    try {
+        const username = req.session.username;
+        const db = client.db(DB_NAME);
+        const users = db.collection('users');
+        const user = await users.findOne({ username });
+
+        if (user) {
+            const reservation = db.collection('reservation');
+            let Reservation;
+
+            if (user.role === 'student') {
+                Reservation = await reservation.find({ reserved_by: user.username }).toArray();
+            } else {
+                Reservation = await reservation.find().toArray();
+            }
+
+            console.log("User Reservations:", Reservation); // Log the reservations to the console
+
+            res.render('reservations_current', {
+                title: 'Labyrinth - Current Reservations Page',
+                user: user, // Pass the user object to the template
+                Reservation: Reservation
+            });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.error("Error fetching reservations:", error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
+
+
+
 
 // Handle GET request to the /profile route
 //for viewing commented out const etc.
@@ -174,6 +211,8 @@ app.get('/viewprofile', (req, res) => {
 
 
 // Handle GET request to the /reserve route
+
+
 //for viewing commented out const etc.
 
 app.post('/reservation/:labId', (req, res) => {
@@ -182,6 +221,8 @@ app.post('/reservation/:labId', (req, res) => {
         res.render('reserve/reservation', { title: 'Reserve a Seat', username: req.session.username, labId: selectedLab });
     } else {
         res.status(401).json({ message: 'Unauthorized' });
+    }
+});
 
 
 //Handle GET request to the /resconfirmation route
@@ -195,7 +236,8 @@ app.get('/resconfirmation', (req, res) => {
 });
 
 
+
 // Start the server
 app.listen(port, () => {
     console.log(`Listening to the server on http://localhost:${port}`);
-})
+});

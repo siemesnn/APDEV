@@ -69,12 +69,12 @@
                     {{#each Reservation}}
                         <tr>
                             <td>{{#if lab}}{{ lab }}{{else}}N/A{{/if}}</td>
-                            <td>{{#if seat}}{{ seat }}{{else}}N/A{{/if}}</td>
+                            <td>{{#if selected_seat}}{{ seat }}{{else}}N/A{{/if}}</td>
                             <td>{{#if date}}{{ date }}{{else}}N/A{{/if}}</td>
                             <td>{{#if time}}{{ time }}{{else}}N/A{{/if}}</td>
                             <!-- Calculate End Time based on Start Time and Duration -->
                             <td>{{#if end_time}}{{ end_time }}{{else}}N/A{{/if}}</td>
-                            <td>{{#if reserved_by.username}}{{ reserved_by.username }}{{else}}N/A{{/if}}</td>
+                            <td>{{#if reserved_by}}{{ reserved_by }}{{else}}N/A{{/if}}</td>
                         </tr>
                     {{/each}}
                 </tbody>

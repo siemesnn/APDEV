@@ -96,7 +96,7 @@ exports.getUserReservations = async (req, res) => {
         //const users = db.collection('users');
         //const user = await users.findOne({ username: req.session.username });
         const reservation =  db.collection('reservation');
-        const Reservation = await reservation.find({ reservation: req.session.username }).toArray();
+        const Reservation = await reservation.find().toArray();
         res.status(200).json(Reservation);
     } catch (e) {
         res.status(500).json({ message: e.message });
