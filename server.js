@@ -83,11 +83,13 @@ app.get('/profile', async (req, res) => {
         const users = db.collection('users');
         const user = await users.findOne({ username });
 
+        console.log("User Information:", user); // Log the reservations to the console
+
+
         if (user) {
             if (user.role == 'student'){
                 const reservation = db.collection('reservation');
                 const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
-
 
                 console.log("User Reservations:", Reservation); // Log the reservations to the console
 
@@ -102,7 +104,7 @@ app.get('/profile', async (req, res) => {
                 
                     //const reservation = db.collection('reservation');
                     //const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
-    
+                
     
                     //console.log("User Reservations:", Reservation); // Log the reservations to the console
     
