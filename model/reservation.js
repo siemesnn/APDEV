@@ -3,15 +3,17 @@ const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema({
     
-    date: String,
+    reservationID: Number,
+    date: Date,
     time: String,
     end_time: String,
     duration: Number,
     lab: String,
-    anonymous: String,
-    reserved_by: String, // This should match the model name of your user schema
+    seat: String,
+    res_name: String,
+    status: {type: String, required: true, enum: ['completed', 'pending']},
   });
   
-const Reservation = mongoose.model('Reservation', reservationSchema);
+const Reservation = mongoose.model('Reservation', userSchema);
 
 module.exports = Reservation;

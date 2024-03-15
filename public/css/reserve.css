@@ -11,6 +11,17 @@
     align-items: center;
 }
 
+table {
+    width: 100%; /* Adjust the width as needed */
+    max-width: 800px; /* Optionally, set a maximum width */
+    height: 80%; /* Adjust the height as needed */
+    border-collapse: collapse;
+    /* add shadow */
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    padding-bottom: 90px;
+    margin-bottom: 40px;
+}
+
 .greeting {
     color: var(--one);
     font-size: 20px;
@@ -27,130 +38,42 @@
     font-family: 'Inter';
 }
 
-/* contains all, time and date drop down, seats, legends */
-.elements-container{
-    border: solid;
-    border: 2px solid rgba(51, 33, 74, 0.5);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-    width: 830px;
-    height: 400px;
+body {
+    height: 100vh;
 }
 
-/* contains date and time drop down, reserve button */
-.left-panel{
-    border-style: none solid none none;
-    border-color: rgba(51, 33, 74, 0.5);
-    margin-left: 15px;
-    display: flex;
-    flex-direction: column;
-    height: 400px;
-    width: 210px;
-}
-
-.date-time{
-    font-size: 14px;
-    font-family: 'Inter';
-    margin-top: 30px;
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-}
-
-.anon-checkbox{
-    font-size: 14px;
-    font-family: 'Inter';
-    margin-top: 20px;
-    width: 200px;
-    display: flex;
-    flex-direction: row;
-}
 
 #reserve-button {
     cursor: pointer;
     background-color: var(--one);
     color: var(--three);
-    border: none;
-    border-radius: 5px; 
-    font-size: 16px; 
-    padding: 6px 12px; 
+    border: 2px solid var(--one); /* Add border to mimic button appearance */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    font-size: 16px; /* Reduce font size */
+    padding: 6px 12px; /* Reduce padding for smaller button */
     display: inline-block;
-    text-align: center; 
+    text-align: center; /* Center text horizontally */
     width:85px;
-    margin-top: 50px; 
-   
+    margin-top: 40px; /* Adjust margin-top as needed to move the button lower */
+    margin-left: 750px;
 }
 
-/* background color changes on hover */
-#reserve-button:hover {
-    background-color: var(--two); 
-}
-
-.legend{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 450px;
-    margin-left: 45px;
-}
-
-.legend-icons{
-    display: flex;
-    justify-content: space-around;
-    width: 400px;
-    flex-direction: row;
-}
-
-.available{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.selected{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.taken{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.label{
-    font-family:'Inter';
-    color: var(--one);
-}
-
-/* contains Legend and all seats */
-.right-panel{
-    display: flex;
-    flex-direction: column;
-    width: 550px;
-    margin-left: 30px;
-    margin-top: 30px;
-}
-
-.seats-container
-{
-    display: flex;
-    flex-direction: row;
-    width: fit-content;
-    margin-left: 30px;
-    margin-top: 10px;
+.reserve-button:hover {
+    background-color: var(--two); /* Change background color on hover */
 }
 
 
-form 
-{
+form{
     height: 55%;
 }
+
+.button-container{
+    margin-top:-50px;
+    padding-left: 900px;
+    width: 10px;
+    height:20px;
+}
+
 
 .popup {
     position: absolute;
@@ -164,8 +87,7 @@ form
 }
 
 .container-a{
-    display: flex;
-    
+    margin-left: 250px;
 }
 .container-a,
 .container-b {
@@ -175,5 +97,17 @@ form
 
 .container-b {
     margin-right: 0;
- 
+    margin-top: 20px; /* Remove the right margin from the last container to avoid extra space */
+}
+
+/* Additional styling for seat containers as needed */
+.date-time{
+    padding-left: 250px;
+    padding-bottom: 20px;
+    padding-top: 30px;
+}
+
+.legend{
+    margin-top: 40px;
+    padding-left: 300px;
 }

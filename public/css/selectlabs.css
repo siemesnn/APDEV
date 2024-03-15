@@ -122,21 +122,16 @@
 }
 
 /* button format */
-.see-avail
+#see-avail
 {
     cursor: pointer;
     background-color: var(--one);
-    color: var(--three);
+    color: white;
     border: none;
     padding: 10px 15px;
     font-size: 16.5px;
     border-radius: 5px;
     margin-left: 75px;
     margin-bottom: 10px;
-}
-
-#see-avail:hover
-{
-    background-color: var(--two);
 }
 
