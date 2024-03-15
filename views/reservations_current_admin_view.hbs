@@ -63,7 +63,9 @@
                             <!-- Calculate End Time based on Start Time and Duration -->
                             <td>{{#if end_time}}{{ end_time }}{{else}}N/A{{/if}}</td>
                             <td>                                
-                                {{#if anonymous}}Anonymous{{else}}{{ reserved_by }}{{/if}}
+                                {{#if reserved_by}}
+                                    <a href="/viewprofile?username={{ reserved_by }}">{{ reserved_by }}</a>                                
+                                {{else}}NA{{/if}}
                             </td>
                         </tr>
                     {{/each}}

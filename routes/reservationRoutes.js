@@ -9,6 +9,8 @@ router.get('/retrievePost', reservationController.getReservation);
 router.get('/allReservations', reservationController.getAllReservations);
 router.get('/profile', reservationController.getUserReservations);
 router.get('/reserve', reservationController.getUserReservations);
+router.get('/viewprofile', reservationController.getUserReservations);
+
 
 // router.post('profile-edit', userController.editProfile);
 module.exports = router;

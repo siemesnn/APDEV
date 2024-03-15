@@ -8,6 +8,9 @@ router.post('/register', userController.registerUser);
 router.get('/profile', userController.getUser);
 router.get('/edittprofile', userController.getUser);
 router.get('/reserve', userController.getUser);
+router.get('/viewprofile', userController.getUser);
+
+
 
 // route.get('/getUser', userController.getUser);
 // router.post('profile-edit', userController.editProfile);

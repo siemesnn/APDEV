@@ -46,7 +46,7 @@
         <h3> Name: {{ user.name }} </h3>
         <h3>Edit Description: </h3>
 
-        <input type="text" id="descriptionInput" name="description" value=" test {{ user.description }}">
+        <input type="text" id="descriptionInput" name="description" value=" {{ user.description }}">
         
         
         <h3>Current Reservations: </h3>
@@ -74,7 +74,9 @@
                             <td>{{#if time}}{{ time }}{{else}}N/A{{/if}}</td>
                             <!-- Calculate End Time based on Start Time and Duration -->
                             <td>{{#if end_time}}{{ end_time }}{{else}}N/A{{/if}}</td>
-                            <td>{{#if reserved_by}}{{ reserved_by }}{{else}}N/A{{/if}}</td>
+                            <td>                                
+                                {{#if anonymous}}Anonymous{{else}}{{ reserved_by }}{{/if}}
+                            </td>
                         </tr>
                     {{/each}}
 

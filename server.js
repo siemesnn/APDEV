@@ -166,13 +166,21 @@ app.get('/reserve', async (req, res) => {
 
             if (user.role === 'student') {
                 Reservation = await reservation.find({ reserved_by: user.username }).toArray();
+                console.log("User Reservations:", Reservation); // Log the reservations to the console
+
+                 res.render('reservations_current', {
+                title: 'Labyrinth - Current Reservations Page',
+                user: user, // Pass the user object to the template
+                Reservation: Reservation
+            });
+
             } else {
                 Reservation = await reservation.find().toArray();
             }
 
             console.log("User Reservations:", Reservation); // Log the reservations to the console
 
-            res.render('reservations_current', {
+            res.render('reservations_current_admin_view', {
                 title: 'Labyrinth - Current Reservations Page',
                 user: user, // Pass the user object to the template
                 Reservation: Reservation
@@ -193,21 +201,32 @@ app.get('/reserve', async (req, res) => {
 
 // Handle GET request to the /profile route
 //for viewing commented out const etc.
-app.get('/viewprofile', (req, res) => {
-    // Retrieve the username from the session or query parameter
-    //const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+app.get('/viewprofile', async (req, res) => {
+    try {
+        const username = req.query.username;
+        const db = client.db(DB_NAME);
+        const users = db.collection('users');
+        const user = await users.findOne({ username });
 
-    // Retrieve user as an object 
-    //const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+        if (user) {
+            const reservation = db.collection('reservation');
+            const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
+            console.log("User Reservations:", Reservation); // Log the reservations to the console
 
-
-    res.render('profile_view', {
-        title: 'Labyrinth - View Profile Page', 
-        //username: username,
-       // user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
-    
-    });
+            res.render('profile_view', {
+                title: 'Labyrinth - View Profile Page',
+                user: user,
+                Reservation: Reservation
+            });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.error("Error fetching reservations:", error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 });
+
 
 
 // Handle GET request to the /reserve route
