@@ -8,127 +8,280 @@
     <link rel="stylesheet" href="css/colors.css">
     <title>{{title}}</title>
 </head>
-<body>
 
+{{!-- sidebar --}}
+<aside class="Sidebar">
+    <div class="image-container">
+      <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp">
+      <br>
+      <br>
+    </div>
+  
+    <ul class="sidebar-links">
+      <li>
+        <br><br>
+        <a href="/home">Reserve</a>
+      </li>
+      <li>
+        <br><br>
+        <a href="/reserve">My Reservations</a>
+      </li>
+      <li>
+        <br><br>
+        <a href="/profile" id="profile">My Profile</a>
+      </li>
+    </ul>
+</aside>
+
+<body>
+    <link rel="stylesheet" href="css/reserve.css">
     <div class="notSidebar">
 
         <div class="greeting">
-            <h2 id="lab-name"> Available slots</h2>
+            {{!-- change the handlebar to the actual chosen lab --}}
+            <h1 id="lab-name"> Laboratory {{lab-name}}</h1>
             <h2 id="usernameid"> Hello, {{username}} </h2>
         </div>
 
-        <div class="instruction">
-            <h3>Please select a seat you want to reserve</h3>
-        </div>
+        <div class="instruction"> <h3>Please select your preferred schedule and seat</h3></div>
 
         <form>
-            <div class="admin-view">
-            </div>
+        <div class="elements-container">
 
-            <div class="date-time">
-                <label for="dates">Choose a date:</label>
-                <select id="dates" name="dates"></select>
-
-                <label for="times">Choose a time:</label>
-                <select id="times" name="times"></select>
-            </div>
-
-            <div class="container-a">
-                <div class="seatContainer1">
-                    <input type="hidden" id="01" name="seat1" value="0">
-                    <img id="seat1" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat1')">
-
-                    <input type="hidden" id="02" name="seat2" value="0">
-                    <img id="seat2" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat2')">
-
-                    <div class="popup" id="popup"></div>
-
-                    <input type="hidden" id="03" name="seat3" value="2">
-                    <img id="seat1Image" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat1')" onmouseleave="hidePopup()">
-                    <!-- Test code -->
-                    <!-- Add more seats as needed -->
+            <div class="left-panel">
+               <div class="date-time">
+                    <label for="dates">Choose a date: </label>
+                    <select id="dates" name="dates"></select>
+                    <br>
+                    <label for="start_times">Choose a start time: </label>
+                    <select id="start-time" name="times"></select>
+                    <br>
+                    <label for="end_times">Choose an end time: </label>
+                    <select id="end-time" name="times"></select>
+            
+                    <div class="anon-checkbox">
+                        <input type="checkbox" id="anon" name="anon-reserve" value="anonymous">
+                        <label for="anon">Reserve Anonymously</label>   
+                    </div>
+                    
                 </div>
 
-                <!-- Add more seat containers as needed -->
-            </div>
-
-            <div class="button-container">
-            </div>
-
-            <div class="legend">
-                <img src="assets/available.png" alt="Available Seat"> Available <br>
-                <img src="assets/selected.png" alt="Selected Seat"> Selected<br>
-                <img src="assets/taken.png" alt="Taken Seat"> Taken
-            </div>
-
-            <div>
                 <form action="/resconfirmation" method="post">
                     <input type="submit" value="Reserve" id="reserve-button">
-                </form>
+                </form>     
             </div>
+           
+            <div class="right-panel">
 
+                <div class="legend">
+                    <span class="label">Legend</span>
+                    <div class="legend-icons">
+                        <div class="available">
+                            <img src="assets/available.png" alt="Available Seat"> 
+                            <span class="label">Available</span>
+                        </div>
+
+                        <div class="selected">
+                            <img src="assets/selected.png" alt="Selected Seat">
+                            <span class="label">Selected</span>
+                        </div>
+
+                        <div class="taken">
+                            <img src="assets/taken.png" alt="Taken Seat">  
+                            <span class="label">Taken</span>
+                        </div>
+                     </div>
+                </div>
+
+                <div class="seats-container">
+                    <div class="container-a">
+                        {{!-- seats 1-3--}}
+                        <div class="seatContainer1">
+                            <input type="hidden" id="01" name="seat1" value="0">
+                            <img id="seat1" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat1')">
+
+                            <input type="hidden" id="02" name="seat2" value="0">
+                            <img id="seat2" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat2')">
+
+                            <div class="popup" id="popup"></div>
+
+                            <input type="hidden" id="03" name="seat3" value="2">
+                            <img id="seat1Image" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat1')" onmouseleave="hidePopup()">
+                        </div>
+                        
+                        {{!-- seats 4-6 --}}
+                        <div class="seatContainer2">
+                            <input type="hidden" id="04" name="seat4" value="0">
+                            <img id="seat4" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat4')">
+    
+                            <input type="hidden" id="05" name="seat5" value="0">
+                            <img id="seat5" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat5')">
+
+                            <div class="popup" id="popup"></div>
+                            <input type="hidden" id="06" name="seat6" value="2">
+                            <img id="seat6" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat6')" onmouseleave="hidePopup()">
+                        </div>
+
+                        {{!-- seats 7-9 --}}
+                        <div class="seatContainer3">
+                            <input type="hidden" id="07" name="seat7" value="0">
+                            <img id="seat7" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat7')">
+    
+                            <input type="hidden" id="08" name="seat8" value="0">
+                            <img id="seat8" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat8')">
+
+                            <div class="popup" id="popup"></div>
+                            <input type="hidden" id="09" name="seat9" value="2">
+                            <img id="seat9" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat9')" onmouseleave="hidePopup()">
+                        </div>
+                    </div> {{!-- end of container a div --}}
+            
+                    <div class="container-b">
+                        {{!-- seats 10-12 --}}
+                        <div class="seatContainer4">
+                            <input type="hidden" id="10" name="seat1" value="0">
+                            <img id="seat10" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat10')">
+            
+                            <input type="hidden" id="11" name="seat2" value="0">
+                            <img id="seat11" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat11')">
+        
+                            <div class="popup" id="popup10"></div> <!-- Popup for the last seat of this container -->
+            
+                            <input type="hidden" id="12" name="seat3" value="2">
+                            <img id="seat12" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat12')" onmouseleave="hidePopup()">
+                        </div>
+        
+                        <div class="seatContainer5">
+                            <input type="hidden" id="13" name="seat4" value="0">
+                            <img id="seat13" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat13')">
+            
+                            <input type="hidden" id="14" name="seat5" value="0">
+                            <img id="seat14" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat14')">
+        
+                            <div class="popup" id="popup14"></div> <!-- Popup for the last seat of this container -->
+        
+                            <input type="hidden" id="15" name="seat6" value="2">
+                            <img id="seat15" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat15')" onmouseleave="hidePopup()">
+                        </div>
+        
+                        <div class="seatContainer6">
+                            <input type="hidden" id="16" name="seat7" value="0">
+                            <img id="seat16" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat16')">
+            
+                            <input type="hidden" id="17" name="seat8" value="0">
+                            <img id="seat17" class="seat" src="assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat17')">
+        
+                            <div class="popup" id="popup17"></div> <!-- Popup for the last seat of this container -->
+        
+                            <input type="hidden" id="18" name="seat9" value="2">
+                            <img id="seat18" class="seat" src="assets/taken.png" alt="Taken Seat" onmouseenter="showPopup('seat18')" onmouseleave="hidePopup()">
+                        </div>
+                    </div> {{!-- end of container b div --}}
+
+                </div> {{!--end of seats container div --}}
+            
+            </div> {{!-- end of right panel div --}}
+
+        </div> {{!-- end of elements container div --}}
+         
         </form>
 
-        <script>
-        // Function to generate date options for the next 7 days
-        function generateDateOptions() {
-            const select = document.getElementById('dates');
-            const today = new Date();
+<script>
+    // Function to generate date options for the next 7 days
+    function generateDateOptions() {
+        const select = document.getElementById('dates');
+        const today = new Date();
 
-            for (let i = 0; i < 8; i++) {
-                const date = new Date(today);
-                date.setDate(today.getDate() + i);
+        for (let i = 0; i < 8; i++) {
+            const date = new Date(today);
+            date.setDate(today.getDate() + i);
 
-                const option = document.createElement('option');
-                option.value = date.toISOString().split('T')[0];
-                option.textContent = date.toDateString();
-                select.appendChild(option);
+            const option = document.createElement('option');
+            option.value = date.toISOString().split('T')[0];
+            option.textContent = date.toDateString();
+            select.appendChild(option);
             }
+    }
+
+    // Function to generate time options with 1-hour intervals for start time and 30-minute intervals for end time
+    function generateTimeOptions() {
+        const selectStartTime = document.getElementById('start-time');
+        const selectEndTime = document.getElementById('end-time');
+
+        const startTime = new Date();
+        startTime.setHours(8, 0, 0); // Set start time to 8:00 AM
+
+        const endTime = new Date();
+        endTime.setHours(18, 0, 0); // Set end time to 6:00 PM
+
+        const intervalStart = 60 * 60 * 1000; // 1 hour in milliseconds
+        const intervalEnd = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+        while (startTime < endTime) {
+            // Add start time option
+            const startOption = document.createElement('option');
+            startOption.value = startTime.toTimeString().split(' ')[0];
+            startOption.textContent = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            selectStartTime.appendChild(startOption);
+
+        // Check if adding another interval will exceed the end time
+        if (startTime.getTime() + intervalEnd <= endTime.getTime()) {
+            // Add end time option
+            const endTimeAdjusted = new Date(startTime.getTime() + intervalEnd);
+            const endOption = document.createElement('option');
+            endOption.value = endTimeAdjusted.toTimeString().split(' ')[0];
+            endOption.textContent = endTimeAdjusted.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            selectEndTime.appendChild(endOption);
         }
 
-        // Function to generate time options with 30-minute intervals
-        function generateTimeOptions() {
-            const select = document.getElementById('times');
-            const startTime = new Date();
-            startTime.setHours(8, 0, 0); // Set start time to 8:00 AM
-
-            const endTime = new Date();
-            endTime.setHours(18, 0, 0); // Set end time to 6:00 PM
-
-            const interval = 30 * 60 * 1000; // 30 minutes in milliseconds
-
-            while (startTime < endTime) {
-                const option = document.createElement('option');
-                option.value = startTime.toTimeString().split(' ')[0];
-                option.textContent = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                select.appendChild(option);
-
-                startTime.setTime(startTime.getTime() + interval);
-            }
-        }
-
-        generateDateOptions();
-        generateTimeOptions();
-
-        let selectedSeatId = null;
-
-function toggleSeatStatus(seatId) {
-    const seat = document.getElementById(seatId);
-
-    if (seat.src.endsWith('available.png')) {
-        if (selectedSeatId) {
-            const lastSelectedSeat = document.getElementById(selectedSeatId);
-            lastSelectedSeat.src = 'assets/available.png'; // Change last selected seat back to available.png
-        }
-        seat.src = 'assets/selected.png'; // Change image to selected.png
-        selectedSeatId = seatId;
-    } else if (seat.src.endsWith('selected.png')) {
-        seat.src = 'assets/available.png'; // Change image back to available.png
-        selectedSeatId = null;
+        // Move to the next hour for start time
+        startTime.setTime(startTime.getTime() + intervalStart);
     }
 }
 
-function showPopup(seatId) {
+    generateDateOptions();
+    generateTimeOptions();
+
+    let selectedSeatId = null;
+
+    // Array to store selected seat IDs
+    let selectedSeatIds = [];
+
+    // Function to change the color of the seat status
+    function toggleSeatStatus(seatId) {
+        const seat = document.getElementById(seatId);
+
+        // Check if the seat is available
+        if (seat.src.endsWith('available.png')) {
+
+            // Check if the seat is already selected
+            const selectedIndex = selectedSeatIds.indexOf(seatId);
+            if (selectedIndex === -1) {
+                
+                // Add the seat to the selected seats array
+                selectedSeatIds.push(seatId);
+                // Change image to selected.png
+                seat.src = 'assets/selected.png';
+            } else {
+                // Remove the seat from the selected seats array
+                selectedSeatIds.splice(selectedIndex, 1);
+                // Change image back to available.png
+                seat.src = 'assets/available.png';
+            }
+        } else if (seat.src.endsWith('selected.png')) {
+            // If the seat is already selected, deselect it
+            const selectedIndex = selectedSeatIds.indexOf(seatId);
+            if (selectedIndex !== -1) {
+                // Remove the seat from the selected seats array
+                selectedSeatIds.splice(selectedIndex, 1);
+                // Change image back to available.png
+                seat.src = 'assets/available.png';
+            }
+        }
+    }
+
+    //Function to show popup info about taken seat
+    function showPopup(seatId) {
         const seat = document.getElementById(seatId);
         const popup = document.getElementById('popup');
         const reservationInfo = seat.dataset.reservation; // Assuming reservation information is stored in a 'data-reservation' attribute
@@ -165,14 +318,19 @@ function showPopup(seatId) {
     else {
         // If the user is not an admin, you may want to hide the admin view
         adminView.style.display = 'none';
-    }    </script>
+    }   
 
-    </script>
-        </script>
+     //when button is hovered, background color changes
+    document.querySelector('.reserve-button').addEventListener('mouseover', function() {
+    this.style.backgroundColor = 'light';
+    });
+
+    document.querySelector('.reserve-button').addEventListener('mouseout', function() {
+    this.style.backgroundColor = '';
+    }); 
+</script>
 
     </div>
 
-
 </body>
-
 </html>

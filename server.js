@@ -5,6 +5,7 @@ const session = require('express-session');
 const hbs = require('hbs');
 const userRoutes = require('./routes/userRoutes');
 const { client, connectToMongoDB, DB_NAME } = require('./model/database.js');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,31 +20,34 @@ app.set('views', path.join(__dirname, 'views'));
 connectToMongoDB();
 
 // Use body-parser middleware
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(
+    session({
+      secret: 'apdev123',
+      resave: false,
+      saveUninitialized: true,
+    })
+);
+
 // API Endpoints
 app.use('/api/users', userRoutes);
+// app.use('/api/reservations', reservationRoutes);
 
-// Set up session middleware
-app.use(
-  session({
-    secret: 'apdev123',
-    resave: false,
-    saveUninitialized: true,
-  })
-);
+
 
 
 
 // Handle GET request to the root route (index page)
 app.get('/', (req, res) => {
-  const session = req.session;
-  if (session.isLogged) {
-    res.redirect('/home');
+  if (req.session.authenticated) {
+    // res.redirect('/home');
+    res.status(200).json(req.session)
   } else {
     res.render('index', { title: 'Labyrinth - Login Page' });
-  }
+    }
 });
 
 //Handle GET request to the /register router (register-account)
@@ -54,53 +58,51 @@ app.get('/register', (req, res) => {
 
 
 // Handle post request to the /home route
+// Update your /home route handler
 app.get('/home', (req, res) => {
-    // Retrieve the username from the session or query parameter
-    const username = req.query.username;
-
-    // Save the username to the session
-    req.session.username = username;
-    req.isAuthenticated = true;
-
-    res.render('homepage', { title: 'Labyrinth - Home Page', username: username });
+    if (req.session.authenticated) {
+        res.render('homepage', { title: 'Labyrinth - Home Page', username: req.session.username });
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
+    }
 });
 
+
+
+
 app.post('/reservation', (req, res) => {
-    const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
 
-    // Retrieve user as an object 
-    const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
-
-
-    res.render('reserve/reservation', 
-        {
-            title: 'Reservation Page', 
-            username: username,
-            user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
-        
-        });
+    if (req.session.authenticated) {
+        res.render('reserve/reservation', { title: 'Labyrinth - Reservation Page', username: req.session.username });
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
+    }
 });
 
 // Handle GET request to the /profile route
 //for viewing to b editted pa hehe
-app.get('/profile', (req, res) => {
-    // Retrieve the username from the session or query parameter
-    //const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+app.get('/profile', async (req, res) => {
+    try {
+        const username = req.session.username; 
+        const db = client.db(DB_NAME);
+        const users = db.collection('users');
+        const user = await users.findOne({ username });
 
-    // Retrieve user as an object 
-    //const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
-
-
-    res.render('profile_edit', 
-        {
-            title: 'Labyrinth - Profile Page', 
-            //username: username,
-            //user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
-        
-        }    
-    );
-
+        if (user) {
+            res.render('profile_edit', {
+                title: 'Labyrinth - Profile Page',
+                user: user // Pass the user object to the template
+            });
+        } else {
+            // Handle case where user is not found (optional)
+            res.status(404).render('error', { message: 'User not found' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).render('error', { message: 'Internal server error' });
+    }
 });
+
 
 
 //for viewing commented out const etc.

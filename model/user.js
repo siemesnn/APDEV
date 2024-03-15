@@ -3,13 +3,12 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     name: String,
-    email: { type: String, required: true, unique: true }, // Ensure unique email for user identification
+    email: { type: String, required: true, unique: true },
+    username: String,
     password: String, // Store securely hashed passwords (use a strong hashing algorithm like bcrypt)
-    username: String, // Ensure unique username for login
-    pictureURL: String, // Optional URL for user's profile picture
     role: { type: String, enum: ['student', 'admin'] }, // Limit role options to prevent invalid data
-    description: { type: String },
-  
+    description: String,
+    profilePicture: String,
     reservations: [ // Corrected: Add comma after closing curly brace
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -17,7 +16,9 @@ const userSchema = new Schema({
       }
     ]
   });
-  
-const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+  const user = mongoose.model('users', userSchema);
+
+  module.exports = user; // Export the model for use in other files
+  
+   

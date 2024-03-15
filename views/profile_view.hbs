@@ -64,20 +64,20 @@
                         <th>End Time</th>
                         <th>Reservation Name</th>
                     </tr>
-                </thead>
+                </thead> 
                 <tbody>
-                    {{#each user.reservations}}
+                    {{#each reservations}}
                         <tr>
-                            <td>{{ this.lab }}</td>
-                            <td>{{ this.seat }}</td>
-                            <td>{{ this.date }}</td>
-                            <td>{{ this.time }} {{ this.AMPM }}</td>
+                            <td>{{ reservations.lab }}</td>
+                            <td>{{  reservations.seat }}</td>
+                            <td>{{  reservations.date }}</td>
+                            <td>{{  reservations.time }} </td>
                             <!-- Calculate End Time based on Start Time and Duration -->
-                            <td>{{ this.end_time }} {{ this.end_AMPM }}</td>
-                            <td>{{ this.res_name }}</td>
+                            <td>{{  reservations.end_time }}</td>
+                            <td>{{  reservations.reserved_by }}</td>
                         </tr>
                     {{/each}}
-                </tbody>
+                </tbody> 
             </table>
         </div>
 

@@ -40,7 +40,7 @@
 <div class="content-block">
 
     <div class="greeting">
-        <h2> Hello, <%= username %> </h2>
+        <h2> Hello, {{username}} </h2>
     </div>
 
     <div class = "instruction">
@@ -92,7 +92,16 @@
     </div>
 </div>
 
+<script>
+    //when button is hovered, background color changes
+    document.querySelector('.see-availability-button').addEventListener('mouseover', function() {
+    this.style.backgroundColor = 'light';
+    });
 
+    document.querySelector('.see-availability-button').addEventListener('mouseout', function() {
+    this.style.backgroundColor = '';
+    });
+</script>
  
 </body>
 </html>
