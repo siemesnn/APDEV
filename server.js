@@ -69,11 +69,6 @@ app.get('/home', (req, res) => {
 });
 
 
-
-
-
-
-
 // Handle GET request to the /profile route
 //for viewing to b editted pa hehe
 app.get('/profile', async (req, res) => {
@@ -83,13 +78,11 @@ app.get('/profile', async (req, res) => {
         const users = db.collection('users');
         const user = await users.findOne({ username });
 
-        console.log("User Information:", user); // Log the reservations to the console
-
-
         if (user) {
             if (user.role == 'student'){
                 const reservation = db.collection('reservation');
                 const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
+
 
                 console.log("User Reservations:", Reservation); // Log the reservations to the console
 
@@ -104,7 +97,7 @@ app.get('/profile', async (req, res) => {
                 
                     //const reservation = db.collection('reservation');
                     //const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
-                
+    
     
                     //console.log("User Reservations:", Reservation); // Log the reservations to the console
     
@@ -245,7 +238,14 @@ app.post('/reservation/:labId', (req, res) => {
     }
 });
 
+
 //Handle GET request to the /resconfirmation route
+app.get('/resconfirmation', (req, res) => {
+    if (req.session.authenticated) {
+        const selectedLab = req.params.labId; // Access lab ID from route parameters
+        res.render('reserve/resconfirmation', { title: 'Reserve a Seat', username: req.session.username, labId: selectedLab });
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
     }
 });
 
