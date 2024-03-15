@@ -13,6 +13,7 @@ const reservationSchema = new Schema({
     selected_seat: String,  
   });
   
-const Reservation = mongoose.model('Reservation', reservationSchema);
+const Reservation = mongoose.model('reservation', reservationSchema);
 
 module.exports = Reservation;
+ 

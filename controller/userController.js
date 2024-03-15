@@ -79,6 +79,29 @@ exports.loginUser = async (req, res) => {
 };
 
 
+exports.getUser = async (req, res) => {
+    try {
+        const db = client.db(DB_NAME);
+        const users = db.collection('users');
+        const user = await users.findOne({ username: req.session.username });
+        res.status(200).json(user);
+    } catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+};
+
+exports.getUserReservations = async (req, res) => {
+    try {
+        const db = client.db(DB_NAME);
+        //const users = db.collection('users');
+        //const user = await users.findOne({ username: req.session.username });
+        const reservation =  db.collection('reservation');
+        const Reservation = await reservation.find({ reservation: req.session.username }).toArray();
+        res.status(200).json(Reservation);
+    } catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+};
 
 
 

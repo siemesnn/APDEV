@@ -84,9 +84,16 @@ app.get('/profile', async (req, res) => {
         const user = await users.findOne({ username });
 
         if (user) {
+            const reservation = db.collection('reservation');
+            const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
+
+
+            console.log("User Reservations:", Reservation); // Log the reservations to the console
+
             res.render('profile_edit', {
-                title: 'Labyrinth - Profile Page',
-                user: user // Pass the user object to the template
+                title: 'Labyrinth - Profile Page', 
+                user: user, // Pass the user object to the template
+                Reservation: Reservation 
             });
         } else {
             // Handle case where user is not found (optional)
@@ -96,27 +103,38 @@ app.get('/profile', async (req, res) => {
         console.error(err);
         res.status(500).render('error', { message: 'Internal server error' });
     }
-});
+}); 
 
 
 
-//for viewing commented out const etc.
-app.get('/edittprofile', (req, res) => {
-    // Retrieve the username from the session or query parameter
-    //const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
+//for viewing commented out const etc. 
+app.get('/edittprofile', async (req, res) => {
+    try {
+        const username = req.session.username; 
+        const db = client.db(DB_NAME);
+        const users = db.collection('users');
+        const user = await users.findOne({ username });
 
-    // Retrieve user as an object 
-    //const user = users.find(user => user.username === username); // Like this muna since wala pang db : )
+        if (user) {
+            const reservation = db.collection('reservation');
+            const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
 
 
-    res.render('profile_editting_page', 
-        {
-            title: 'Labyrinth - Edit Profile Page', 
-            //username: username,
-            //user: user // Rendering user para sa description DONT CHANGE PLS TY IM BEGIGNG YOU 
-        
-        }    
-    );
+            console.log("User Reservations:", Reservation); // Log the reservations to the console
+
+            res.render('profile_editting_page', {
+                title: 'Labyrinth - Edit Profile Page', 
+                user: user, // Pass the user object to the template
+                Reservation: Reservation 
+            });
+        } else {
+            // Handle case where user is not found (optional)
+            res.status(404).render('error', { message: 'User not found' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).render('error', { message: 'Internal server error' });
+    }
 });
 
 
@@ -148,8 +166,6 @@ app.post('/reservation/:labId', (req, res) => {
         res.render('reserve/reservation', { title: 'Reserve a Seat', username: req.session.username, labId: selectedLab });
     } else {
         res.status(401).json({ message: 'Unauthorized' });
-    }
-});
 
 
 //Handle GET request to the /resconfirmation route
