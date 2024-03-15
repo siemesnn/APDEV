@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/sidebar-admin.css">
     <link rel="stylesheet" href="css/colors.css">
-    <script src="/js/login.js"></script>
     <title>{{title}}</title>
 </head>
 <body>
@@ -23,7 +22,7 @@
     </p>
   </div>
 
-  <form  id="login-form">
+  <form action="/api/users/login" method="post" id="login-form">
     <div class="login">
       <h1 id="loginheader">USER LOGIN</h1>
       <img src="assets/username.png" id="userpng">
@@ -45,5 +44,7 @@
     </div>
   </form>
 
+{{!-- {{> footer }} --}}
+ 
 </body>
 </html>
