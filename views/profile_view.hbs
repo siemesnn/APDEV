@@ -66,17 +66,18 @@
                     </tr>
                 </thead> 
                 <tbody>
-                    {{#each reservations}}
+                    {{#each Reservation}}
                         <tr>
-                            <td>{{ reservations.lab }}</td>
-                            <td>{{  reservations.seat }}</td>
-                            <td>{{  reservations.date }}</td>
-                            <td>{{  reservations.time }} </td>
+                            <td>{{#if lab}}{{ lab }}{{else}}N/A{{/if}}</td>
+                            <td>{{#if seat}}{{ seat }}{{else}}N/A{{/if}}</td>
+                            <td>{{#if date}}{{ date }}{{else}}N/A{{/if}}</td>
+                            <td>{{#if time}}{{ time }}{{else}}N/A{{/if}}</td>
                             <!-- Calculate End Time based on Start Time and Duration -->
-                            <td>{{  reservations.end_time }}</td>
-                            <td>{{  reservations.reserved_by }}</td>
+                            <td>{{#if end_time}}{{ end_time }}{{else}}N/A{{/if}}</td>
+                            <td>{{#if reserved_by.username}}{{ reserved_by.username }}{{else}}N/A{{/if}}</td>
                         </tr>
                     {{/each}}
+
                 </tbody> 
             </table>
         </div>

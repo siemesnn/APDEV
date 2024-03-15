@@ -89,9 +89,16 @@ app.get('/profile', async (req, res) => {
         const user = await users.findOne({ username });
 
         if (user) {
+            const reservation = db.collection('reservation');
+            const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
+
+
+            console.log("User Reservations:", Reservation); // Log the reservations to the console
+
             res.render('profile_edit', {
-                title: 'Labyrinth - Profile Page',
-                user: user // Pass the user object to the template
+                title: 'Labyrinth - Profile Page', 
+                user: user, // Pass the user object to the template
+                Reservation: Reservation 
             });
         } else {
             // Handle case where user is not found (optional)
@@ -101,11 +108,11 @@ app.get('/profile', async (req, res) => {
         console.error(err);
         res.status(500).render('error', { message: 'Internal server error' });
     }
-});
+}); 
 
 
 
-//for viewing commented out const etc.
+//for viewing commented out const etc. 
 app.get('/edittprofile', (req, res) => {
     // Retrieve the username from the session or query parameter
     //const username = req.session.username || 'Guest'; // Default to 'Guest' if not found
