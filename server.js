@@ -167,16 +167,7 @@ app.post('/reservation/:labId', (req, res) => {
     } else {
         res.status(401).json({ message: 'Unauthorized' });
 
-
 //Handle GET request to the /resconfirmation route
-app.get('/resconfirmation', (req, res) => {
-    if (req.session.authenticated) {
-        const selectedLab = req.params.labId; // Access lab ID from route parameters
-        res.render('reserve/resconfirmation', { title: 'Reserve a Seat', username: req.session.username, labId: selectedLab });
-    } else {
-        res.status(401).json({ message: 'Unauthorized' });
-    }
-});
 
 
 // Start the server
