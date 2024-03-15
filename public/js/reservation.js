@@ -1,34 +1,41 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const registerForm = document.getElementById('registerForm');
-    const statusMsg = document.getElementById('status-msg');
+document.addEventListener('DOMContentLoaded', function() {
+    function handleReservation(event) {
+        event.preventDefault(); // Prevent default form submission
+    
+        // Extract data from the form
+        const dates = document.getElementById('dates').value;
+        const startTime = document.getElementById('start-time').value;
+        const endTime = document.getElementById('end-time').value;
 
-    registerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirm-password').value;
-
-
-
-        if (username === '' || password === '' || confirmPassword === '') {
-            statusMsg.textContent = "Fields cannot be empty!";
-            return;
-        }
-
-        const response = await fetch('/api/user/register', {
+        console.log(dates)
+ 
+        // You can also extract other form data if needed
+    
+        // Perform AJAX request to submit the reservation data
+        // Example using fetch API
+        fetch('/api/labs/reserve', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password, confirmPassword }),
+            headers: {
+                'Content-Type': 'application/json' // Assuming you're sending JSON data
+            },
+            body: JSON.stringify({ dates, start_time: startTime, end_time: endTime })
+        })
+        .then(response => {
+            if (response.ok) {
+                // Reservation successful, handle response as needed
+                // For example, show a success message to the user
+                alert('Reservation successful!');
+            } else {
+                // Reservation failed, handle error response
+                // For example, show an error message to the user
+                alert('Reservation failed!');
+            }
+        })
+        .catch(error => {
+            // Error occurred during the request, handle accordingly
+            console.error('Error:', error);
+            alert('Reservation failed due to an error!');
         });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            statusMsg.textContent = "Registration successful";
-            window.location.href = '/';
-        } else {
-            statusMsg.textContent = data.message;
-        }
-    });
-});
+    }
+    
+})
