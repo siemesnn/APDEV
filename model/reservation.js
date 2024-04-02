@@ -1,19 +1,16 @@
-const mongoose = require('mongoose'); // Assuming you're using Mongoose
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema({
-    
     date: String,
-    time: String,
+    start_time: String,
     end_time: String,
-    duration: Number,
-    lab: String,
+    lab_id: String,
     anonymous: String,
-    reserved_by: String, // This should match the model name of your user schema
-    selected_seat: String,  
-  });
-  
-const Reservation = mongoose.model('reservation', reservationSchema);
+    reserved_by: { type: Schema.Types.ObjectId, ref: 'User' }, // Reference to User model
+    seatNumber: Number
+});
+
+const Reservation = mongoose.model('Reservation', reservationSchema);
 
 module.exports = Reservation;
- 

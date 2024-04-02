@@ -2,24 +2,46 @@ const Lab = require('../model/lab');
 const {client, DB_NAME } = require('../model/database');
 const Reservation = require('../model/reservation');
 
-
 exports.reserveASeat = async (req, res) => {
     try {
-        const { seatNumber } = req.body; // This is one of the buttons ung seat 
-        // Get from the url parameter
-        const { lab_id } = req.params; // eto ung lab id so ex. reservation/a where a is the labid 
-        const username = req.session.username; // Get the username from the session
-        const user = await lab_id.findOne({ seatNumber: seatNumber }); // So pag nahanap
-        if (user.userAssignedTo === null) {
-            await lab_id.updateOne({ seatNumber: seatNumber }, { $set: { userAssignedTo: username } });
-            res.status(201).json({ message: "Seat reserved" });
+        const { seatNumber, date, start_time, end_time } = req.body
+        const lab_id = req.params.labId // Kuwa sa url
+        const username = req.session.username;
+
+        const lab = await Lab.findOne({ lab_id }).lean().exec();
+
+        if (!lab) {
+            return res.status(404).json({ message: "Lab not found" });
+        }
+
+        const seat = lab.seats.find(seat => seat.seatNumber === seatNumber);
+
+        if (!seat) {
+            return res.status(404).json({ message: "Seat not found" });
+        }
+
+        if (seat.reservations.length === 0) {
+            const newReservation = new Reservation({
+                date,
+                start_time,
+                end_time,
+                lab_id,
+                reserved_by: username,
+                seatNumber
+            });
+            seat.reservations.push({ reservation: newReservation });
+            await Lab.findByIdAndUpdate(lab._id, lab); // Update the lab
+            return res.status(201).json({ message: "Reservation successful" });
         } else {
-            res.status(400).json({ message: "Seat already reserved" });
+            return res.status(409).json({ message: "Seat is already reserved" });
         }
     } catch (e) {
-        res.status(500).json({ message: e.message });
+        console.error("Error occurred while reserving seat:", e);
+        return res.status(500).json({ message: "Internal server error", lab_id, date, start_time, end_time, reserved_by, seatNumber });
     }
 }
+
+
 
 
 

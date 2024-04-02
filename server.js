@@ -36,7 +36,6 @@ app.use(
 // API Endpoints
 app.use('/api/users', userRoutes);
 app.use('/api/labs', labroutes);
-// app.use('/api/reservations', reservationRoutes);
 
 
 
