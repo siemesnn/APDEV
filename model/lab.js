@@ -2,14 +2,84 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const labSchema = Schema({
-    name: String,
-    capacity: Number,
+    id: String,
     seats: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Seat'
+            seatNumber: 1,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 2,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 3,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 4,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 5,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 6,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 7,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 8,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 9,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 10,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 11,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 12,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 13,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 14,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 15,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 16,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 17,
+            userAssignedTo: null
+        },
+        {
+            seatNumber: 18,
+            userAssignedTo: null
         }
-    ]
+    ],
+
+    capacity: 18,
+    
 
 });
 

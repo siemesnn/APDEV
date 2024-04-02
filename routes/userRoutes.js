@@ -9,9 +9,9 @@ router.get('/profile', userController.getUser);
 router.get('/edittprofile', userController.getUser);
 router.get('/reserve', userController.getUser);
 router.get('/viewprofile', userController.getUser);
+router.post('/editDescription', userController.editDescription);
+router.post('/editPFP', userController.editPFP);
 
 
 
-// route.get('/getUser', userController.getUser);
-// router.post('profile-edit', userController.editProfile);
 module.exports = router;

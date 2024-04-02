@@ -4,34 +4,22 @@ const Reservation = require('../model/reservation');
 
 
 exports.reserveASeat = async (req, res) => {
-    const db = client.db(DB_NAME);
-    const reservationCollection = db.collection('reservation');
     try {
-        const { dates, start_time, end_time, anonymous, selected_seat } = req.body;
-        const labId = req.params.labId; // Access labId from request parameters
-
-        // Assuming you're also passing lab_id in the request body, you can access it as well
-        const lab = req.body.lab_id;
-
-        const isAnonymous = req.body['anon-checkbox'] === 'anonymous';
-
-        const newReservation = new Reservation({
-            date: dates,
-            time: start_time,
-            end_time: end_time,
-            lab: labId, // Use labId here instead of lab
-            anonymous: isAnonymous,
-            reserved_by: req.session.username,
-            selected_seat: selected_seat
-        });
-
-        await reservationCollection.insertOne(newReservation);
-
-        res.json({ newReservation });
+        const { seatNumber } = req.body; // This is one of the buttons ung seat 
+        // Get from the url parameter
+        const { lab_id } = req.params; // eto ung lab id so ex. reservation/a where a is the labid 
+        const username = req.session.username; // Get the username from the session
+        const user = await lab_id.findOne({ seatNumber: seatNumber }); // So pag nahanap
+        if (user.userAssignedTo === null) {
+            await lab_id.updateOne({ seatNumber: seatNumber }, { $set: { userAssignedTo: username } });
+            res.status(201).json({ message: "Seat reserved" });
+        } else {
+            res.status(400).json({ message: "Seat already reserved" });
+        }
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
-};
+}
 
 
 
