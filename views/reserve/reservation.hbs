@@ -100,16 +100,16 @@
         <div class="seats-container">
             <div class="container-a">
                 <div class="seat-area">
-                    {{#each lab.seats}}
-                        <div class="seat-container">
-                            {{#if (getReservationDate this.reservations ../date)}}
-                                <!-- Seat is reserved for the desired date -->
-                                <img id="seat{{this.seatNumber}}" class="seat" src="/assets/taken.png" alt="Reserved Seat" onclick="toggleSeatStatus('seat{{this.seatNumber}}')">
-                            {{else}}
-                                <!-- Seat is available for the desired date -->
-                                <img id="seat{{this.seatNumber}}" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat{{this.seatNumber}}')">
-                            {{/if}}
-                        </div>
+                   {{#each lab.seats}}
+                    <div class="seat-container">
+                        {{#if (getReservationDate this.reservations ../date ../currentTime)}}
+                            <!-- Seat is reserved for the desired date -->
+                            <img id="seat{{this.seatNumber}}" class="seat" src="/assets/taken.png" alt="Reserved Seat" onclick="toggleSeatStatus('seat{{this.seatNumber}}')">
+                        {{else}}
+                            <!-- Seat is available for the desired date -->
+                            <img id="seat{{this.seatNumber}}" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat{{this.seatNumber}}')">
+                        {{/if}}
+                    </div>
                     {{/each}}
                 </div>
             </div>

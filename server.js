@@ -42,11 +42,20 @@ app.use('/api/labs', labroutes);
 
 
 // For handlebars 
-hbs.registerHelper('getReservationDate', function(reservations, desiredDate) {
+hbs.registerHelper('getReservationDate', function(reservations, desiredDate, current_time) {
+
+
+    console.log("Current Time Passed:", current_time);
+    console.log("Reservations start_time Passed: ", reservations.start_time);
+    console.log("Reservations end_time Passed:", reservations.end_time);
+
+
     for (let i = 0; i < reservations.length; i++) {
         const reservation = reservations[i];
         if (reservation.date === desiredDate) {
-            return true;
+            if (current_time >= reservation.start_time && current_time <= reservation.end_time) {
+                return true;
+            }
         }
     }
     return false;
@@ -254,9 +263,14 @@ app.post('/reservation/:labId', async (req, res) => {
             const currentDate = new Date();
             const currentDateStr = currentDate.toISOString().split('T')[0]; // Extract date part
 
+            // Extract current hours and minutes
+            const currentHours = currentDate.getHours().toString().padStart(2, '0'); // Ensure two digits with leading zero
+            const currentMinutes = currentDate.getMinutes().toString().padStart(2, '0'); // Ensure two digits with leading zero
+
+            const currentTime = `${currentHours}:${currentMinutes}`; // Construct the current time string
 
             console.log("Current Date:", currentDateStr);
-            const currentTime = currentDate.getHours() + ":" + currentDate.getMinutes();
+            console.log("Current Time:", currentTime);
 
             const selectedLab = req.params.labId; // Access lab ID from route parameters
 
@@ -278,6 +292,7 @@ app.post('/reservation/:labId', async (req, res) => {
         res.status(401).json({ message: 'Unauthorized' });
     }
 });
+
 
 
 
