@@ -6,6 +6,11 @@
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/sidebar-admin.css">
     <link rel="stylesheet" href="/css/colors.css">
+
+
+    <link rel="stylesheet" href="/css/reserve.css">
+
+
     <title>{{title}}</title>
     <script defer src="/js/reservation.js"></script>
 </head>
@@ -35,12 +40,11 @@
 </aside>
 
 <body>
-    <link rel="stylesheet" href="/css/reserve.css">
     <div class="notSidebar">
 
         <div class="greeting">
             {{!-- change the handlebar to the actual chosen lab --}}
-            <h1 id="lab-name"> Laboratory <span id="lab_id">{{labId}}</span></h1>
+            <h1 id="lab-name"> Laboratory <span id="lab_id">{{lab.name}}</span></h1>
             <h2 id="usernameid"> Hello, {{username}} </h2>
         </div>
 
@@ -51,7 +55,7 @@
 
             <div class="left-panel">
             
-                <form class="reserve-form" action="" method="">
+            <form class="reserve-form" action="" method="">
                <div class="date-time">
                     <label for="datesLabel">Choose a date: </label>
                     <select id="dates" name="dates"></select>
@@ -66,7 +70,6 @@
                         <input type="checkbox" id="anon-checkbox" name="anon-checkbox" value="anonymous">
                         <label for="anon">Reserve Anonymously</label>   
                     </div>
-                    
                 </div>
             
             {{!-- <button type="submit" value="Reserve" id="reserve-button"> --}}
@@ -94,235 +97,32 @@
                         </div>
                      </div>
                 </div>
-
-                <div class="seats-container">
-                    <div class="container-a">
-                        {{!-- seats 1-3--}}
-                        <div class="seatContainer1">
-                            <input type="radio" id="01" class="seat-radio visually-hidden" name="selected_seat" value="1">
-                            <img id="seat1" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat1')">
-
-                            <input type="radio" id="02" class="seat-radio visually-hidden" name="selected_seat" value = "2">
-                            <img id="seat2" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat2')">
-
-                            <input type="radio" id="03" class="seat-radio visually-hidden" name="selected_seat" value="3">
-                            <img id="seat3" class="seat" src="/assets/taken.png" alt="Taken Seat" onclick="showPopup('seat3')">
-                            <div class="popup" id="popup-seat3"><span class="res-info">This seat is reserved by: </span> <a href="#">woopy</a> </div>
+        <div class="seats-container">
+            <div class="container-a">
+                <div class="seat-area">
+                    {{#each lab.seats}}
+                        <div class="seat-container">
+                            {{#if (getReservationDate this.reservations ../date)}}
+                                <!-- Seat is reserved for the desired date -->
+                                <img id="seat{{this.seatNumber}}" class="seat" src="/assets/taken.png" alt="Reserved Seat" onclick="toggleSeatStatus('seat{{this.seatNumber}}')">
+                            {{else}}
+                                <!-- Seat is available for the desired date -->
+                                <img id="seat{{this.seatNumber}}" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat{{this.seatNumber}}')">
+                            {{/if}}
                         </div>
-                        
-                        {{!-- seats 4-6 --}}
-                        <div class="seatContainer2">
-                            <input type="radio" id="04" class="seat-radio visually-hidden" name="selected_seat" value = "4">
-                            <img id="seat4" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat4')">
-    
-                            <input type="radio" id="05" class="seat-radio visually-hidden" name="selected_seat" value = "5">
-                            <img id="seat5" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat5')">
+                    {{/each}}
+                </div>
+            </div>
+        </div>
 
-                            <input type="radio" id="06" class="seat-radio visually-hidden" name="selected_seat" value="6">
-                            <img id="seat6" class="seat" src="/assets/taken.png" alt="Taken Seat" onclick="showPopup('seat6')">
-                            <div class="popup" id="popup-seat6"><span class="res-info">This seat is reserved by: </span> <a href="#">woopy</a> </div>
-                        </div>
-
-                        {{!-- seats 7-9 --}}
-                        <div class="seatContainer3">
-                            <input type="radio" id="07" class="seat-radio visually-hidden" name="selected_seat" value = "7">
-                            <img id="seat7" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat7')">
-    
-                            <input type="radio" id="08" class="seat-radio visually-hidden"name="selected_seat" value = "8">
-                            <img id="seat8" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat8')">
-
-                            <input type="radio" id="09" class="seat-radio visually-hidden" name="selected_seat" value="9">
-                            <img id="seat9" class="seat" src="/assets/taken.png" alt="Taken Seat" onclick="showPopup('seat9')">
-                            <div class="popup" id="popup-seat9"><span class="res-info">This seat is reserved by: </span> <a href="#">woopy</a> </div>
-                        </div>
-                    </div> {{!-- end of container a div --}}
-            
-                    <div class="container-b">
-                        {{!-- seats 10-12 --}}
-                        <div class="seatContainer4">
-                            <input type="radio" id="10" class="seat-radio visually-hidden"name="selected_seat" value="10">
-                            <img id="seat10" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat10')">
-            
-                            <input type="radio" id="11" class="seat-radio visually-hidden"name="selected_seat" value="11">
-                            <img id="seat11" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat11')">
-        
-                            <div class="popup" id="popup10"></div> <!-- Popup for the last seat of this container -->
-            
-                            <input type="radio" id="12" class="seat-radio visually-hidden" name="selected_seat" value="12">
-                            <img id="seat12" class="seat" src="/assets/taken.png" alt="Taken Seat" onclick="showPopup('seat12')">
-                            <div class="popup" id="popup-seat12"><span class="res-info">This seat is reserved by: </span> <a href="#">woopy</a> </div>
-                        </div>
-        
-                        {{!-- for seats 13-15 --}}
-                        <div class="seatContainer5">
-                            <input type="radio" id="13" class="seat-radio visually-hidden" name="selected_seat" value = "13">
-                            <img id="seat13" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat13')">
-            
-                            <input type="radio" id="14" class="seat-radio visually-hidden" name="selected_seat" value = "14">
-                            <img id="seat14" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat14')">
-        
-                            <div class="popup" id="popup14"></div> <!-- Popup for the last seat of this container -->
-        
-                            <input type="radio" id="15" class="seat-radio visually-hidden" name="selected_seat" value="15">
-                            <img id="seat15" class="seat" src="/assets/taken.png" alt="Taken Seat" onclick="showPopup('seat15')">
-                            <div class="popup" id="popup-seat15"><span class="res-info">This seat is reserved by: </span> <a href="#">woopy</a> </div>
-                        </div>
-
-                        {{!-- for seats 16-18 --}}
-                        <div class="seatContainer6">
-                            <input type="radio" id="16" class="seat-radio visually-hidden" name="selected_seat" value = "16">
-                            <img id="seat16" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat16')">
-            
-                            <input type="radio" id="17" class="seat-radio visually-hidden" name="selected_seat" value = "17">
-                            <img id="seat17" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat17')">
-        
-                            <div class="popup" id="popup17"></div> <!-- Popup for the last seat of this container -->
-        
-                            <input type="radio" id="18" class="seat-radio visually-hidden" name="selected_seat" value="18">
-                            <img id="seat3" class="seat" src="/assets/taken.png" alt="Taken Seat" onclick="showPopup('seat18')">
-                            <div class="popup" id="popup-seat18"><span class="res-info">This seat is reserved by: </span> <a href="#">woopy</a> </div>
-                        </div>
-                    </div> {{!-- end of container b div --}}
-
-                </div> {{!--end of seats container div --}}
-            </form>
+            </div>
+        </form>
             </div> {{!-- end of right panel div --}}
             
         </div> {{!-- end of elements container div --}}
         <div id="confirmationPopup" style="display: none;">
         <h2>{{confirmationMessage}}</h2>
     </div>
-
-
-<script>
-    // Function to generate date options for the next 7 days
-    function generateDateOptions() {
-        const select = document.getElementById('dates');
-        const today = new Date();
-
-        for (let i = 0; i < 8; i++) {
-            const date = new Date(today);
-            date.setDate(today.getDate() + i);
-
-            const option = document.createElement('option');
-            option.value = date.toISOString().split('T')[0];
-            option.textContent = date.toDateString();
-            select.appendChild(option);
-            }
-    } //ytu
-
-    // Function to generate time options with 1-hour intervals for start time and 30-minute intervals for end time
-    function generateTimeOptions() {
-        const selectStartTime = document.getElementById('start_time');
-        const selectEndTime = document.getElementById('end_time');
-
-        const startTime = new Date();
-        startTime.setHours(8, 0, 0); // Set start time to 8:00 AM
-
-        const endTime = new Date();
-        endTime.setHours(18, 0, 0); // Set end time to 6:00 PM
-
-        const intervalStart = 60 * 60 * 1000; // 1 hour in milliseconds
-        const intervalEnd = 30 * 60 * 1000; // 30 minutes in milliseconds
-
-        while (startTime < endTime) {
-            // Add start time option
-            const startOption = document.createElement('option');
-            startOption.value = startTime.toTimeString().split(' ')[0];
-            startOption.textContent = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            selectStartTime.appendChild(startOption);
-
-        // Check if adding another interval will exceed the end time
-        if (startTime.getTime() + intervalEnd <= endTime.getTime()) {
-            // Add end time option
-            const endTimeAdjusted = new Date(startTime.getTime() + intervalEnd);
-            const endOption = document.createElement('option');
-            endOption.value = endTimeAdjusted.toTimeString().split(' ')[0];
-            endOption.textContent = endTimeAdjusted.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            selectEndTime.appendChild(endOption);
-        }
-
-        // Move to the next hour for start time
-        startTime.setTime(startTime.getTime() + intervalStart);
-
-        // Convert start time and end time 
-    }
-}
-
-    generateDateOptions();
-    generateTimeOptions();
-
-      let lastClickedSeatId = null; // Initialize lastClickedSeatId to null
-
-    // Function to toggle seat status
-    function toggleSeatStatus(seatId) {
-        const seat = document.getElementById(seatId);
-
-        // Check if the seat is available and not taken
-        if (seat.src.endsWith('available.png') && !seat.src.endsWith('taken.png')) {
-            // Deselect the previously selected seat if any
-            if (lastClickedSeatId !== null) {
-                const previousSelectedSeat = document.getElementById(lastClickedSeatId);
-                previousSelectedSeat.src = '/assets/available.png';
-            }
-            // Set lastClickedSeatId to the current seatId
-            lastClickedSeatId = seatId;
-            // Change image to selected.png
-            seat.src = '/assets/selected.png';
-        } else if (seat.src.endsWith('selected.png')) {
-            // Deselect the seat if it is already selected
-            lastClickedSeatId = null;
-            // Change image back to available.png
-            seat.src = '/assets/available.png';
-        }
-        // Update the value of the hidden input field with the ID of the last clicked seat
-        document.getElementById('selected-seat').value = lastClickedSeatId || '';
-    }
-
-    //Function to show the pop up
-   function showPopup(seatId) {
-    const popup = document.getElementById(`popup-${seatId}`);
-    if (popup.style.display === 'block') {
-        popup.style.display = 'none';
-    } else {
-        popup.style.display = 'block';
-    }
-    }
-
-    // Function to hide popup
-    function hidePopup(seatId) {
-    const popup = document.getElementById(`popup-${seatId}`);
-    popup.style.display = 'none';
-    }
-
-    function navigateTo(url) {
-        window.location.href = url;
-    }
-        
-   // const userRole = '{{user.role}}'; // Replace with the actual variable storing 
-    //const adminView = document.querySelector('.admin-view'); // Corrected the selector
-
-    //if (userRole === 'admin') {
-        // Clear existing content
-      //  adminView.innerHTML = '';
-         // Create a link element and set its attributes
-        // Add the admin form to the admin view
-        //adminView.innerHTML = '<div class="admin-form" id="adminForm"><form><label for="adminInput">Reserve seat for: </label><input type="text" id="adminInput" name="adminInput"></form></div>';
-    //}
-    //else {
-        // If the user is not an admin, you may want to hide the admin view
-      //  adminView.style.display = 'none';
-    //}   
-
-     //when button is hovered, background color changes
-    document.querySelector('.reserve-button').addEventListener('mouseover', function() {
-    this.style.backgroundColor = 'light';
-    });
-
-    document.querySelector('.reserve-button').addEventListener('mouseout', function() {
-    this.style.backgroundColor = '';
-    }); 
-</script>
 
     </div>
 

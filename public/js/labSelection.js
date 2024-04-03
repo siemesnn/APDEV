@@ -5,15 +5,15 @@ document.addEventListener ('DOMContentLoaded', () => {
     }
 
     document.getElementById('lab-a').addEventListener('click', function() {
-        handleLabClick('a');
+        handleLabClick('A');
     });
 
     document.getElementById('lab-b').addEventListener('click', function() {
-        handleLabClick('b');
+        handleLabClick('B');
     });
 
     document.getElementById('lab-c').addEventListener('click', function() {
-        handleLabClick('c');
+        handleLabClick('C');
     });
 
 });
