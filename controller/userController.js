@@ -9,6 +9,9 @@ exports.registerUser = async (req, res) => {
     try {
         const { name, email, username, password, confirmPassword, role } = req.body;
 
+        console.log("password ", password);
+        console.log("confirmPassword", confirmPassword);
+
         if (password !== confirmPassword) {
             res.status(400).json({ message: "Passwords do not match!" });
             return;
@@ -23,13 +26,21 @@ exports.registerUser = async (req, res) => {
         }
 
         // Hash the password before storing it in the database
+        const bcrypt = require("bcrypt");
+        const saltRounds = 10;
+        console.log("saltRounds ", saltRounds);
+        console.log("Password", password);
+
+        const hash = await bcrypt.hash(password, saltRounds);
+        console.log("Hash ", hash);
+        console.log("Password", password);
 
         // Create a new user document using the Mongoose model
         const newUser = new User({
             name,
             email,
             username,
-            password,
+            password: hash,
             role,
             description : '',
             profilePicture: 'https://www.redditstatic.com/avatars/avatar_default_02_4856A3.png',
