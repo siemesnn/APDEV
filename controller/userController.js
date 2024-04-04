@@ -93,3 +93,30 @@ exports.getUser = async (req, res) => {
 
 
 
+exports.editDescription = async (req, res) => {
+    try {
+        const db = client.db(DB_NAME);
+        const users = db.collection('users');
+        const user = await users.findOne({ username: req.session.username });
+
+        await users.updateOne({ username: req.session.username }, { $set: { description: req.body.description } });
+
+        res.status(200).json({ message: "Description updated" });
+    } catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+}
+
+exports.editPFP = async (req, res) => {
+    try {
+        const db = client.db(DB_NAME);
+        const users = db.collection('users');
+        const user = await users.findOne({ username: req.session.username });
+
+        await users.updateOne({ username: req.session.username }, { $set: { pictureURL: req.body.pictureURL } });
+
+        res.status(200).json({ message: "Profile Picture updated" });
+    } catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+}

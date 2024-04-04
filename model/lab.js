@@ -1,24 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const labSchema = Schema({
-    name: String,
-    capacity: Number,
-    seats: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Seat'
-        }
-    ]
-
+const seatSchema = new Schema({
+    seatNumber: Number,
+    reservations: [{ type: Schema.Types.ObjectId, ref: 'Reservation' }] // Reference to Reservation model
 });
 
-const lab = mongoose.model('lab', labSchema);
+const labSchema = Schema({
+    name: String,
+    seats: [seatSchema],
+    capacity: Number
+});
 
-module.exports = lab;
+const Lab = mongoose.model('Lab', labSchema);
 
-
-// laboratory.seats.get(0)
-
-// [pag pinindot ko to] [] [] []
-// laborotary.setas.get(0).userAssignedTo = req.session.username
+module.exports = Lab;

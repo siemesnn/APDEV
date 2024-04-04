@@ -52,3 +52,10 @@ exports.getAllReservations = async (req, res) => {
     }
 };
 
+exports.createReservation = async (req, res) => {
+    try {
+      
+    }catch(e) {
+
+    }
+}
