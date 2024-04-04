@@ -94,6 +94,8 @@
                         </div>
 
                         <input type="submit" name="submit-button" id="check_availability" value="Check Availability"/> 
+
+                        <button id="reserve-button" class="reserve-button" type="button">Reserve</button>
                     </div>
                 </form>
             </div>
@@ -127,11 +129,11 @@
                         {{#if (getReservationDate this.reservations ../date ../currentTime)}}
                             <!-- Seat is reserved for the desired date -->
                             <div class="reserved-seat">
-                                <img id="seat{{this.seatNumber}}" class="seat" src="/assets/taken.png" alt="Reserved Seat" onclick="toggleSeatStatus('seat{{this.seatNumber}}')">
+                                <img id="{{this.seatNumber}}" class="seat" src="/assets/taken.png" alt="Reserved Seat" onclick="toggleSeatStatus('{{this.seatNumber}}')">
                             </div>
                         {{else}}
                             <!-- Seat is available for the desired date -->
-                            <img id="seat{{this.seatNumber}}" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat{{this.seatNumber}}')">
+                            <img id="{{this.seatNumber}}" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('{{this.seatNumber}}')">
                         {{/if}}
                     </div>
                 {{/each}}

@@ -252,7 +252,6 @@ app.post('/reservation/:labId', async (req, res) => {
                 return res.status(404).json({ message: 'Lab not found' });
             }
 
-
             const currentDate = new Date();
         
             const currentDateStr = currentDate.toISOString().split('T')[0]; // Extract date part
@@ -264,8 +263,14 @@ app.post('/reservation/:labId', async (req, res) => {
             const currentTime = `${currentHours}:${currentMinutes}`; // Construct the current time string
 
             const dates = req.body.dates || 0;
-            const start_time = req.body.start_time || 0;
-            const end_time = req.body.end_time || 0;
+            let start_time = req.body.start_time || 0;
+            let end_time = req.body.end_time || 0;
+
+
+            if (start_time != 0 && end_time != 0) {
+                start_time = start_time.split(':').slice(0, 2).join(':');
+                end_time = end_time.split(':').slice(0, 2).join(':');
+            }
 
             console.log("dates:", dates);
             console.log("start_time:", start_time);
@@ -283,7 +288,7 @@ app.post('/reservation/:labId', async (req, res) => {
                     labId: selectedLab,
                     lab: lab,
                     date: dates, // Pass the currentDate to the template
-                    currentTime: currentTime,
+                    currentTime: start_time,
                     start_time: start_time,
                     end_time: end_time
                 });

@@ -72,8 +72,8 @@ function generateTimeOptions() {
 generateDateOptions();
 generateTimeOptions();
 
-
-  let lastClickedSeatId = null; // Initialize lastClickedSeatId to null
+// Declare global variable to store last clicked seat ID
+let lastClickedSeatId = null;
 
 // Function to toggle seat status
 function toggleSeatStatus(seatId) {
@@ -125,16 +125,51 @@ this.style.backgroundColor = '';
 }); 
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Fetch request to retrieve the lab details 
+
+    const reserve_button = document.querySelector('.reserve-button');
+
+    reserve_button.addEventListener('click', async (e) => {
+        const selected_seat = lastClickedSeatId;
+        const date = document.getElementById('dates').value;
+        let start_time = document.getElementById('start_time').value;
+        let end_time = document.getElementById('end_time').value;
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    const dates = document.getElementById('dates');
-    const start_time = document.getElementById('start_time').value;
-    const end_time = document.getElementById('end_time').value;
+        start_time = start_time.split(':').slice(0, 2).join(':');
+        end_time = end_time.split(':').slice(0, 2).join(':');
 
-    // when dates value is changed, alert the new value
-    dates.addEventListener('change', function() {
-        alert(dates.value);
+        const labId = document.getElementById('lab_id').textContent;
+
+        const seatNumber = parseInt(selected_seat);
+        
+        // log all the values
+        console.log('Lab ID:', labId);
+        console.log('Date:', date);
+        console.log('Start Timsdaasde:', start_time);
+        console.log('End Timesdasd:', end_time);
+        console.log('Selected Seat:', seatNumber);
+
+        // fetch request /api/labs/reserve/:labId
+        const response = await fetch(`/api/labs/reserve/${labId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ date, start_time, end_time, seatNumber })
+        });
+
+        // Check if the reservation was successful
+        if (response.ok) {
+            // Redirect to the home page
+            alert("Reservation successful");
+            window.location.href = '/home';
+        } else {
+            // Handle errors or show a message to the user
+            const data = await response.json();
+            alert(data.message);
+        }
     });
 });
 

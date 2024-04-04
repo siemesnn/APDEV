@@ -6,8 +6,9 @@ exports.reserveASeat = async (req, res) => {
     const db = client.db(DB_NAME);
     const labs = db.collection('labs');
     try {
-        const { seatNumber, date, start_time, end_time, username } = req.body;
+        const { seatNumber, date, start_time, end_time } = req.body;
         const labName = req.params.labId;
+        const username = req.session.username;
 
         // Find the lab document by its name
         const lab = await labs.findOne({ name: labName });
