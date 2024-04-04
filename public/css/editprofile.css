@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Lexend Deca');
+@import url('https://fonts.googleapis.com/css?family=Inter');
 
 .notSidebar {
     flex: 1;
@@ -12,32 +14,39 @@ body {
 }
 
 .greeting-profile {
+    font-family: 'Lexend Deca';
     position: fixed;
     color: var(--one);
     font-size: 20px;
-    margin-bottom: 20px;
     padding-left: 90px;
+    padding-top: 100px;
 }
-
 
 
 .info{
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter';
     position: fixed; 
-    padding-left: 120px;
-    padding-top: 70px;
+    padding-left: 90px;
+    padding-top: 200px;
     overflow: hidden;
+    width: 760px;
+    height: 800px;
 }
 
-
+.text{
+    color: var(--one);
+}
 
 .image-container-profile {
-   position: fixed;
+    border: 1px solid var(--two,0,0,0.5);
+    position: fixed;
     top: 90px; /* Align the container to the top of the viewport */
-    right: 50px; /* Align the container to the right of the viewport */
-    width: 300px;
-    height: 300px;
+    right: 65px; /* Align the container to the right of the viewport */
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
-    /*padding: 10px;    */
     overflow: hidden;
 }
 
@@ -46,7 +55,6 @@ body {
     height: 100%;
     object-fit: cover; /* This property ensures the image covers the entire container */
   }
-
 
 
   @media (max-width: 1400px) {
@@ -63,54 +71,39 @@ body {
         padding-top: 70px; /* Adjust the top padding for smaller screens */
     }
 
-    .current-reservations {
-        padding-left: 0px; /* Adjust the left padding for smaller screens */
-    }
-
     .image-container-profile,
     .profile-buttons {
         display: none; /* Hide the profile picture on smaller screens */
     }
-
-    
-
 }
-
-.current-reservations {
-    overflow: auto; /* Enable scrolling if the content exceeds the height */
-    max-height: 300px; /* Set a maximum height for the table to enable scrolling */
-}
-
-.current-reservations table {
-    width: 100%; /* Make the table fill the entire width of its container */
-    border-collapse: collapse; /* Collapse table borders */
-}
-
-.current-reservations th, .current-reservations td {
-    background-color: var(--three);
-    padding: 8px; /* Add padding to table cells */
-    text-align: center; /* Align text to the center within table cells */
-    border-bottom: 1px solid var(--one); /* Add bottom border to table cells */
-}
-
-.current-reservations th {
-    background-color: var(--one); /* Set background color for table header */
-    color: white;
-}
-
-.current-reservations tbody tr:nth-child(even) td {
-    background-color: #eee2ff; /* Set alternate background color for even rows */
-}
-
-
-
 
 #descriptionInput {
-    width: 600px; /* Adjust width as needed */
-    height: 160px; /* Adjust height as needed */
-    font-size: 12px; /* Adjust the font size */
-    vertical-align: top;
-    padding-top: 50px;
+    width: 600px; 
+    height: 70px; 
+    font-size: 14px;
+    padding-left: 10px;
+    border: 2px solid var(--one);
+    border-radius: 5px;
+}
+
+/* highlights the selected input form */
+input[type=text]:focus {
+    background-color: #cfc6e8;
+}
+
+.upload-form{
+    width: fit-content;
+    height: fit-content;
+    margin-top: 370px;
+    margin-left: 950px;
+}
+
+#pictureURLInput {
+    color: black;
+    height: fit-content; 
+    font-size: 14px; 
+    border: 2px solid var(--one);
+    border-radius: 5px;
 }
 
 .profile-buttons {
@@ -126,8 +119,8 @@ body {
     margin-bottom: 15px;
     padding: 10px 15px;
     font-size: 16px;
-    background-color: grey;
-    color: #fff;
+    background-color: var(--one);
+    color: var(--three);
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -136,63 +129,7 @@ body {
 }
 
 .profile-buttons button:hover {
-    background-color: #0056b3;
-}
-
-.profile-buttons .red-text {
-    color: red; /* Change text color to red */
-}
-
-.sub-button {
-    display: block;
-    margin-top: 15px; /* Adjust the top margin as needed */
-    padding: 8px 16px;
-    font-size: 14px;
-    background-color: #6c757d; /* Use your desired sub-button color */
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.sub-button:hover {
-    background-color: #495057; /* Change the background color on hover */
-}
-
-/* Modal Styles */
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
-    left: 700px;
-    top: 250px;
-    width: 250px; 
-    height: 100%;
-    overflow: auto; 
-
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; 
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; 
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    margin-top: -15px; /* Adjust the margin to move the close button up */
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+    background-color: var(--two);
 }
 
 .button-container {
@@ -201,16 +138,9 @@ body {
     margin-top: 30px; /* Adjust as needed */
 }
 
-#confirmPasswordChangeButton {
-    margin-right: 10px; /* Add margin to the right of the "Confirm" button */
-}
 
 .input-container {
     margin-top: 25px; /* Adjust as needed */
     margin-bottom: 15px; /* Increase margin to add more space between input fields */
 }
 
-/* Adjust width of input fields */
-input[type="password"] {
-    width: 190px; /* Set desired width */
-}
