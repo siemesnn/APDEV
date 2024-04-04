@@ -14,46 +14,9 @@ function getSelectedSeat() {
 }
 
 
-document.getElementById('reserve-button').addEventListener('click', function(event) {
-    event.preventDefault(); // This prevents the default form submission
-    
-    const dates = document.getElementById('dates').value;
-    const start_time = document.getElementById('start_time').value;
-    const end_time = document.getElementById('end_time').value;
-    const lab_id = document.getElementById('lab_id').textContent;
-    const selected_seat = getSelectedSeat();
-    const anonCheckbox = document.getElementById('anon-checkbox');
-    const anon = anonCheckbox.checked ? 'True' : 'False';
 
-
-    // Pass lab_id in the request body
-    const requestBody = {
-        dates,
-        start_time,
-        end_time,
-        anon,
-        selected_seat,
-        lab_id
-    };
-
-
-    fetch('/api/labs/reserve/' + lab_id, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestBody) // Pass the requestBody as JSON string
-    }).then(response => response.json())
-    .then(data => {
-        alert("Reservation successful")
-        window.location.href = '/home';
-    })
-
-});
-
-
-  // Function to generate date options for the next 7 days
-  function generateDateOptions() {
+// Function to generate date options for the next 7 days
+function generateDateOptions() {
     const select = document.getElementById('dates');
     const today = new Date();
 
@@ -65,8 +28,8 @@ document.getElementById('reserve-button').addEventListener('click', function(eve
         option.value = date.toISOString().split('T')[0];
         option.textContent = date.toDateString();
         select.appendChild(option);
-        }
-} //ytu
+    }
+}
 
 // Function to generate time options with 1-hour intervals for start time and 30-minute intervals for end time
 function generateTimeOptions() {
@@ -163,5 +126,16 @@ this.style.backgroundColor = '';
 
 
 
+
+document.addEventListener('DOMContentLoaded', function() {
+    const dates = document.getElementById('dates');
+    const start_time = document.getElementById('start_time').value;
+    const end_time = document.getElementById('end_time').value;
+
+    // when dates value is changed, alert the new value
+    dates.addEventListener('change', function() {
+        alert(dates.value);
+    });
+});
 
 

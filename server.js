@@ -43,13 +43,6 @@ app.use('/api/labs', labroutes);
 
 // For handlebars 
 hbs.registerHelper('getReservationDate', function(reservations, desiredDate, current_time) {
-
-
-    console.log("Current Time Passed:", current_time);
-    console.log("Reservations start_time Passed: ", reservations.start_time);
-    console.log("Reservations end_time Passed:", reservations.end_time);
-
-
     for (let i = 0; i < reservations.length; i++) {
         const reservation = reservations[i];
         if (reservation.date === desiredDate) {
@@ -259,8 +252,9 @@ app.post('/reservation/:labId', async (req, res) => {
                 return res.status(404).json({ message: 'Lab not found' });
             }
 
-            // Get the current date and time
+
             const currentDate = new Date();
+        
             const currentDateStr = currentDate.toISOString().split('T')[0]; // Extract date part
 
             // Extract current hours and minutes
@@ -269,20 +263,40 @@ app.post('/reservation/:labId', async (req, res) => {
 
             const currentTime = `${currentHours}:${currentMinutes}`; // Construct the current time string
 
-            console.log("Current Date:", currentDateStr);
-            console.log("Current Time:", currentTime);
+            const dates = req.body.dates || 0;
+            const start_time = req.body.start_time || 0;
+            const end_time = req.body.end_time || 0;
+
+            console.log("dates:", dates);
+            console.log("start_time:", start_time);
+            console.log("end_time:", end_time);
+        
 
             const selectedLab = req.params.labId; // Access lab ID from route parameters
 
             // Pass the currentDate as date to the template
-            res.render('reserve/reservation', {
-                title: 'Reserve a Seat',
-                username: req.session.username,
-                labId: selectedLab,
-                lab: lab,
-                date: currentDateStr, // Pass the currentDate to the template
-                currentTime: currentTime,
-            });
+
+            if (dates != null && start_time != null && end_time != null) {
+                res.render('reserve/reservation', {
+                    title: 'Reserve a Seat',
+                    username: req.session.username,
+                    labId: selectedLab,
+                    lab: lab,
+                    date: dates, // Pass the currentDate to the template
+                    currentTime: currentTime,
+                    start_time: start_time,
+                    end_time: end_time
+                });
+            }else {
+                res.render('reserve/reservation', {
+                    title: 'Reserve a Seat',
+                    username: req.session.username,
+                    labId: selectedLab,
+                    lab: lab,
+                    date: currentDateStr, // Pass the currentDate to the template
+                    currentTime: currentTime,
+                });
+            }
 
         } catch (err) {
             console.error(err);
