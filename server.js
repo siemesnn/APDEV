@@ -96,7 +96,7 @@ app.get('/profile', async (req, res) => {
 
                 console.log("User Reservations:", Reservation); // Log the reservations to the console
 
-                res.render('profile_edit', {
+                res.render('view_profile', {
                     title: 'Labyrinth - Profile Page', 
                     user: user, // Pass the user object to the template
                     Reservation: Reservation 
@@ -111,7 +111,7 @@ app.get('/profile', async (req, res) => {
     
                     //console.log("User Reservations:", Reservation); // Log the reservations to the console
     
-                    res.render('admin_profile_edit', {
+                    res.render('admin_profile', {
                         title: 'Labyrinth - Profile Page', 
                         user: user, // Pass the user object to the template
                         //Reservation: Reservation 
