@@ -14,46 +14,9 @@ function getSelectedSeat() {
 }
 
 
-document.getElementById('reserve-button').addEventListener('click', function(event) {
-    event.preventDefault(); // This prevents the default form submission
-    
-    const dates = document.getElementById('dates').value;
-    const start_time = document.getElementById('start_time').value;
-    const end_time = document.getElementById('end_time').value;
-    const lab_id = document.getElementById('lab_id').textContent;
-    const selected_seat = getSelectedSeat();
-    const anonCheckbox = document.getElementById('anon-checkbox');
-    const anon = anonCheckbox.checked ? 'True' : 'False';
 
-
-    // Pass lab_id in the request body
-    const requestBody = {
-        dates,
-        start_time,
-        end_time,
-        anon,
-        selected_seat,
-        lab_id
-    };
-
-
-    fetch('/api/labs/reserve/' + lab_id, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestBody) // Pass the requestBody as JSON string
-    }).then(response => response.json())
-    .then(data => {
-        alert("Reservation successful")
-        window.location.href = '/home';
-    })
-
-});
-
-
-  // Function to generate date options for the next 7 days
-  function generateDateOptions() {
+// Function to generate date options for the next 7 days
+function generateDateOptions() {
     const select = document.getElementById('dates');
     const today = new Date();
 
@@ -65,8 +28,8 @@ document.getElementById('reserve-button').addEventListener('click', function(eve
         option.value = date.toISOString().split('T')[0];
         option.textContent = date.toDateString();
         select.appendChild(option);
-        }
-} //ytu
+    }
+}
 
 // Function to generate time options with 1-hour intervals for start time and 30-minute intervals for end time
 function generateTimeOptions() {
@@ -109,8 +72,8 @@ function generateTimeOptions() {
 generateDateOptions();
 generateTimeOptions();
 
-
-  let lastClickedSeatId = null; // Initialize lastClickedSeatId to null
+// Declare global variable to store last clicked seat ID
+let lastClickedSeatId = null;
 
 // Function to toggle seat status
 function toggleSeatStatus(seatId) {
@@ -162,6 +125,52 @@ this.style.backgroundColor = '';
 }); 
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Fetch request to retrieve the lab details 
 
+    const reserve_button = document.querySelector('.reserve-button');
+
+    reserve_button.addEventListener('click', async (e) => {
+        const selected_seat = lastClickedSeatId;
+        const date = document.getElementById('dates').value;
+        let start_time = document.getElementById('start_time').value;
+        let end_time = document.getElementById('end_time').value;
+
+
+        start_time = start_time.split(':').slice(0, 2).join(':');
+        end_time = end_time.split(':').slice(0, 2).join(':');
+
+        const labId = document.getElementById('lab_id').textContent;
+
+        const seatNumber = parseInt(selected_seat);
+        
+        // log all the values
+        console.log('Lab ID:', labId);
+        console.log('Date:', date);
+        console.log('Start Timsdaasde:', start_time);
+        console.log('End Timesdasd:', end_time);
+        console.log('Selected Seat:', seatNumber);
+
+        // fetch request /api/labs/reserve/:labId
+        const response = await fetch(`/api/labs/reserve/${labId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ date, start_time, end_time, seatNumber })
+        });
+
+        // Check if the reservation was successful
+        if (response.ok) {
+            // Redirect to the home page
+            alert("Reservation successful");
+            window.location.href = '/home';
+        } else {
+            // Handle errors or show a message to the user
+            const data = await response.json();
+            alert(data.message);
+        }
+    });
+});
 
 

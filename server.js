@@ -42,11 +42,13 @@ app.use('/api/labs', labroutes);
 
 
 // For handlebars 
-hbs.registerHelper('getReservationDate', function(reservations, desiredDate) {
+hbs.registerHelper('getReservationDate', function(reservations, desiredDate, current_time) {
     for (let i = 0; i < reservations.length; i++) {
         const reservation = reservations[i];
         if (reservation.date === desiredDate) {
-            return true;
+            if (current_time >= reservation.start_time && current_time <= reservation.end_time) {
+                return true;
+            }
         }
     }
     return false;
@@ -250,25 +252,56 @@ app.post('/reservation/:labId', async (req, res) => {
                 return res.status(404).json({ message: 'Lab not found' });
             }
 
-            // Get the current date and time
             const currentDate = new Date();
+        
             const currentDateStr = currentDate.toISOString().split('T')[0]; // Extract date part
 
+            // Extract current hours and minutes
+            const currentHours = currentDate.getHours().toString().padStart(2, '0'); // Ensure two digits with leading zero
+            const currentMinutes = currentDate.getMinutes().toString().padStart(2, '0'); // Ensure two digits with leading zero
 
-            console.log("Current Date:", currentDateStr);
-            const currentTime = currentDate.getHours() + ":" + currentDate.getMinutes();
+            const currentTime = `${currentHours}:${currentMinutes}`; // Construct the current time string
+
+            const dates = req.body.dates || 0;
+            let start_time = req.body.start_time || 0;
+            let end_time = req.body.end_time || 0;
+
+
+            if (start_time != 0 && end_time != 0) {
+                start_time = start_time.split(':').slice(0, 2).join(':');
+                end_time = end_time.split(':').slice(0, 2).join(':');
+            }
+
+            console.log("dates:", dates);
+            console.log("start_time:", start_time);
+            console.log("end_time:", end_time);
+        
 
             const selectedLab = req.params.labId; // Access lab ID from route parameters
 
             // Pass the currentDate as date to the template
-            res.render('reserve/reservation', {
-                title: 'Reserve a Seat',
-                username: req.session.username,
-                labId: selectedLab,
-                lab: lab,
-                date: currentDateStr, // Pass the currentDate to the template
-                currentTime: currentTime,
-            });
+
+            if (dates != null && start_time != null && end_time != null) {
+                res.render('reserve/reservation', {
+                    title: 'Reserve a Seat',
+                    username: req.session.username,
+                    labId: selectedLab,
+                    lab: lab,
+                    date: dates, // Pass the currentDate to the template
+                    currentTime: start_time,
+                    start_time: start_time,
+                    end_time: end_time
+                });
+            }else {
+                res.render('reserve/reservation', {
+                    title: 'Reserve a Seat',
+                    username: req.session.username,
+                    labId: selectedLab,
+                    lab: lab,
+                    date: currentDateStr, // Pass the currentDate to the template
+                    currentTime: currentTime,
+                });
+            }
 
         } catch (err) {
             console.error(err);
@@ -278,6 +311,7 @@ app.post('/reservation/:labId', async (req, res) => {
         res.status(401).json({ message: 'Unauthorized' });
     }
 });
+
 
 
 
