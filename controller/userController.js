@@ -56,7 +56,6 @@ exports.registerUser = async (req, res) => {
     }
 };
 
-
 exports.loginUser = async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -66,26 +65,31 @@ exports.loginUser = async (req, res) => {
         const users = db.collection('users');
         const userLogin = await users.findOne({ username });
 
-        if (userLogin.password === password) {
-
-            if (!req.session) {
-                req.session = {};
-            }
-
-            if (req.session.authenticated) {
-                req.session.username = username;
-                res.status(201).json(req.session)
-            }else {
-                req.session.authenticated = true;
-                req.session.username = username;
-                res.status(201).json(req.session)
-            }
-        }else {
-            res.status(401).json({ message: "Invalid credentials!" });
+        if (!userLogin) {
+            return res.status(401).json({ message: "User not found!" });
         }
 
+        console.log("password",password);
+        console.log("db",userLogin.password);
+        const bcrypt = require("bcrypt");
+        const result = await bcrypt.compare(password, userLogin.password);
+        
+        console.log("password",password);
+        console.log("db",userLogin.password);
+        console.log("result", result);
+
+
+        if (result) {
+            req.session = req.session || {};
+            req.session.authenticated = true;
+            req.session.username = username;
+            return res.status(200).json(req.session);
+        } else {
+            return res.status(401).json({ message: "Invalid credentials!" });
+        }
     } catch (e) {
-        res.send(req.session)
+        console.error(e);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };
 
