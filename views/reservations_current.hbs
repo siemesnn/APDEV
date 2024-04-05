@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/sidebar-admin.css">
     <link rel="stylesheet" href="css/colors.css">
+   <script src="js/view_reservation_page.js"></script>
     <title>{{title}}</title>
 </head>
 <aside class="Sidebar">
@@ -56,12 +57,12 @@
             <tbody>
                 {{#each Reservation}}
                         <tr>
-                            <td>{{#if lab}}{{ lab }}{{else}}N/A{{/if}}</td>
-                            <td>{{#if selected_seat}}{{ selected_seat }}{{else}}N/A{{/if}}</td>
+                            <td>{{#if lab_id}}{{ lab_id }}{{else}}N/A{{/if}}</td>
+                            <td>{{#if seatNumber }}{{ seatNumber }}{{else}}N/A{{/if}}</td>
                             <td>{{#if date}}{{ date }}{{else}}N/A{{/if}}</td>
-                            <td>{{#if time}}{{ time }}{{else}}N/A{{/if}}</td>
+                            <td>{{#if start_time }}{{ start_time }}{{else}}N/A{{/if}}</td>
                             <!-- Calculate End Time based on Start Time and Duration -->
-                            <td>{{#if end_time}}{{ end_time }}{{else}}N/A{{/if}}</td>
+                            <td>{{#if end_time }}{{ end_time }}{{else}}N/A{{/if}}</td>
                             <td>                                
                                 {{#if anonymous}}Anonymous{{else}}{{ reserved_by }}{{/if}}
                             </td>
@@ -72,7 +73,7 @@
     </div>
 
     <div class="button-container">
-        <button onclick="navigateTo('reservation.ejs')" class="button" id="editReservationButton">Edit Reservation</button>
+        <button class="button" id="editReservationButton" type="button">Edit Reservation</button>
         <button class="button" id="cancelReservationButton">Cancel Reservation</button>
     </div>
 

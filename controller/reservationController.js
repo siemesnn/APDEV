@@ -54,8 +54,20 @@ exports.getAllReservations = async (req, res) => {
 
 exports.createReservation = async (req, res) => {
     try {
-      
-    }catch(e) {
-
+        const db = client.db(DB_NAME);
+        const reservation = db.collection('reservation');
+        const { seatNumber, date, start_time, end_time } = req.body;
+        const username = req.session.username;
+        const newReservation = {
+            date,
+            start_time,
+            end_time,
+            reserved_by: username,
+            seatNumber
+        };
+        await reservation.insertOne(newReservation);
+        res.status(201).json({ message: "Reservation successful" });
+    } catch (e) {
+        res.status(500).json({ message: e.message });
     }
 }

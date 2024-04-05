@@ -1,6 +1,8 @@
 const Lab = require('../model/lab');
 const {client, DB_NAME } = require('../model/database');
 const Reservation = require('../model/reservation');
+const userController = require('./userController');
+
 
 exports.reserveASeat = async (req, res) => {
     const db = client.db(DB_NAME);
@@ -50,6 +52,22 @@ exports.reserveASeat = async (req, res) => {
 
         // Update the lab document
         await labs.updateOne({ _id: lab._id }, { $set: { seats: lab.seats } });
+
+
+        // ReservationController
+        const reservation = db.collection('reservation');
+        const newReservationUser = {
+            date,
+            start_time,
+            end_time,
+            lab_id: labName, // Use lab's _id for lab_id field
+            reserved_by: username,
+            seatNumber
+        };
+
+
+        await reservation.insertOne(newReservationUser);
+
 
         return res.status(201).json({ message: "Reservation successful" });
     } catch (e) {
