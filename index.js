@@ -3,8 +3,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const hbs = require('hbs');
-const userRoutes = require('./routes/userRoutes');
-const labroutes = require('./routes/labRoutes');
+const userRoutes = require('./routes/userRoutes.js');
+const labroutes = require('./routes/labRoutes.js');
 const { client, connectToMongoDB, DB_NAME } = require('./model/database.js');
 const cors = require('cors');
 
