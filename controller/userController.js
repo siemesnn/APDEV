@@ -31,7 +31,7 @@ exports.registerUser = async (req, res) => {
         console.log("saltRounds ", saltRounds);
         console.log("Password", password);
 
-        const hash = await bcrypt.hash(password, saltRounds);
+        const hash = await bcrypt.hash(password, saltRounds); //hashs user pw with 10rounds
         console.log("Hash ", hash);
         console.log("Password", password);
 
@@ -72,7 +72,7 @@ exports.loginUser = async (req, res) => {
         console.log("password",password);
         console.log("db",userLogin.password);
         const bcrypt = require("bcrypt");
-        const result = await bcrypt.compare(password, userLogin.password);
+        const result = await bcrypt.compare(password, userLogin.password); //comapres user unhashed pw with hashed pw
         
         console.log("password",password);
         console.log("db",userLogin.password);
