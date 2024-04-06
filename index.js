@@ -174,7 +174,7 @@ app.get('/reserve', async (req, res) => {
             if (user.role === 'student') {
                 Reservation = await reservation.find({ reserved_by: user.username }).toArray();
                 console.log("User Reservations:", Reservation); // Log the reservations to the console
-
+ 
                  res.render('reservations_current', {
                 title: 'Labyrinth - Current Reservations Page',
                 user: user, // Pass the user object to the template

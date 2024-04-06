@@ -3,16 +3,35 @@ const {client, DB_NAME } = require('../model/database');
 
 
 exports.getUserReservations = async (req, res) => {
-  try {
-      const db = client.db(DB_NAME);
+  //try {
+    //  const db = client.db(DB_NAME);
       //const users = db.collection('users');
       //const user = await users.findOne({ username: req.session.username });
-      const reservation =  db.collection('reservation');
-      const Reservation = await reservation.find().toArray();
-      res.status(200).json(Reservation);
-  } catch (e) {
-      res.status(500).json({ message: e.message });
-  }
+      //const reservation =  db.collection('reservation');
+      //const Reservation = await reservation.find().toArray();
+      //res.status(200).json(Reservation);
+  //} catch (e) {
+  //    res.status(500).json({ message: e.message });
+  //}
+  try {
+    const db = client.db(DB_NAME);
+    const labs = db.collection('labs');
+
+    // Find all labs
+    const allLabs = await labs.find().toArray();
+
+    // Collect reservations from all labs
+    const reservationList = allLabs.reduce((acc, lab) => {
+        lab.seats.forEach(seat => {
+            acc.push(...seat.reservations);
+        });
+        return acc;
+    }, []);
+
+    res.json(reservationList);
+} catch (e) {
+    res.status(500).json({ message: e.message });
+}
 };
 
 
@@ -41,33 +60,33 @@ exports.getReservationByUsername = async (req, res) => {
   };
 
   
-exports.getAllReservations = async (req, res) => {
+  exports.getAllReservations = async (req, res) => {
     try {
         const db = client.db(DB_NAME);
-        const reservation = db.collection('reservation');
-        const reservationList = await reservation.find().sort({ id: -1 }).toArray();
+        const labs = db.collection('labs');
+
+        // Find all labs
+        const allLabs = await labs.find().toArray();
+
+        // Collect reservations from all labs
+        const reservationList = allLabs.reduce((acc, lab) => {
+            lab.seats.forEach(seat => {
+                acc.push(...seat.reservations);
+            });
+            return acc;
+        }, []);
+
         res.json(reservationList);
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
 };
 
+
 exports.createReservation = async (req, res) => {
     try {
-        const db = client.db(DB_NAME);
-        const reservation = db.collection('reservation');
-        const { seatNumber, date, start_time, end_time } = req.body;
-        const username = req.session.username;
-        const newReservation = {
-            date,
-            start_time,
-            end_time,
-            reserved_by: username,
-            seatNumber
-        };
-        await reservation.insertOne(newReservation);
-        res.status(201).json({ message: "Reservation successful" });
-    } catch (e) {
-        res.status(500).json({ message: e.message });
+      
+    }catch(e) {
+
     }
 }

@@ -8,9 +8,10 @@ const reservationSchema = new Schema({
     lab_id: String,
     anonymous: String,
     reserved_by: { type: Schema.Types.ObjectId, ref: 'User' }, // Reference to User model
-    seatNumber: Number
+    seatNumber: Number 
 });
 
 const Reservation = mongoose.model('Reservation', reservationSchema);
 
 module.exports = Reservation;
+ 
