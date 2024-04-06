@@ -80,42 +80,41 @@
 
 </div>
 
-
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Get the table element
-        var table = document.querySelector(".reservations-table");
+   document.addEventListener("DOMContentLoaded", function() {
+    const table = document.querySelector(".reservations-table");
+    
+    if (table) {
+        const rows = table.querySelectorAll("tbody tr");
         
-        // Add click event listener to the table rows
-        table.addEventListener("click", function(event) {
-            // Remove the 'selected' class from all rows
-            var rows = table.querySelectorAll("tr");
-            rows.forEach(function(row) {
-                row.classList.remove("select");
+        if (rows.length > 0) {
+            rows.forEach(row => {
+                row.addEventListener("click", function() {
+                    console.log("Row clicked:", row);
+                    
+                    // Remove 'selected' class from all rows
+                    rows.forEach(r => {
+                        r.classList.remove("selected");
+                    });
+                    
+                    // Add 'selected' class to the clicked row
+                    row.classList.add("selected");
+                    
+                    // Print out the contents of the selected row
+                    const rowData = Array.from(row.children).map(cell => cell.textContent);
+                    console.log("Selected row contents:", rowData);
+                });
             });
-            
-            // Check if the clicked element is a table row
-            if (event.target.tagName === "TR") {
-                // Add the 'selected' class to the clicked row
-                event.target.classList.add("select");
-            }
-        });
-    });
-
-    // Get a reference to the button
-    const cancelReservationButton = document.getElementById("cancelReservationButton");
-
-    // Add event listener to the button
-    cancelReservationButton.addEventListener("click", function() {
-        // Show the confirmation dialog
-        const confirmed = confirm("Are you sure you want to cancel the reservation?");
-
-        // If the user confirms, do something
-        if (confirmed) {
-            alert("Reservation cancellation canceled.");
-
         } else {
-           
+            console.log("No rows found in the table.");
         }
-    });
+    } else {
+        console.log("Table not found.");
+    }
+});
+
+
+
 </script>
+
+</html>
