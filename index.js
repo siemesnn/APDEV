@@ -159,7 +159,6 @@ app.get('/edittprofile', async (req, res) => {
         res.status(500).render('error', { message: 'Internal server error' });
     }
 });
-
 app.get('/reserve', async (req, res) => {
     try {
         const username = req.session.username;
@@ -167,39 +166,34 @@ app.get('/reserve', async (req, res) => {
         const users = db.collection('users');
         const user = await users.findOne({ username });
 
-        if (user) {
-            const reservation = db.collection('reservation');
-            let Reservation;
-
-            if (user.role === 'student') {
-                Reservation = await reservation.find({ reserved_by: user.username }).toArray();
-                console.log("User Reservations:", Reservation); // Log the reservations to the console
- 
-                 res.render('reservations_current', {
-                title: 'Labyrinth - Current Reservations Page',
-                user: user, // Pass the user object to the template
-                Reservation: Reservation
-            });
-
-            } else {
-                Reservation = await reservation.find().toArray();
-            }
-
-            console.log("User Reservations:", Reservation); // Log the reservations to the console
-
-            res.render('reservations_current_admin_view', {
-                title: 'Labyrinth - Current Reservations Page',
-                user: user, // Pass the user object to the template
-                Reservation: Reservation
-            });
-        } else {
-            res.status(404).json({ message: 'User not found' });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
         }
+
+        const reservation = db.collection('reservation');
+        let Reservation;
+
+        if (user.role === 'student') {
+            Reservation = await reservation.find({ reserved_by: user.username }).toArray();
+        } else {
+            Reservation = await reservation.find().toArray();
+        }
+
+        console.log("User Reservations:", Reservation); // Log the reservations to the console
+
+        const templateToRender = user.role === 'student' ? 'reservations_current' : 'reservations_current_admin_view';
+
+        res.render(templateToRender, {
+            title: 'Labyrinth - Current Reservations Page',
+            user: user, // Pass the user object to the template
+            Reservation: Reservation
+        });
     } catch (error) {
         console.error("Error fetching reservations:", error);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 
 
 
@@ -317,11 +311,15 @@ app.post('/reservation/:labId', async (req, res) => {
 
 
 //Handle GET request to the /resconfirmation route
-app.get('/resconfirmation', (req, res) => {
+app.get('/editReservation/:labId/:seatNumber/:date/:start_time/:end_time/:reserved_by', (req, res) => {
     if (req.session.authenticated) {
-        const selectedLab = req.params.labId; // Access lab ID from route parameters
-        res.render('reserve/resconfirmation', { title: 'Reserve a Seat', username: req.session.username, labId: selectedLab });
+        // Retrieve route parameters from the request
+        const { labId, seatNumber, date, start_time, end_time, reserved_by } = req.params;
+        
+        // Render the edit reservation page with the route parameters passed to it
+        res.render('editReservation', { title: 'Edit Reservation', labId, seatNumber, date, start_time, end_time, reserved_by });
     } else {
+        // Unauthorized access
         res.status(401).json({ message: 'Unauthorized' });
     }
 });
