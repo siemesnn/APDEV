@@ -84,9 +84,29 @@ exports.getReservationByUsername = async (req, res) => {
 
 
 exports.createReservation = async (req, res) => {
-    try {
-      
-    }catch(e) {
+  try {
+      // Extract reservation data from the request body
+      const { reserveForUser } = req.body;
 
-    }
-}
+      // Check if reservation data is valid
+      if (!reserveForUser) {
+          return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      // Create a new reservation object
+      const reservationData = {
+          reserveForUser: reserveForUser,
+          // Include other reservation data as needed
+      };
+
+      // Save the reservation to the database
+      const newReservation = await Reservation.create(reservationData);
+
+      // Respond with the newly created reservation
+      res.status(201).json(newReservation);
+  } catch (error) {
+      // Handle errors
+      console.error("Error:", error);
+      res.status(500).json({ message: error.message });
+  }
+};
