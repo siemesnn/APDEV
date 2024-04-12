@@ -151,6 +151,9 @@ exports.deleteReservation = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+
+
+
 exports.editReservation = async (req, res) => {
     try {
         const db = client.db(DB_NAME);
@@ -224,5 +227,28 @@ exports.editReservation = async (req, res) => {
     } catch (error) {
         console.error("Error occurred while editing reservation:", error);
         return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+
+
+    exports.deleteAllReservationsBasedOnUser = async (req, res) => {
+    try {
+        // Connect to the MongoDB database
+        const db = client.db(DB_NAME);
+        
+        // Get the username from the session
+        const username = req.session.username;
+
+        // Delete all reservations associated with the session username
+        await db.collection('reservation').deleteMany({ reserved_by: username });
+
+        // Respond with success message
+        return res.status(200).json({ message: 'All reservations deleted successfully' });
+    } catch (error) {
+        console.error('Error occurred while deleting reservations:', error);
+        // Respond with an error message
+        return res.status(500).json({ message: 'Internal server error' });
     }
 };
