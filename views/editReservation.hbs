@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/sidebar-admin.css">
+    <link rel="stylesheet" href="/css/colors.css">
+
+
+    <link rel="stylesheet" href="/css/editReservation.css">
+    <script src="/js/updateRes.js"></script>
+
+    <title>{{title}}</title>
+</head>
+
+{{!-- sidebar --}}
+<aside class="Sidebar">
+    <div class="image-container">
+      <img src="/assets/jeongwoo.jpg" alt="userpfp" id="userpfp">
+      <br>
+      <br>
+    </div>
+  
+    <ul class="sidebar-links">
+      <li>
+        <br><br>
+        <a href="/home">Reserve</a>
+      </li>
+      <li>
+        <br><br>
+        <a href="/reserve">My Reservations</a>
+      </li>
+      <li>
+        <br><br>
+        <a href="/profile" id="profile">My Profile</a>
+      </li>
+    </ul>
+</aside>
+
+<body>
+    <div class="notSidebar">
+
+        <div class="greeting">
+            {{!-- change the handlebar to the actual chosen lab --}}
+            <h1 id="lab-name"> Laboratory <span id="lab_id">{{lab.name}}</span></h1>
+            <h2 id="usernameid"> Hello, {{username}} </h2>
+        </div>
+
+        <div class="instruction"> <h3>Please select your preferred schedule and seat</h3></div>
+
+        
+        <div class="elements-container">
+
+            <div class="left-panel">
+            
+                <form class="edit_form" >
+                    <div class="date-time">
+                        <label for="datesLabel">Choose a date: </label>
+                        <select id="dates" name="dates">
+                            {{#if date}}
+                                <option value="{{ date }}" selected>{{ date }}</option>
+                            {{else}}
+                                {{#each dateOptions}}
+                                    <option value="{{ this }}">{{ this }}</option>
+                                {{/each}}
+                            {{/if}}
+                        </select>
+                        <br>
+                        <label for="start_times">Choose a start time: </label>
+                        <select id="start_time" name="start_time">
+                            {{#if start_time}}
+                                <option value="{{ start_time }}" selected>{{ start_time }}</option>
+                            {{else}}
+                                <option value="00:00">00:00</option> <!-- Default value -->
+                                <!-- Add other options as needed -->
+                            {{/if}}
+                        </select>
+                        <br>
+                        <label for="end_times">Choose an end time: </label>
+                        <select id="end_time" name="end_time">
+                            {{#if end_time}}
+                                <option value="{{ end_time }}" selected>{{ end_time }}</option>
+                            {{else}}
+                                <option value="00:00">00:00</option> <!-- Default value -->
+                                <!-- Add other options as needed -->
+                            {{/if}}
+                        </select>
+
+
+                        
+                </form>
+                        <button id="reserve-button" class="reserve-button" type="button">Update Reservation</button>
+                    </div>
+            </div>
+           
+    </div>
+
+</body>
+</html>

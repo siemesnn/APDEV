@@ -5,5 +5,7 @@ const session = require('express-session');
 
 // Define the route with the labId parameter
 router.post('/reserve/:labId', labController.reserveASeat);
+router.delete('/delete', labController.deleteReservation);
+router.post('/update', labController.editReservation);
 
 module.exports = router;
