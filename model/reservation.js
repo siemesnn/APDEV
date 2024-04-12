@@ -10,8 +10,8 @@ const reservationSchema = new Schema({
     reserved_by: { type: Schema.Types.ObjectId, ref: 'User' }, // Reference to User model
     seatNumber: Number 
 });
-
+  
 const Reservation = mongoose.model('Reservation', reservationSchema);
 
 module.exports = Reservation;
- 
+  
