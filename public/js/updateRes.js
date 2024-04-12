@@ -3,14 +3,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const edit_form = document.getElementById('edit_form');
     const update = document.getElementById('reserve-button');
 
-    function getUrlParams() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const labId = urlParams.get('labId');
-        const seatNumber = urlParams.get('seatNumber');
-        return { labId, seatNumber };
-    }
 
-    const { labId, seatNumber } = getUrlParams();
+function getUrlParams() {
+    const pathSegments = window.location.pathname.split('/').filter(segment => segment !== ''); // Split the path and remove empty segments
+    const labId = pathSegments[1];
+    const seatNumber = pathSegments[2];
+    const date = pathSegments[3];
+    const startTime = pathSegments[4];
+    const endTime = pathSegments[5];
+    const reservedBy = pathSegments[6];
+
+    console.log({ labId, seatNumber, date, startTime, endTime, reservedBy })
+
+    return { labId, seatNumber, date, startTime, endTime, reservedBy };
+}
+
     
 
 
@@ -47,55 +54,73 @@ function generateTimeOptions() {
     while (startTime < endTime) {
         // Add start time option
         const startOption = document.createElement('option');
-        startOption.value = startTime.toTimeString().split(' ')[0];
-        startOption.textContent = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        startOption.value = startTime.getHours().toString().padStart(2, '0') + ':' + startTime.getMinutes().toString().padStart(2, '0');
+        startOption.textContent = startTime.getHours().toString().padStart(2, '0') + ':' + startTime.getMinutes().toString().padStart(2, '0');
         selectStartTime.appendChild(startOption);
 
-    // Check if adding another interval will exceed the end time
-    if (startTime.getTime() + intervalEnd <= endTime.getTime()) {
-        // Add end time option
-        const endTimeAdjusted = new Date(startTime.getTime() + intervalEnd);
-        const endOption = document.createElement('option');
-        endOption.value = endTimeAdjusted.toTimeString().split(' ')[0];
-        endOption.textContent = endTimeAdjusted.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        selectEndTime.appendChild(endOption);
+        // Check if adding another interval will exceed the end time
+        if (startTime.getTime() + intervalEnd <= endTime.getTime()) {
+            // Add end time option
+            const endTimeAdjusted = new Date(startTime.getTime() + intervalEnd);
+            const endOption = document.createElement('option');
+            endOption.value = endTimeAdjusted.getHours().toString().padStart(2, '0') + ':' + endTimeAdjusted.getMinutes().toString().padStart(2, '0');
+            endOption.textContent = endTimeAdjusted.getHours().toString().padStart(2, '0') + ':' + endTimeAdjusted.getMinutes().toString().padStart(2, '0');
+            selectEndTime.appendChild(endOption);
+        }
+
+        // Move to the next hour for start time
+        startTime.setTime(startTime.getTime() + intervalStart);
     }
-
-    // Move to the next hour for start time
-    startTime.setTime(startTime.getTime() + intervalStart);
-
-    // Convert start time and end time 
 }
-}
+
 
 generateDateOptions();
 generateTimeOptions();
 
 
-    update.addEventListener('click', async (e) => {
-        e.preventDefault();
+update.addEventListener('click', async (e) => {
+    e.preventDefault();
 
-        const date = document.getElementById('dates').value
-        const start_time = document.getElementById('start_time').value
-        const end_time = document.getElementById('end_time').value
+    // Retrieve values from input fields
+    const newdate = document.getElementById('dates').value;
+    const newstartTime = document.getElementById('start_time').value;
+    const newendTime = document.getElementById('end_time').value;
 
+    const { labId, seatNumber, date, startTime, endTime, reservedBy } = getUrlParams();
 
+    // Debug: Log the retrieved values
+    console.log("New Date:", newdate);
+    console.log("New Start Time:", newstartTime);
+    console.log("New End Time:", newendTime);
 
-        const response = await fetch('/api/labs/update', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ labId: labId, date: date.value, start_time: start_time, end_time: end_time, seatNumber: seatNumber })
-        });
+    const response = await fetch('/api/labs/updateProfile', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            newDate: newdate,
+            newStart: newstartTime,
+            newEndTime: newendTime,
+            labId: labId,
+            seatNumber: parseInt(seatNumber),
+            date: date,
+            start_time: startTime,
+            end_time: endTime,
+            reserved_by: reservedBy
+        })
+    })
 
-        if (response.ok) {
-            alert("Woohoo")
-        }else {
-            console.log(response)
-        }
+    if (response.ok) {
+        alert("Reservation updated successfully!");
+        window.location.href = '/reserve';
+    } else {
+        const errorMessage = await response.text();
+        alert(`Failed to update reservation: ${errorMessage}`);
+    }
+    // redirect to /reservations
+});
 
-    });
 
 
 });
