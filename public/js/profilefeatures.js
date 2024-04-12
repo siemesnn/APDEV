@@ -1,4 +1,6 @@
-    function navigateTo(url) {
+document.addEventListener("DOMContentLoaded", function() {
+
+function navigateTo(url) {
         window.location.href = url;
     }
 
@@ -49,4 +51,5 @@
         passwordChangeModal.style.display = "none";
         // You can also clear the input field if needed
         newPasswordInput.value = "";
-    });
+    })
+});

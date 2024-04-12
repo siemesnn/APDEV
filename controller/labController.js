@@ -123,6 +123,7 @@ exports.deleteReservation = async (req, res) => {
     try {
         const db = client.db(DB_NAME);
         const reservation = db.collection('reservation');
+        const lab = db.collection('labs');
         
         // Extract parameters from the request body
         const { lab_id, seatNumber, date, start_time, end_time, username } = req.body;
@@ -243,6 +244,7 @@ exports.editReservation = async (req, res) => {
 
         // Delete all reservations associated with the session username
         await db.collection('reservation').deleteMany({ reserved_by: username });
+        await db.collection('labs').deleteMany({ reserved_by: username });
 
         // Respond with success message
         return res.status(200).json({ message: 'All reservations deleted successfully' });
