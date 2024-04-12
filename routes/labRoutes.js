@@ -7,5 +7,6 @@ const session = require('express-session');
 router.post('/reserve/:labId', labController.reserveASeat);
 router.delete('/delete', labController.deleteReservation);
 router.post('/update', labController.editReservation);
+router.delete('/deleteUserRes', labController.deleteAllReservationsBasedOnUser);
 
 module.exports = router;
