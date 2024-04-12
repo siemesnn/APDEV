@@ -3,16 +3,6 @@ const {client, DB_NAME } = require('../model/database');
 
 
 exports.getUserReservations = async (req, res) => {
-  //try {
-    //  const db = client.db(DB_NAME);
-      //const users = db.collection('users');
-      //const user = await users.findOne({ username: req.session.username });
-      //const reservation =  db.collection('reservation');
-      //const Reservation = await reservation.find().toArray();
-      //res.status(200).json(Reservation);
-  //} catch (e) {
-  //    res.status(500).json({ message: e.message });
-  //}
   try {
     const db = client.db(DB_NAME);
     const labs = db.collection('labs');
@@ -82,11 +72,39 @@ exports.getReservationByUsername = async (req, res) => {
     }
 };
 
+exports.updateReservation = async (req, res) => {
+  try {
+      const { date, username, start_time, end_time } = req.body;
 
-exports.createReservation = async (req, res) => {
-    try {
-      
-    }catch(e) {
+      // Find the reservation that matches the provided criteria
+      const reservation = await Reservation.findOne({
+          date: date,
+          reserved_by: username,
+          start_time: start_time,
+          end_time: end_time
+      });
 
-    }
-}
+      if (!reservation) {
+          return res.status(404).json({ message: 'Reservation not found' });
+      }
+
+      // Update the date and time if they are provided in the request body
+      if (req.body.newDate) {
+          reservation.date = req.body.newDate;
+      }
+      if (req.body.newStartTime) {
+          reservation.start_time = req.body.newStartTime;
+      }
+      if (req.body.newEndTime) {
+          reservation.end_time = req.body.newEndTime;
+      }
+
+      // Save the updated reservation
+      await reservation.save();
+
+      res.status(200).json({ message: 'Reservation updated successfully', reservation });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+};
