@@ -52,36 +52,16 @@ exports.loginUser = async (req, res) => {
         // Reuse the MongoDB client and database connection
         const db = client.db(DB_NAME);
         const users = db.collection('users');
-        const userLogin = await users.findOne({ username });
+        const user = await users.findOne({ username });
 
-
-        if (!userLogin) {
+        if (!user) {
             return res.status(401).json({ message: "User not found!" });
         }
 
-        if (userLogin.password === password) {
+        const isPasswordValid = await bcrypt.compare(password, user.password);
 
-            if (!req.session) {
-                req.session = {};
-            }
-
-            if (req.session.authenticated) {
-                req.session.username = username;
-                res.status(201).json(req.session)
-            }else {
-                req.session.authenticated = true;
-                req.session.username = username;
-                res.status(201).json(req.session)
-            }
-        }else { 
-            res.status(401).json({ message: "Invalid credentials!" });
-        }
-
-  
-        const result = await bcrypt.compare(password, userLogin.password); //comapres user unhashed pw with hashed pw
-       
-
-        if (result) {
+        if (isPasswordValid) {
+            // Create or update the session
             req.session = req.session || {};
             req.session.authenticated = true;
             req.session.username = username;
@@ -94,6 +74,7 @@ exports.loginUser = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+
 
 
 exports.getUser = async (req, res) => {
@@ -142,9 +123,37 @@ exports.deleteUser = async (req, res) => {
     try {
         const db = client.db(DB_NAME);
         const users = db.collection('users');
+        
+        // Delete the user from the database
         await users.deleteOne({ username: req.session.username });
-        res.status(200).json({ message: "User deleted" });
+        
+        // End the session
+        req.session.destroy((err) => {
+            if (err) {
+                console.error("Error destroying session:", err);
+                res.status(500).json({ message: "Internal server error" });
+            } else {
+                res.status(200).json({ message: "User deleted" });
+            }
+        });
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
 }
+
+exports.logoutUser = async (req, res) => {
+    try {
+        // End the session
+        req.session.destroy((err) => {
+            if (err) {
+                console.error("Error destroying session:", err);
+                res.status(500).json({ message: "Internal server error" });
+            } else {
+                res.status(200).json({ message: "Logged out" });
+            }
+        });
+    } catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+}
+

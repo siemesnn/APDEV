@@ -5,6 +5,7 @@ body, html {
     margin: 0;
     display: flex;
     font-family: 'Inter';
+    background-color: var(--three);
 }
 
 .Sidebar {

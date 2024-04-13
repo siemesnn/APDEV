@@ -1,0 +1,50 @@
+# Dependency directories
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment variables file
+.env
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Log files
+logs/
+*.log
+
+# Build files
+build/
+dist/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Ignore local configuration files
+config.local.js
+
+# Ignore any backup files
+*.bak
+
+# Ignore any lock files
+*.lock
+
+# Ignore coverage directory
+coverage/
+
+# Ignore any generated files
+*.gen.js
+
+

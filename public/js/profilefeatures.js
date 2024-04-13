@@ -29,7 +29,9 @@ if (confirmed) {
 
             // Check if the account deletion was successful
             if (accountResponse.ok) {
-                alert("Your account and all associated reservations have been deleted."); // Temporary alert for demonstration
+                alert("Your account and all associated reservations have been deleted.");
+                window.location.href = '/';
+                 // Temporary alert for demonstration
             } else {
                 alert("Failed to delete your account. Please try again later.");
             }
