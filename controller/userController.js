@@ -1,6 +1,6 @@
 const User = require('../model/user');
 const {client, DB_NAME } = require('../model/database');
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 
 exports.registerUser = async (req, res) => {
@@ -9,9 +9,6 @@ exports.registerUser = async (req, res) => {
     const users = db.collection('users');
     try {
         const { name, email, username, password, confirmPassword, role } = req.body;
-
-        console.log("password ", password);
-        console.log("confirmPassword", confirmPassword);
 
         // Check if the username already exists using Mongoose
         const existingUser = await users.findOne({ username });
