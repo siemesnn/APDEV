@@ -352,6 +352,9 @@ app.get('/editReservation/:labId/:seatNumber/:date/:start_time/:end_time/:reserv
 });
 
 
+app.get('/about', (req, res) => {
+        res.render('about', { title: 'Labyrinth - About Us'});
+});
 
 // Start the server
 app.listen(port, () => {
