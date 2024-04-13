@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Lexend Deca');
+@import url('https://fonts.googleapis.com/css?family=Inter');
 
 .notSidebar {
     flex: 1;
@@ -12,6 +14,7 @@ body {
 }
 
 .greeting-profile {
+    font-family: 'Lexend Deca';
     position: fixed;
     color: var(--one);
     font-size: 20px;
@@ -19,25 +22,40 @@ body {
     padding-left: 90px;
 }
 
-
-
+/* contains name, desc, current reservations */
 .info{
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter';
     position: fixed; 
-    padding-left: 120px;
+    padding-left: 90px;
     padding-top: 70px;
+    overflow: hidden;
+    width: 760px;
+    height: 800px;
+}
+
+.text{
+    color: var(--one);
+}
+
+.user-desc{
+    width: fit-content;
+    display: inline-flex;
+    font-family: 'Inter';
+    margin-bottom: 40px;
     overflow: hidden;
 }
 
 
-
 .image-container-profile {
-   position: fixed;
+    border: 1px solid var(--two,0,0,0.5);
+    position: fixed;
     top: 90px; /* Align the container to the top of the viewport */
-    right: 50px; /* Align the container to the right of the viewport */
-    width: 300px;
-    height: 300px;
+    right: 65px; /* Align the container to the right of the viewport */
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
-    /*padding: 10px;    */
     overflow: hidden;
 }
 
@@ -46,7 +64,6 @@ body {
     height: 100%;
     object-fit: cover; /* This property ensures the image covers the entire container */
   }
-
 
 
   @media (max-width: 1400px) {
@@ -77,8 +94,10 @@ body {
 }
 
 .current-reservations {
+    border: solid;
+    border-color: var(--one);
     overflow: auto; /* Enable scrolling if the content exceeds the height */
-    max-height: 300px; /* Set a maximum height for the table to enable scrolling */
+    height: 400px; /* Set a maximum height for the table to enable scrolling */
 }
 
 .current-reservations table {
@@ -103,16 +122,6 @@ body {
 }
 
 
-
-
-#descriptionInput {
-    width: 600px; /* Adjust width as needed */
-    height: 160px; /* Adjust height as needed */
-    font-size: 12px; /* Adjust the font size */
-    vertical-align: top;
-    padding-top: 50px;
-}
-
 .profile-buttons {
     position: fixed;
     top: 0;
@@ -126,8 +135,8 @@ body {
     margin-bottom: 15px;
     padding: 10px 15px;
     font-size: 16px;
-    background-color: grey;
-    color: #fff;
+    background-color: var(--one);
+    color: var(--three);
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -136,13 +145,20 @@ body {
 }
 
 .profile-buttons button:hover {
-    background-color: #0056b3;
+    background-color: var(--two);
 }
 
-.profile-buttons .red-text {
-    color: red; /* Change text color to red */
+.delete_button {
+    margin-top: 50px;
 }
 
+#deleteAccountButton{
+    background-color: var(--four);
+}
+
+#deleteAccountButton:hover{
+    background-color: var(--seven);
+}
 .sub-button {
     display: block;
     margin-top: 15px; /* Adjust the top margin as needed */
@@ -173,15 +189,15 @@ body {
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: var(--three);
     margin: 15% auto; 
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid var(--one);
     width: 80%; 
 }
 
 .close {
-    color: #aaa;
+    color: var(--one);
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -190,7 +206,7 @@ body {
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: var(--seven);
     text-decoration: none;
     cursor: pointer;
 }
@@ -213,4 +229,71 @@ body {
 /* Adjust width of input fields */
 input[type="password"] {
     width: 190px; /* Set desired width */
+}
+
+#descriptionInput {
+    width: 600px; 
+    height: 70px; 
+    font-size: 14px;
+    padding-left: 10px;
+    border: 2px solid var(--one);
+    border-radius: 5px;
+}
+
+/* highlights the selected input form */
+input[type=text]:focus {
+    background-color: #cfc6e8;
+}
+
+.upload-form{
+    width: fit-content;
+    height: fit-content;
+    margin-top: 370px;
+    margin-left: 950px;
+}
+
+#pictureURLInput {
+    color: black;
+    height: fit-content; 
+    font-size: 14px; 
+    border: 2px solid var(--one);
+    border-radius: 5px;
+}
+
+.profile-buttons {
+    position: fixed;
+    top: 0;
+    right: 105px;
+    margin-top: 430px; /* Adjust as needed */
+
+}
+
+.profile-buttons button {
+    display: block;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: var(--one);
+    color: var(--three);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 170px; /* Set a fixed width for all buttons */
+
+}
+
+.profile-buttons button:hover {
+    background-color: var(--two);
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px; /* Adjust as needed */
+}
+
+
+.input-container {
+    margin-top: 25px; /* Adjust as needed */
+    margin-bottom: 15px; /* Increase margin to add more space between input fields */
 }

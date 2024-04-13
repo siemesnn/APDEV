@@ -1,5 +1,3 @@
-{{!-- this is edittingprofile.ejs ver--}}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +12,7 @@
 
 <aside class="Sidebar">
     <div class="image-container">
-      <img src="{{ user.pictureURL }}" alt="userpfp" id="userpfp">
+      <img src="{{user.pictureURL}}" alt="userpfp" id="userpfp">
       <br>
       <br>
     </div>
@@ -32,6 +30,10 @@
         <br><br>
         <a href="/profile" id="profile">My Profile</a>
       </li>
+      <li>
+        <br><br><br>
+        <a href="/" id="index">Logout</a>
+      </li>
     </ul>
   </aside>
 
@@ -44,23 +46,22 @@
     </div>
 
     <div class="info">
-        <h3> Name: {{ user.name }} </h3>
-        <h3>Edit Description: </h3>
-        
-          <input type="text" id="descriptionInput" name="description" value=" {{ user.description }}">
-
-         
-
+        <h3><span class="text">Name: {{ user.name }}</span></h3>
+        <h3><span class="text">Description</span></h3>
+          <input type="text" id="descriptionInput" name="description" value="{{ user.description }}">
     </div>
 
     
-
-    <div class="image-container-profile">
-        <img src="{{ user.pictureURL }}" alt="userpfp" id="userpfp"> <br> <br>
-    </div>
-
-    <input type="text" id = "pictureURLInput" placeholder="Enter new pfp link here"> <br> <br>
-
+  
+      <div class="image-container-profile">
+          <img src="{{ user.pictureURL }}" alt="userpfp" id="userpfp">
+      </div>
+    
+      <div class ="upload-form">
+          <input type="text" id ="pictureURLInput" placeholder="Enter new pfp link here"> 
+      </div>
+    
+  
     <div class="profile-buttons">
         <button onclick="navigateTo('/profile')" class="profile-button" id="saveChanges">Save Changes</button>
         <button onclick="navigateTo('/profile')" class="profile-button">Cancel</button>
