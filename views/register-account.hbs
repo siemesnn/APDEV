@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/colors.css">
     <link rel="stylesheet" href="css/register.css">
+    <script src="js/register.js"></script>
     <title>{{title}}</title>
 </head>
 
@@ -13,7 +14,7 @@
         <div class="register-info"> 
         <h1><span class="title">Register an Account</span></h1>      
 
-        <form action="/api/users/register" method="post">    
+        <form id ="register-form">    
         Name: <input type="text" name="name" id="name"><br>
         Email: <input type="text" name="email" id="email"><br>
         Username: <input type="text" name="username" id="username"><br>
