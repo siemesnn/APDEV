@@ -152,7 +152,7 @@ form
     height: 55%;
 }
 
-.popup {
+.taken-popup {
     position: absolute;
     background-color: var(--three);
     border: 1px solid var(--six);
@@ -160,7 +160,7 @@ form
     padding: 10px;
     display: none;
     font-family: 'Inter';
-    color: var(--three);
+    color: var(--one);
 }
 
 .res-info{
