@@ -15,10 +15,11 @@
     <script defer src="/js/reservation.js"></script>
 </head>
 
-{{!-- sidebar --}}
+{{#if isStudent}}
+{{!-- student sidebar --}}
 <aside class="Sidebar">
     <div class="image-container">
-      <img src="/assets/jeongwoo.jpg" alt="userpfp" id="userpfp">
+      <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp">
       <br>
       <br>
     </div>
@@ -36,8 +37,38 @@
         <br><br>
         <a href="/profile" id="profile">My Profile</a>
       </li>
+      <li>
+        <br><br><br>
+        <a href="/" id="logout">Logout</a>
+      </li>
+    </ul>
+  </aside>
+
+{{else}}
+{{!-- admin's sidebar --}}
+  <aside class="sidebar-admin">
+    <div class="image-container">
+        <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp"> <br> <br>
+    </div>
+
+    <ul class="sidebar-links">
+        <li> <br><br>
+            <a href="/home">Reserve</a>
+        </li>
+        <li> <br><br>
+            <a href="/reserve">View Reservations</a>
+        </li>
+        <li><br><br>
+            <a href="/profile" id="profile">My Profile</a>
+        </li>
+        <li>
+        <br><br><br>
+        <a href="/" id="logout">Logout</a>
+      </li>
     </ul>
 </aside>
+{{/if}}
+
 
 <body>
     <div class="notSidebar">
@@ -54,6 +85,14 @@
         <div class="elements-container">
 
             <div class="left-panel">
+            
+            {{!-- appears only when the user's role is admin --}}
+            {{#if isAdmin}}
+            <div class="name-box">
+              <label for="reserveFor">Reserve for:</label>
+              <input type="text" id="reserveFor" name="reserveForUser">  
+            </div>
+            {{/if}}
             
                 <form class="reserve-form" action="/reservation/{{lab.name}}" method="post">
                     <div class="date-time">

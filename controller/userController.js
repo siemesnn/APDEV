@@ -1,5 +1,6 @@
 const User = require('../model/user');
 const {client, DB_NAME } = require('../model/database');
+const bcrypt = require("bcrypt");
 
 
 exports.registerUser = async (req, res) => {
@@ -9,11 +10,9 @@ exports.registerUser = async (req, res) => {
     try {
         const { name, email, username, password, confirmPassword, role } = req.body;
 
-        if (password !== confirmPassword) {
-            res.status(400).json({ message: "Passwords do not match!" });
-            return;
-        }
-    
+        console.log("password ", password);
+        console.log("confirmPassword", confirmPassword);
+
         // Check if the username already exists using Mongoose
         const existingUser = await users.findOne({ username });
 
@@ -23,13 +22,15 @@ exports.registerUser = async (req, res) => {
         }
 
         // Hash the password before storing it in the database
+        const saltRounds = 10;
+        const hash = await bcrypt.hash(password, saltRounds); //hashs user pw with 10rounds
 
         // Create a new user document using the Mongoose model
         const newUser = new User({
             name,
             email,
             username,
-            password,
+            password: hash,
             role,
             description : '',
             profilePicture: 'https://www.redditstatic.com/avatars/avatar_default_02_4856A3.png',
@@ -38,13 +39,11 @@ exports.registerUser = async (req, res) => {
 
         // Save the new user to the database
         await users.insertOne(newUser);
-
-        res.json({ message: "Registration successful" });
+        res.status(201).json({ message: "User created" });
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
 };
-
 
 exports.loginUser = async (req, res) => {
     try {
@@ -54,6 +53,11 @@ exports.loginUser = async (req, res) => {
         const db = client.db(DB_NAME);
         const users = db.collection('users');
         const userLogin = await users.findOne({ username });
+
+
+        if (!userLogin) {
+            return res.status(401).json({ message: "User not found!" });
+        }
 
         if (userLogin.password === password) {
 
@@ -73,8 +77,21 @@ exports.loginUser = async (req, res) => {
             res.status(401).json({ message: "Invalid credentials!" });
         }
 
+  
+        const result = await bcrypt.compare(password, userLogin.password); //comapres user unhashed pw with hashed pw
+       
+
+        if (result) {
+            req.session = req.session || {};
+            req.session.authenticated = true;
+            req.session.username = username;
+            return res.status(200).json(req.session);
+        } else {
+            return res.status(401).json({ message: "Invalid credentials!" });
+        }
     } catch (e) {
-        res.send(req.session)
+        console.error(e);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };
 
@@ -120,3 +137,14 @@ exports.editPFP = async (req, res) => {
         res.status(500).json({ message: e.message });
     }
 }     
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const db = client.db(DB_NAME);
+        const users = db.collection('users');
+        await users.deleteOne({ username: req.session.username });
+        res.status(200).json({ message: "User deleted" });
+    } catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+}
