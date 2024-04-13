@@ -252,3 +252,48 @@ exports.editReservation = async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+exports.deleteReservationFromLab = async (req, res) => {
+    const db = client.db(DB_NAME);
+    const labs = db.collection('labs');
+    try {
+        const { lab_name, seatNumber, date, start_time, end_time, username } = req.body;
+
+        // Find the lab document by its name
+        const lab = await labs.findOne({ name: lab_name });
+
+        if (!lab) {
+            return res.status(404).json({ message: "Lab not found", lab_name });
+        }
+
+        // Find the seat object corresponding to the provided seat number
+        const seat = lab.seats.find(seat => seat.seatNumber === seatNumber);
+
+        if (!seat) {
+            return res.status(404).json({ message: "Seat not found", seatNumber });
+        }
+
+        // Find the reservation to delete
+        const reservationIndex = seat.reservations.findIndex(reservation =>
+            reservation.date === date &&
+            reservation.start_time === start_time &&
+            reservation.end_time === end_time &&
+            reservation.reserved_by === username
+        );
+
+        if (reservationIndex === -1) {
+            return res.status(404).json({ message: "Reservation not found" });
+        }
+
+        // Remove the reservation from the seat
+        seat.reservations.splice(reservationIndex, 1);
+
+        // Update the lab document in the database
+        await labs.updateOne({ name: lab_name }, { $set: { seats: lab.seats } });
+
+        return res.status(200).json({ message: "Reservation deleted successfully" });
+    } catch (e) {
+        console.error("Error occurred while deleting reservation:", e);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
