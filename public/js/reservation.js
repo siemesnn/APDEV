@@ -136,6 +136,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let start_time = document.getElementById('start_time').value;
         let end_time = document.getElementById('end_time').value;
 
+        const checkbox = document.getElementById('anon-checkbox');
+        const anonymous = checkbox.checked ? 'true' : null;
+
+        //const checkbox = document.getElementById('anon_checkbox');
+        //const anonymous = checkbox.checked ? 'true' : 'false';
+        
 
         start_time = start_time.split(':').slice(0, 2).join(':');
         end_time = end_time.split(':').slice(0, 2).join(':');
@@ -147,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // log all the values
         console.log('Lab ID:', labId);
         console.log('Date:', date);
+        console.log('Anonymous: ', anonymous);
         console.log('Start Timsdaasde:', start_time);
         console.log('End Timesdasd:', end_time);
         console.log('Selected Seat:', seatNumber);
@@ -157,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ date, start_time, end_time, seatNumber })
+            body: JSON.stringify({  date, start_time, end_time, seatNumber, anonymous })
         });
 
         // Check if the reservation was successful

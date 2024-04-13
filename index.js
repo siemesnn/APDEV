@@ -165,7 +165,33 @@ app.get('/reserve', async (req, res) => {
         const db = client.db(DB_NAME);
         const users = db.collection('users');
         const user = await users.findOne({ username });
+        if (user) {
+            const reservation = db.collection('reservation');
+            let Reservation;
 
+            if (user.role === 'student') {
+                Reservation = await reservation.find({ reserved_by: user.username }).toArray();
+                console.log("User Reservations:", Reservation); // Log the reservations to the console
+ 
+                res.render('reservations_current', {
+                title: 'Labyrinth - Current Reservations Page',
+                user: user, // Pass the user object to the template
+                Reservation: Reservation
+            });
+
+            } else {
+                Reservation = await reservation.find().toArray();
+
+                console.log("User Reservations:", Reservation); // Log the reservations to the console
+
+                res.render('reservations_current_admin_view', {
+                title: 'Labyrinth - Current Reservations Page',
+                user: user, // Pass the user object to the template
+                Reservation: Reservation
+            });
+         }
+
+        
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -250,19 +276,47 @@ app.post('/reservation/:labId', async (req, res) => {
 
             const currentTime = `${currentHours}:${currentMinutes}`; // Construct the current time string
 
-            const dates = req.body.dates || 0;
+            //const dates = req.body.dates || 0;
+
+            // Assuming dates is in ISO string format (YYYY-MM-DD)
+            const dates = req.body.dates ? new Date(req.body.dates) : new Date(); // Parse the date or use today's date if not provided
+
+            const checkdate = dates.toISOString().split('T')[0];
+
+            if (checkdate != currentDateStr){
+                dates.setDate(dates.getDate() + 1);            
+            }
+                
+
+            const updatedDate = dates.toISOString().split('T')[0];
+
+            
+            
+            // Add one day to the date
+            
+
             let start_time = req.body.start_time || 0;
-            let end_time = req.body.end_time || 0;
+            let end_time = req.body.end_time || 0; 
+
+           const anonymous = req.body.anon_checkbox || 'false';
+           // document.getElementById('anon-checkbox').value;
+
 
 
             if (start_time != 0 && end_time != 0) {
                 start_time = start_time.split(':').slice(0, 2).join(':');
                 end_time = end_time.split(':').slice(0, 2).join(':');
             }
+            console.log("currentDateStr:", currentDateStr);
+
+            console.log("updatedDate:", updatedDate);
+            console.log("updatedDate:", updatedDate);
+
 
             console.log("dates:", dates);
             console.log("start_time:", start_time);
             console.log("end_time:", end_time);
+            console.log("anonymous: ", anonymous);
         
 
             const selectedLab = req.params.labId; // Access lab ID from route parameters
@@ -275,10 +329,12 @@ app.post('/reservation/:labId', async (req, res) => {
                     username: req.session.username,
                     labId: selectedLab,
                     lab: lab,
-                    date: dates, // Pass the currentDate to the template
+                    date: updatedDate, // Pass the currentDate to the template
                     currentTime: start_time,
                     start_time: start_time,
                     end_time: end_time
+                   // anonymous: anonymous
+                    
                 });
             }else {
                 res.render('reserve/reservation', {
@@ -287,7 +343,9 @@ app.post('/reservation/:labId', async (req, res) => {
                     labId: selectedLab,
                     lab: lab,
                     date: currentDateStr, // Pass the currentDate to the template
-                    currentTime: currentTime,
+                    currentTime: currentTime
+                    //anonymous: anonymous
+
                 });
             }
 
