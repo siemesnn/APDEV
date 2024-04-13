@@ -1,14 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Get all the rows in the table
-    var rows = document.querySelectorAll(".reservations-table tbody tr");
-  
-    const editReservationButton = document.getElementById('editReservationButton')
-  
-    editReservationButton.addEventListener('click', function() {
-        // Find the selected row
-        const selectedRow = document.querySelector(".selected");
-
     const editRes = document.getElementById('editReservationButton');
     const deleteRes = document.getElementById('cancelReservationButton');
 
@@ -93,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function getSelectedRowData() {
         // Find the selected row
         const selectedRow = document.querySelector(".selected");
+
         // Check if a row is selected
         if (selectedRow) {
             // Retrieve data from the selected row

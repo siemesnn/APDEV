@@ -8,10 +8,9 @@ exports.reserveASeat = async (req, res) => {
     const db = client.db(DB_NAME);
     const labs = db.collection('labs');
     try {
-        const { seatNumber, date, start_time, end_time, anonymous } = req.body;
+        const { seatNumber, date, start_time, end_time } = req.body;
         const labName = req.params.labId;
         const username = req.session.username;
-        console.log("anonymous lab controller:", anonymous);
 
         // Find the lab document by its name
         const lab = await labs.findOne({ name: labName });
@@ -44,7 +43,6 @@ exports.reserveASeat = async (req, res) => {
             start_time,
             end_time,
             lab_id: lab._id, // Use lab's _id for lab_id field
-            anonymous: anonymous,
             reserved_by: username,
             seatNumber
         };
@@ -63,7 +61,6 @@ exports.reserveASeat = async (req, res) => {
             start_time,
             end_time,
             lab_id: labName, // Use lab's _id for lab_id field
-            anonymous: anonymous,
             reserved_by: username,
             seatNumber
         };
