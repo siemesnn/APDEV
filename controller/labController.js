@@ -82,7 +82,6 @@ exports.deleteReservation = async (req, res) => {
     try {
         const db = client.db(DB_NAME);
         const reservation = db.collection('reservation');
-        const lab = db.collection('labs');
         
         // Extract parameters from the request body
         const { lab_id, seatNumber, date, start_time, end_time, username } = req.body;
@@ -112,6 +111,62 @@ exports.deleteReservation = async (req, res) => {
     }
 };
 
+// Helper function to retrieve user reservation
+const retrieveUserReservationHelper = async (labName, seatNumber, date, startTime, endTime, username, db) => {
+    const reservation = db.collection('labs');
+
+    // Construct the query based on provided parameters
+    const query = {
+        "name": labName,
+        "seats.seatNumber": seatNumber,
+        "seats.reservations.date": date,
+        "seats.reservations.start_time": startTime,
+        "seats.reservations.end_time": endTime,
+        "seats.reservations.reserved_by": username
+    };
+
+    // Execute the query
+    const userReservation = await reservation.findOne(query);
+    return userReservation;
+};
+
+const editInLab = async (labName, seatNumber, date, startTime, endTime, username, newDate, newStartTime, newEndTime, db) => {
+    const reservation = db.collection('labs');
+
+    // Find the lab document by its name
+    const lab = await reservation.findOne({ name: labName });
+
+    if (!lab) {
+        return res.status(404).json({ message: "Lab not found", labName });
+    }
+
+    // Find the seat within the lab's seats array based on the provided seatNumber
+    const seat = lab.seats.find(seat => seat.seatNumber === seatNumber);
+
+    if (!seat) {
+        return res.status(404).json({ message: "Seat not found" });
+    }
+
+    // Update seat reservation
+    const reservationIndex = seat.reservations.findIndex(reservation =>
+        reservation.date === date &&
+        reservation.start_time === startTime &&
+        reservation.end_time === endTime
+    );
+
+    if (reservationIndex === -1) {
+        return res.status(404).json({ message: "Reservation not found" });
+    }
+
+    seat.reservations[reservationIndex].date = newDate;
+    seat.reservations[reservationIndex].start_time = newStartTime;
+    seat.reservations[reservationIndex].end_time = newEndTime;
+
+    // Update the lab document
+    await reservation.updateOne({ _id: lab._id }, { $set: { seats: lab.seats } });
+}
+
+    
 
 // Helper function to retrieve 
 const retrieveReservation = async (labId, seatNumber, date, startTime, endTime, reservedBy, db) => {
@@ -244,27 +299,6 @@ exports.updateReservationProfile = async (req, res) => {
     } catch (error) {
         console.error('Error occurred while updating reservation:', error);
         res.status(500).json({ message: 'An error occurred while updating reservation. Please try again later.' });
-    }
-};
-
-exports.deleteAllReservationsBasedOnUser = async (req, res) => {
-    try {
-        // Connect to the MongoDB database
-        const db = client.db(DB_NAME);
-        
-        // Get the username from the session
-        const username = req.session.username;
-
-        // Delete all reservations associated with the session username
-        await db.collection('reservation').deleteMany({ reserved_by: username });
-        await db.collection('labs').deleteMany({ reserved_by: username });
-
-        // Respond with success message
-        return res.status(200).json({ message: 'All reservations deleted successfully' });
-    } catch (error) {
-        console.error('Error occurred while deleting reservations:', error);
-        // Respond with an error message
-        return res.status(500).json({ message: 'Internal server error' });
     }
 };
 

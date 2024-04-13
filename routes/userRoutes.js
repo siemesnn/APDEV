@@ -11,7 +11,7 @@ router.get('/reserve', userController.getUser);
 router.get('/viewprofile', userController.getUser);
 router.post('/editDescription', userController.editDescription);
 router.post('/editPFP', userController.editPFP);
-router.delete('/delete', userController.deleteUser);
+
 
 
 module.exports = router;

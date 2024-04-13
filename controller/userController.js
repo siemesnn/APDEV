@@ -121,13 +121,3 @@ exports.editPFP = async (req, res) => {
     }
 }     
 
-exports.deleteUser = async (req, res) => {
-    try {
-        const db = client.db(DB_NAME);
-        const users = db.collection('users');
-        await users.deleteOne({ username: req.session.username });
-        res.status(200).json({ message: "User deleted" });
-    } catch (e) {
-        res.status(500).json({ message: e.message });
-    }
-}
