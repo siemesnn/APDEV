@@ -194,12 +194,6 @@ app.get('/reserve', async (req, res) => {
     }
 });
 
-
-
-
-
-
-
 // Handle GET request to the /profile route
 //for viewing commented out const etc.
 app.get('/viewprofile', async (req, res) => {

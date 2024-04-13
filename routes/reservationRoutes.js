@@ -10,6 +10,7 @@ router.get('/allReservations', reservationController.getAllReservations);
 router.get('/profile', reservationController.getUserReservations);
 router.get('/reserve', reservationController.getUserReservations);
 router.get('/viewprofile', reservationController.getUserReservations);
+router.put('/update', reservationController.updateReservation);
 
 
 // router.post('profile-edit', userController.editProfile);
