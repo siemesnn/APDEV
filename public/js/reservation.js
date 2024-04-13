@@ -75,9 +75,10 @@ generateTimeOptions();
 // Declare global variable to store last clicked seat ID
 let lastClickedSeatId = null;
 
-// Function to toggle seat status
+// Modify the toggleSeatStatus function to show/hide the popup for a taken seat
 function toggleSeatStatus(seatId) {
     const seat = document.getElementById(seatId);
+    const popup = document.getElementById(`popup-${seatId}`);
 
     // Check if the seat is available and not taken
     if (seat.src.endsWith('available.png') && !seat.src.endsWith('taken.png')) {
@@ -90,27 +91,36 @@ function toggleSeatStatus(seatId) {
         lastClickedSeatId = seatId;
         // Change image to selected.png
         seat.src = '/assets/selected.png';
+    } else if (seat.src.endsWith('taken.png')) {
+        // Toggle the visibility of the popup for a taken seat
+        if (popup.style.display === 'block') {
+            popup.style.display = 'none';
+        } else {
+            popup.style.display = 'block';
+        }
     } else if (seat.src.endsWith('selected.png')) {
         // Deselect the seat if it is already selected
         lastClickedSeatId = null;
         // Change image back to available.png
         seat.src = '/assets/available.png';
+        // Hide the popup
+        popup.style.display = 'none';
     }
     // Update the value of the hidden input field with the ID of the last clicked seat
     document.getElementById('selected-seat').value = lastClickedSeatId || '';
 }
 
-//Function to show the pop up
+// Add event listeners to show and hide the popup
 function showPopup(seatId) {
     const popup = document.getElementById(`popup-${seatId}`);
-    popup.style.display = 'block' ? 'none' : 'block';
+    popup.style.display = 'block';
 }
 
-// Function to hide popup
 function hidePopup(seatId) {
     const popup = document.getElementById(`popup-${seatId}`);
     popup.style.display = 'none';
 }
+
 
 function navigateTo(url) {
     window.location.href = url;
