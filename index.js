@@ -124,20 +124,19 @@ app.get('/profile', async (req, res) => {
                 });
 
 
-            } else{
-                
-                    //const reservation = db.collection('reservation');
-                    //const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
-    
-    
-                    //console.log("User Reservations:", Reservation); // Log the reservations to the console
-    
-                    res.render('admin_profile_edit', {
-                        title: 'Labyrinth - Profile Page', 
-                        user: user, // Pass the user object to the template
-                        //Reservation: Reservation 
-                    });
+            } else {
 
+                const reservation = db.collection('reservation');
+                const Reservation = await reservation.find({ reserved_by: user.username }).toArray();
+
+
+                console.log("User Reservations:", Reservation); // Log the reservations to the console
+
+                res.render('profile_edit', {
+                    title: 'Labyrinth - Profile Page', 
+                    user: user, // Pass the user object to the template
+                    Reservation: Reservation 
+                });
             }
             
             
@@ -184,34 +183,36 @@ app.get('/reserve', async (req, res) => {
         const db = client.db(DB_NAME);
         const users = db.collection('users');
         const user = await users.findOne({ username });
+        if (user) {
+            const reservation = db.collection('reservation');
+            let Reservation;
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            if (user.role === 'student') {
+                Reservation = await reservation.find({ reserved_by: user.username }).toArray();
+                console.log("User Reservations:", Reservation); // Log the reservations to the console
+ 
+                res.render('reservations_current', {
+                title: 'Labyrinth - Current Reservations Page',
+                user: user, // Pass the user object to the template
+                Reservation: Reservation
+            });
+
+            } else {
+                Reservation = await reservation.find().toArray();
+
+                console.log("User Reservations:", Reservation); // Log the reservations to the console
+
+                res.render('reservations_current', {
+                    title: 'Labyrinth - Current Reservations Page',
+                    user: user, // Pass the user object to the template
+                    Reservation: Reservation
+                });
+            }}
+        } catch (error) {
+            console.error("Error fetching reservations:", error);
+            res.status(500).json({ message: 'Internal server error' });
         }
-
-        const reservation = db.collection('reservation');
-        let Reservation;
-
-        if (user.role === 'student') {
-            Reservation = await reservation.find({ reserved_by: user.username }).toArray();
-        } else {
-            Reservation = await reservation.find().toArray();
-        }
-
-        console.log("User Reservations:", Reservation); // Log the reservations to the console
-
-        const templateToRender = user.role === 'student' ? 'reservations_current' : 'reservations_current_admin_view';
-
-        res.render(templateToRender, {
-            title: 'Labyrinth - Current Reservations Page',
-            user: user, // Pass the user object to the template
-            Reservation: Reservation
-        });
-    } catch (error) {
-        console.error("Error fetching reservations:", error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
+    });
 
 // Handle GET request to the /profile route
 //for viewing commented out const etc.
@@ -263,11 +264,34 @@ app.post('/reservation/:labId', async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
+
         let isStudent = user.role === 'student'; // Set isStudent based on user's role
         let isAdmin = user.role === 'admin'; // Set isAdmin based on user's role
+            //const dates = req.body.dates || 0;
 
-        console.log("isStudent:", isStudent);
-        console.log("isAdmin:", isAdmin);
+            // Assuming dates is in ISO string format (YYYY-MM-DD)
+            const dates = req.body.dates ? new Date(req.body.dates) : new Date(); // Parse the date or use today's date if not provided
+
+            const checkdate = dates.toISOString().split('T')[0];
+
+            if (checkdate != currentDateStr){
+                dates.setDate(dates.getDate() + 1);            
+            }
+                
+
+            const updatedDate = dates.toISOString().split('T')[0];
+
+            
+            
+            // Add one day to the date
+            
+
+            let start_time = req.body.start_time || 0;
+            let end_time = req.body.end_time || 0; 
+
+           const anonymous = req.body.anon_checkbox || 'false';
+           // document.getElementById('anon-checkbox').value;
+
 
         const labs = db.collection('labs');
         const lab = await labs.findOne({ name: req.params.labId });
@@ -275,6 +299,22 @@ app.post('/reservation/:labId', async (req, res) => {
         if (!lab) {
             return res.status(404).json({ message: 'Lab not found' });
         }
+
+            if (start_time != 0 && end_time != 0) {
+                start_time = start_time.split(':').slice(0, 2).join(':');
+                end_time = end_time.split(':').slice(0, 2).join(':');
+            }
+            console.log("currentDateStr:", currentDateStr);
+
+            console.log("updatedDate:", updatedDate);
+            console.log("updatedDate:", updatedDate);
+
+
+            console.log("dates:", dates);
+            console.log("start_time:", start_time);
+            console.log("end_time:", end_time);
+            console.log("anonymous: ", anonymous);
+
 
         const currentDate = new Date();
         const currentDateStr = currentDate.toISOString().split('T')[0]; // Extract date part
@@ -291,9 +331,34 @@ app.post('/reservation/:labId', async (req, res) => {
             end_time = end_time.split(':').slice(0, 2).join(':');
         }
 
-        console.log("dates:", dates);
-        console.log("start_time:", start_time);
-        console.log("end_time:", end_time);
+            if (dates != null && start_time != null && end_time != null) {
+                res.render('reserve/reservation', {
+                    title: 'Reserve a Seat',
+                    username: req.session.username,
+                    labId: selectedLab,
+                    lab: lab,
+                    date: updatedDate, // Pass the currentDate to the template
+                    currentTime: start_time,
+                    start_time: start_time,
+                    end_time: end_time
+                   // anonymous: anonymous
+                    
+                });
+            }else {
+                res.render('reserve/reservation', {
+                    title: 'Reserve a Seat',
+                    username: req.session.username,
+                    labId: selectedLab,
+                    lab: lab,
+                    date: currentDateStr, // Pass the currentDate to the template
+                    currentTime: currentTime
+                    //anonymous: anonymous
+
+                });
+            }
+
+
+
 
         const selectedLab = req.params.labId; // Access lab ID from route parameters
 
@@ -342,6 +407,9 @@ app.get('/editReservation/:labId/:seatNumber/:date/:start_time/:end_time/:reserv
 });
 
 
+app.get('/about', (req, res) => {
+        res.render('about', { title: 'Labyrinth - About Us'});
+});
 
 // Start the server
 app.listen(port, () => {
