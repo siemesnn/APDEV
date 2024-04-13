@@ -63,6 +63,17 @@ app.get('/', (req, res) => {
     }
 });
 
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.redirect('/'); // Redirect to the login page
+        }
+    });
+});
+
 //Handle GET request to the /register router (register-account)
 app.get('/register', (req, res) => {
     res.render('register-account', { title: 'Labyrinth - Register Account' });

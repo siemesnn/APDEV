@@ -15,3 +15,4 @@ const labSchema = Schema({
 const Lab = mongoose.model('Lab', labSchema);
 
 module.exports = Lab;
+ 
