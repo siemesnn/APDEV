@@ -24,32 +24,58 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         try {
-            const response = await fetch('/api/labs/delete', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({lab_id, seatNumber, date, start_time, end_time, username}) // Send the entire rowData object as JSON
-            });
-
-            if (response.ok) {
-                // Handle successful deletion
-                alert("Reservation successfully cancelled!");
-                // Optionally, you can redirect or reload the page after successful deletion
-                window.location.reload();
-            } else {
-                // Handle error response
-                const errorMessage = await response.text();
-
-                console.log(rowData)
-
-                alert(`Failed to cancel reservation: ${errorMessage}`);
-            }
-        } catch (error) {
-            // Handle network errors or other exceptions
-            console.error('Error occurred while cancelling reservation:', error);
+                const labResponse = await fetch('/api/labs/deleteFromLab', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        lab_name: lab_id,
+                        seatNumber: seatNumber,
+                        date: date,
+                        start_time: start_time,
+                        end_time: end_time,
+                        username: username
+                    })
+                })
+                .then(response => response.json())
+                .then(async data => {
+                    const resRespomse = await fetch('/api/labs/delete', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            date: date,
+                            start_time: start_time,
+                            end_time: end_time,
+                            lab_id: lab_id,
+                            reserved_by: username,
+                            seatNumber: seatNumber
+                        })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Reservation cancelled successfully');
+                            window.location.reload();
+                        } else {
+                            alert('An error occurred while cancelling reservation. Please try again later.');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('An error occurred while cancelling reservation. Please try again later.');
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred while cancelling reservation. Please try again later.');
+                });
+        } catch (error) {   
+            console.error('Error:', error);
             alert('An error occurred while cancelling reservation. Please try again later.');
         }
+        
     });
 
     

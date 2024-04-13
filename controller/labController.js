@@ -87,23 +87,31 @@ exports.deleteReservation = async (req, res) => {
         // Extract parameters from the request body
         const { lab_id, seatNumber, date, start_time, end_time, username } = req.body;
 
+        console.log("Request Body:", req.body.reserved_by);
+
         // Query to find and delete the reservation
         const query = {
             date: date,
             start_time: start_time,
             end_time: end_time,
             lab_id: lab_id,
-            reserved_by: username,
+            reserved_by: req.body.reserved_by,
             seatNumber: parseInt(seatNumber)
         }
-            
+
+        console.log("Query:", query);
 
         // Delete the reservation from the database
         const result = await reservation.deleteOne(query);
 
+        console.log("Delete Result:", result);
+
         if (result.deletedCount === 0) {
+            console.log("Reservation not found or you are not authorized to delete it");
             return res.status(404).json({ message: "Reservation not found or you are not authorized to delete it" });
         }
+
+        console.log("Reservation deleted successfully");
 
         return res.status(200).json({ message: "Reservation deleted successfully" });
     } catch (error) {
@@ -111,6 +119,7 @@ exports.deleteReservation = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+
 
 
 // Helper function to retrieve 
@@ -275,19 +284,28 @@ exports.deleteReservationFromLab = async (req, res) => {
     try {
         const { lab_name, seatNumber, date, start_time, end_time, username } = req.body;
 
+        console.log("Request Body:", req.body);
+
         // Find the lab document by its name
         const lab = await labs.findOne({ name: lab_name });
 
         if (!lab) {
+            console.log("Lab not found:", lab_name);
             return res.status(404).json({ message: "Lab not found", lab_name });
         }
 
+        console.log("Lab found:", lab);
+        console.log(parseInt(seatNumber))
+
         // Find the seat object corresponding to the provided seat number
-        const seat = lab.seats.find(seat => seat.seatNumber === seatNumber);
+        const seat = lab.seats.find(seat => seat.seatNumber === parseInt(seatNumber));
 
         if (!seat) {
+            console.log("Seat not found:", seatNumber);
             return res.status(404).json({ message: "Seat not found", seatNumber });
         }
+
+        console.log("Seat found:", seat);
 
         // Find the reservation to delete
         const reservationIndex = seat.reservations.findIndex(reservation =>
@@ -298,8 +316,11 @@ exports.deleteReservationFromLab = async (req, res) => {
         );
 
         if (reservationIndex === -1) {
+            console.log("Reservation not found");
             return res.status(404).json({ message: "Reservation not found" });
         }
+
+        console.log("Reservation found:", seat.reservations[reservationIndex]);
 
         // Remove the reservation from the seat
         seat.reservations.splice(reservationIndex, 1);
@@ -307,9 +328,12 @@ exports.deleteReservationFromLab = async (req, res) => {
         // Update the lab document in the database
         await labs.updateOne({ name: lab_name }, { $set: { seats: lab.seats } });
 
+        console.log("Reservation deleted successfully");
+
         return res.status(200).json({ message: "Reservation deleted successfully" });
     } catch (e) {
         console.error("Error occurred while deleting reservation:", e);
         return res.status(500).json({ message: "Internal server error" });
     }
 }
+
