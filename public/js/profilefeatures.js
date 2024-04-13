@@ -36,6 +36,7 @@ if (confirmed) {
         } else {
             alert("Failed to delete reservations associated with your account. Please try again later.");
         }
+
     } catch (error) {
         console.error("Error occurred while deleting account:", error);
         alert("An error occurred while deleting your account. Please try again later.");
@@ -78,5 +79,4 @@ confirmPasswordChangeButton.addEventListener("click", function() {
     // You can also clear the input field if needed
     newPasswordInput.value = "";
 })
-
 });

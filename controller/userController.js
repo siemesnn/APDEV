@@ -13,7 +13,7 @@ exports.registerUser = async (req, res) => {
             res.status(400).json({ message: "Passwords do not match!" });
             return;
         }
-
+    
         // Check if the username already exists using Mongoose
         const existingUser = await users.findOne({ username });
 
@@ -69,7 +69,7 @@ exports.loginUser = async (req, res) => {
                 req.session.username = username;
                 res.status(201).json(req.session)
             }
-        }else {
+        }else { 
             res.status(401).json({ message: "Invalid credentials!" });
         }
 
