@@ -169,6 +169,10 @@
                             <!-- Seat is reserved for the desired date -->
                             <div class="reserved-seat">
                                 <img id="{{this.seatNumber}}" class="seat" src="/assets/taken.png" alt="Reserved Seat" onclick="toggleSeatStatus('{{this.seatNumber}}')">
+                                <div class="taken-popup" id="popup-{{this.seatNumber}}">
+                                    This seat is already taken by: <br>
+                                    <a href="/viewprofile?username={{ reserved_by }}">{{ reserved_by }}</a>
+                                </div>
                             </div>
                         {{else}}
                             <!-- Seat is available for the desired date -->
@@ -184,9 +188,10 @@
             </div> {{!-- end of right panel div --}}
             
         </div> {{!-- end of elements container div --}}
-        <div id="confirmationPopup" style="display: none;">
-        <h2>{{confirmationMessage}}</h2>
-    </div>
+        
+        {{!-- <div id="confirmationPopup" style="display: none;"> --}}
+        {{!-- <h2>{{confirmationMessage}}</h2> --}}
+    {{!-- </div> --}}
 
     </div>
 
