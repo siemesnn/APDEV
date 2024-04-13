@@ -1,5 +1,6 @@
 const User = require('../model/user');
 const {client, DB_NAME } = require('../model/database');
+const bcrypt = require("bcrypt");
 
 
 exports.registerUser = async (req, res) => {
@@ -26,14 +27,8 @@ exports.registerUser = async (req, res) => {
         }
 
         // Hash the password before storing it in the database
-        const bcrypt = require("bcrypt");
         const saltRounds = 10;
-        console.log("saltRounds ", saltRounds);
-        console.log("Password", password);
-
         const hash = await bcrypt.hash(password, saltRounds); //hashs user pw with 10rounds
-        console.log("Hash ", hash);
-        console.log("Password", password);
 
         // Create a new user document using the Mongoose model
         const newUser = new User({
