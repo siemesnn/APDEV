@@ -63,6 +63,7 @@ exports.loginUser = async (req, res) => {
 
         if (!userLogin) {
             return res.status(401).json({ message: "User not found!" });
+        }
 
         if (userLogin.password === password) {
 
