@@ -11,6 +11,9 @@
     <script src="js/labSelection.js"></script>
     <title>{{title}}</title>
 </head>
+
+{{#if isStudent}}
+{{!-- student sidebar --}}
 <aside class="Sidebar">
     <div class="image-container">
       <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp">
@@ -31,9 +34,44 @@
         <br><br>
         <a href="/profile" id="profile">My Profile</a>
       </li>
+      <li>
+        <br><br><br>
+        <a href="/" id="logout">Logout</a>
+      </li>
     </ul>
-  </aside>
+</aside>
+
+{{else}}
+{{!-- admin's sidebar --}}
+<aside class="sidebar-admin">
+
+    <div class="image-container">
+      <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp">
+      <br>
+      <br>
+    </div>
   
+    <ul class="sidebar-links">
+      <li>
+        <br><br>
+        <a href="/home">Reserve</a>
+      </li>
+      <li>
+        <br><br>
+        <a href="/reserve">View Reservations</a>
+      </li>
+      <li>
+        <br><br>
+        <a href="/profile" id="profile">My Profile</a>
+      </li>
+      <li>
+        <br><br><br>
+        <a href="/" id="logout">Logout</a>
+      </li>
+    </ul>
+</aside>
+{{/if}}
+
 <body>
 
 <link rel="stylesheet" href="css/selectlabs.css">
@@ -73,7 +111,7 @@
                 location: 3rd floor
             </div>
             <form action="/reservation/B" method="post">
-                <input type="submit" value="See Availability" id="2" class ="see-avail">
+                <input type="submit" value="See Availability" id="2" class="see-avail">
             </form>
         </div>
 
@@ -94,14 +132,6 @@
 </div>
 
 <script>
-    //when button is hovered, background color changes
-    document.querySelector('.see-availability-button').addEventListener('mouseover', function() {
-    this.style.backgroundColor = 'light';
-    });
-
-    document.querySelector('.see-availability-button').addEventListener('mouseout', function() {
-    this.style.backgroundColor = '';
-    });
 </script>
  
 </body>

@@ -15,10 +15,11 @@
     <script defer src="/js/reservation.js"></script>
 </head>
 
-{{!-- sidebar --}}
+{{#if isStudent}}
+{{!-- student sidebar --}}
 <aside class="Sidebar">
     <div class="image-container">
-      <img src="/assets/jeongwoo.jpg" alt="userpfp" id="userpfp">
+      <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp">
       <br>
       <br>
     </div>
@@ -36,8 +37,38 @@
         <br><br>
         <a href="/profile" id="profile">My Profile</a>
       </li>
+      <li>
+        <br><br><br>
+        <a href="/" id="logout">Logout</a>
+      </li>
+    </ul>
+  </aside>
+
+{{else}}
+{{!-- admin's sidebar --}}
+  <aside class="sidebar-admin">
+    <div class="image-container">
+        <img src="assets/jeongwoo.jpg" alt="userpfp" id="userpfp"> <br> <br>
+    </div>
+
+    <ul class="sidebar-links">
+        <li> <br><br>
+            <a href="/home">Reserve</a>
+        </li>
+        <li> <br><br>
+            <a href="/reserve">View Reservations</a>
+        </li>
+        <li><br><br>
+            <a href="/profile" id="profile">My Profile</a>
+        </li>
+        <li>
+        <br><br><br>
+        <a href="/" id="logout">Logout</a>
+      </li>
     </ul>
 </aside>
+{{/if}}
+
 
 <body>
     <div class="notSidebar">
@@ -55,25 +86,57 @@
 
             <div class="left-panel">
             
-            <form class="reserve-form" action="" method="">
-               <div class="date-time">
-                    <label for="datesLabel">Choose a date: </label>
-                    <select id="dates" name="dates"></select>
-                    <br>
-                    <label for="start_times">Choose a start time: </label>
-                    <select id="start_time" name="start_time"></select>
-                    <br>
-                    <label for="end_times">Choose an end time: </label>
-                    <select id="end_time" name="end_time"></select>
+            {{!-- appears only when the user's role is admin --}}
+            {{#if isAdmin}}
+            <div class="name-box">
+              <label for="reserveFor">Reserve for:</label>
+              <input type="text" id="reserveFor" name="reserveForUser">  
+            </div>
+            {{/if}}
             
-                    <div class="anon-checkbox">
-                        <input type="checkbox" id="anon-checkbox" name="anon-checkbox" value="anonymous">
-                        <label for="anon">Reserve Anonymously</label>   
+                <form class="reserve-form" action="/reservation/{{lab.name}}" method="post">
+                    <div class="date-time">
+                        <label for="datesLabel">Choose a date: </label>
+                        <select id="dates" name="dates">
+                            {{#if date}}
+                                <option value="{{ date }}" selected>{{ date }}</option>
+                            {{else}}
+                                {{#each dateOptions}}
+                                    <option value="{{ this }}">{{ this }}</option>
+                                {{/each}}
+                            {{/if}}
+                        </select>
+                        <br>
+                        <label for="start_times">Choose a start time: </label>
+                        <select id="start_time" name="start_time">
+                            {{#if start_time}}
+                                <option value="{{ start_time }}" selected>{{ start_time }}</option>
+                            {{else}}
+                                <option value="00:00">00:00</option> <!-- Default value -->
+                                <!-- Add other options as needed -->
+                            {{/if}}
+                        </select>
+                        <br>
+                        <label for="end_times">Choose an end time: </label>
+                        <select id="end_time" name="end_time">
+                            {{#if end_time}}
+                                <option value="{{ end_time }}" selected>{{ end_time }}</option>
+                            {{else}}
+                                <option value="00:00">00:00</option> <!-- Default value -->
+                                <!-- Add other options as needed -->
+                            {{/if}}
+                        </select>
+
+                        <div class="anon-checkbox">
+                            <input type="checkbox" id="anon-checkbox" name="anon-checkbox" value="anonymous">
+                            <label for="anon">Reserve Anonymously</label>   
+                        </div>
+
+                        <input type="submit" name="submit-button" id="check_availability" value="Check Availability"/> 
+
+                        <button id="reserve-button" class="reserve-button" type="button">Reserve</button>
                     </div>
-                </div>
-            
-            {{!-- <button type="submit" value="Reserve" id="reserve-button"> --}}
-              <button id="reserve-button">Reserve</button>
+                </form>
             </div>
            
             <div class="right-panel">
@@ -100,23 +163,24 @@
         <div class="seats-container">
             <div class="container-a">
                 <div class="seat-area">
-                   {{#each lab.seats}}
+                  {{#each lab.seats}}
                     <div class="seat-container">
                         {{#if (getReservationDate this.reservations ../date ../currentTime)}}
                             <!-- Seat is reserved for the desired date -->
-                            <img id="seat{{this.seatNumber}}" class="seat" src="/assets/taken.png" alt="Reserved Seat" onclick="toggleSeatStatus('seat{{this.seatNumber}}')">
+                            <div class="reserved-seat">
+                                <img id="{{this.seatNumber}}" class="seat" src="/assets/taken.png" alt="Reserved Seat" onclick="toggleSeatStatus('{{this.seatNumber}}')">
+                            </div>
                         {{else}}
                             <!-- Seat is available for the desired date -->
-                            <img id="seat{{this.seatNumber}}" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('seat{{this.seatNumber}}')">
+                            <img id="{{this.seatNumber}}" class="seat" src="/assets/available.png" alt="Available Seat" onclick="toggleSeatStatus('{{this.seatNumber}}')">
                         {{/if}}
                     </div>
-                    {{/each}}
+                {{/each}}
                 </div>
             </div>
         </div>
 
             </div>
-        </form>
             </div> {{!-- end of right panel div --}}
             
         </div> {{!-- end of elements container div --}}
