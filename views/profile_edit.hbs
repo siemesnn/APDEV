@@ -91,7 +91,7 @@
     </div>
 
     <div class="profile-buttons">
-        <button onclick="windows.location.href = /edittprofile" class="profile-button">Edit Profile</button>
+        <button onclick="navigateTo("/edittprofile")" class="profile-button">Edit Profile</button>
         <button class="profile-button" id="changePasswordButton">Change Password</button>
 
         <div id="passwordChangeModal" class="modal" style="display: none;">
@@ -110,8 +110,15 @@
             </div>
         </div>
         
-        <button onclick="windows.location.href = /api/users/logout" class="profile-button">Logout</button>
+        <button onclick="navigateTo("/api/users/logout")" class="profile-button">Logout</button>
         <button class="profile-button red-text" id="deleteAccountButton">Delete Account</button>
     </div>
        
 </div>
+
+
+<script>
+    function navigateTo(url) {
+        window.location.href = url;
+    }
+</script>
