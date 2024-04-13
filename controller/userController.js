@@ -13,11 +13,6 @@ exports.registerUser = async (req, res) => {
         console.log("password ", password);
         console.log("confirmPassword", confirmPassword);
 
-        if (password !== confirmPassword) {
-            res.status(400).json({ message: "Passwords do not match!" });
-            return;
-        }
-    
         // Check if the username already exists using Mongoose
         const existingUser = await users.findOne({ username });
 
@@ -44,8 +39,7 @@ exports.registerUser = async (req, res) => {
 
         // Save the new user to the database
         await users.insertOne(newUser);
-
-        res.json({ message: "Registration successful" });
+        res.status(201).json({ message: "User created" });
     } catch (e) {
         res.status(500).json({ message: e.message });
     }
