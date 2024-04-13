@@ -60,11 +60,16 @@ exports.loginUser = async (req, res) => {
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
+
         if (isPasswordValid) {
             // Create or update the session
             req.session = req.session || {};
             req.session.authenticated = true;
             req.session.username = username;
+
+            if (user.role === 'admin') {
+                req.session.admin = true;
+            }
             return res.status(200).json(req.session);
         } else {
             return res.status(401).json({ message: "Invalid credentials!" });

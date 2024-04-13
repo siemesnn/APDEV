@@ -151,24 +151,50 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('End Timesdasd:', end_time);
         console.log('Selected Seat:', seatNumber);
 
-        // fetch request /api/labs/reserve/:labId
-        const response = await fetch(`/api/labs/reserve/${labId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ date, start_time, end_time, seatNumber })
-        });
+        const reserveFor = document.getElementById('reserveFor');
 
-        // Check if the reservation was successful
-        if (response.ok) {
-            // Redirect to the home page
-            alert("Reservation successful");
-            window.location.href = '/home';
-        } else {
-            // Handle errors or show a message to the user
-            const data = await response.json();
-            alert(data.message);
+        if (reserveFor != null) {
+            console.log('Reserve for:', reserveFor.value);
+            const user_name = reserveFor.value;
+            const response = await fetch(`/api/labs/adminreserve/${labId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    date,
+                    start_time,
+                    end_time,
+                    seatNumber,
+                    user_name
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert('Reservation successful');
+                    window.location.href = '/home';
+                } else {
+                    alert('Failed to reserve seat');
+                }
+            });
+        }else {
+            const response = await fetch(`/api/labs/reserve/${labId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ date, start_time, end_time, seatNumber })
+            });
+    
+            // Check if the reservation was successful
+            if (response.ok) {
+                // Redirect to the home page
+                alert("Reservation successful");
+                window.location.href = '/home';
+            } else {
+                // Handle errors or show a message to the user
+                const data = await response.json();
+                alert(data.message);
+            }
         }
     });
 });

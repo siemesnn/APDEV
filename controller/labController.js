@@ -76,6 +76,79 @@ exports.reserveASeat = async (req, res) => {
     }
 };
 
+exports.adminReserve = async (req, res) => {
+    const db = client.db(DB_NAME);
+    const labs = db.collection('labs');
+    try {
+        const { seatNumber, date, start_time, end_time, username } = req.body;
+        const labName = req.params.labId;
+
+        console.log(req.body)
+
+        // Find the lab document by its name
+        const lab = await labs.findOne({ name: labName });
+
+        if (!lab) {
+            return res.status(404).json({ message: "Lab not found", labName });
+        }
+
+        // Find the seat within the lab's seats array based on the provided seatNumber
+        const seat = lab.seats.find(seat => seat.seatNumber === seatNumber);
+
+        if (!seat) {
+            return res.status(404).json({ message: "Seat not found" });
+        }
+
+        // Check if the seat is available for reservation
+        const overlappingReservation = seat.reservations.find(reservation =>
+            reservation.date === date &&
+            ((start_time >= reservation.start_time && start_time < reservation.end_time) ||
+             (end_time > reservation.start_time && end_time <= reservation.end_time))
+        );
+
+        if (overlappingReservation) {
+            return res.status(409).json({ message: "Seat is already reserved for the specified time slot" });
+        }
+
+        // Create a new reservation object
+        const newReservation = {
+            date,
+            start_time,
+            end_time,
+            lab_id: lab._id, // Use lab's _id for lab_id field
+            reserved_by: req.body.user_name,
+            seatNumber
+        };
+
+        // Add the new reservation to the reservations array of the seat
+        seat.reservations.push(newReservation);
+
+        // Update the lab document
+        await labs.updateOne({ _id: lab._id }, { $set: { seats: lab.seats } });
+
+
+        // ReservationController
+        const reservation = db.collection('reservation');
+        const newReservationUser = {
+            date,
+            start_time,
+            end_time,
+            lab_id: labName, // Use lab's _id for lab_id field
+            reserved_by: req.body.user_name,
+            seatNumber
+        };
+
+
+        await reservation.insertOne(newReservationUser);
+
+
+        return res.status(201).json({ message: "Reservation successful" });
+    } catch (e) {
+        console.error("Error occurred while reserving seat:", e);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 
 // Define the route for deleting reservations
 exports.deleteReservation = async (req, res) => {

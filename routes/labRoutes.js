@@ -9,6 +9,7 @@ router.delete('/delete', labController.deleteReservation);
 router.delete('/deleteUserRes', labController.deleteAllReservationsBasedOnUser);
 router.delete('/deleteFromLab', labController.deleteReservationFromLab);
 router.put('/updateProfile', labController.updateReservationProfile);
+router.post('/adminreserve/:labId',labController.adminReserve);
 
 
 module.exports = router;

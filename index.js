@@ -70,32 +70,13 @@ app.get('/register', (req, res) => {
 
 
 
-// Handle GET request to the /home route
-app.get('/home', async (req, res) => {
-    try {
-        const username = req.session.username; 
-        const db = client.db(DB_NAME);
-        const users = db.collection('users');
-        const user = await users.findOne({ username });
-
-        let isStudent = false; // Default value 
-
-        if (user) {
-            if (user.role === 'student') { 
-                isStudent = true; //this shows the sidebar for the student
-            }
-            if (req.session.authenticated) {
-                console.log("isStudent:", isStudent); // if the role is student then it is true, if admin it is false
-                res.render('homepage', { title: 'Labyrinth - Home Page', username: req.session.username, isStudent });
-            } else {
-                res.status(401).json({ message: 'Unauthorized' });
-            }
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Internal server error' });
+// Handle post request to the /home route
+// Update your /home route handler
+app.get('/home', (req, res) => {
+    if (req.session.authenticated) {
+        res.render('homepage', { title: 'Labyrinth - Home Page', username: req.session.username });
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
     }
 });
 
@@ -250,23 +231,26 @@ app.get('/viewprofile', async (req, res) => {
 //for viewing commented out const etc.
 
 app.post('/reservation/:labId', async (req, res) => {
-    try {
-        if (!req.session.authenticated) {
-            return res.status(401).json({ message: 'Unauthorized' });
-        }
+    if (req.session.authenticated) {
+        try {
+            const db = client.db(DB_NAME);
+            const labs = db.collection('labs');
+            const lab = await labs.findOne({ name: req.params.labId });
 
-        const username = req.session.username; 
-        const db = client.db(DB_NAME);
-        const users = db.collection('users');
-        const user = await users.findOne({ username });
+            if (!lab) {
+                return res.status(404).json({ message: 'Lab not found' });
+            }
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
+            const currentDate = new Date();
+        
+            const currentDateStr = currentDate.toISOString().split('T')[0]; // Extract date part
 
+            // Extract current hours and minutes
+            const currentHours = currentDate.getHours().toString().padStart(2, '0'); // Ensure two digits with leading zero
+            const currentMinutes = currentDate.getMinutes().toString().padStart(2, '0'); // Ensure two digits with leading zero
 
-        let isStudent = user.role === 'student'; // Set isStudent based on user's role
-        let isAdmin = user.role === 'admin'; // Set isAdmin based on user's role
+            const currentTime = `${currentHours}:${currentMinutes}`; // Construct the current time string
+
             //const dates = req.body.dates || 0;
 
             // Assuming dates is in ISO string format (YYYY-MM-DD)
@@ -293,43 +277,17 @@ app.post('/reservation/:labId', async (req, res) => {
            // document.getElementById('anon-checkbox').value;
 
 
-        const labs = db.collection('labs');
-        const lab = await labs.findOne({ name: req.params.labId });
-
-        if (!lab) {
-            return res.status(404).json({ message: 'Lab not found' });
-        }
 
             if (start_time != 0 && end_time != 0) {
                 start_time = start_time.split(':').slice(0, 2).join(':');
                 end_time = end_time.split(':').slice(0, 2).join(':');
             }
-            console.log("currentDateStr:", currentDateStr);
 
-            console.log("updatedDate:", updatedDate);
-            console.log("updatedDate:", updatedDate);
+        
 
+            const selectedLab = req.params.labId; // Access lab ID from route parameters
 
-            console.log("dates:", dates);
-            console.log("start_time:", start_time);
-            console.log("end_time:", end_time);
-            console.log("anonymous: ", anonymous);
-
-
-        const currentDate = new Date();
-        const currentDateStr = currentDate.toISOString().split('T')[0]; // Extract date part
-        const currentHours = currentDate.getHours().toString().padStart(2, '0'); // Ensure two digits with leading zero
-        const currentMinutes = currentDate.getMinutes().toString().padStart(2, '0'); // Ensure two digits with leading zero
-        const currentTime = `${currentHours}:${currentMinutes}`; // Construct the current time string
-
-        const dates = req.body.dates || 0;
-        let start_time = req.body.start_time || 0;
-        let end_time = req.body.end_time || 0;
-
-        if (start_time != 0 && end_time != 0) {
-            start_time = start_time.split(':').slice(0, 2).join(':');
-            end_time = end_time.split(':').slice(0, 2).join(':');
-        }
+            // Pass the currentDate as date to the template
 
             if (dates != null && start_time != null && end_time != null) {
                 res.render('reserve/reservation', {
@@ -340,7 +298,8 @@ app.post('/reservation/:labId', async (req, res) => {
                     date: updatedDate, // Pass the currentDate to the template
                     currentTime: start_time,
                     start_time: start_time,
-                    end_time: end_time
+                    end_time: end_time,
+                    admin_status: req.session.admin
                    // anonymous: anonymous
                     
                 });
@@ -351,42 +310,19 @@ app.post('/reservation/:labId', async (req, res) => {
                     labId: selectedLab,
                     lab: lab,
                     date: currentDateStr, // Pass the currentDate to the template
-                    currentTime: currentTime
-                    //anonymous: anonymous
-
+                    currentTime: currentTime,
+                    admin_status: req.session.admin
                 });
             }
 
-
-
-
-        const selectedLab = req.params.labId; // Access lab ID from route parameters
-
-        // Pass the currentDate as date to the template
-        const renderData = {
-            title: 'Reserve a Seat',
-            username: req.session.username,
-            labId: selectedLab,
-            lab: lab,
-            date: dates || currentDateStr, // Pass the currentDate to the template
-            currentTime: start_time || currentTime,
-            isStudent: isStudent, // Pass isStudent to the template
-            isAdmin: isAdmin // Pass isAdmin to the template
-        };
-
-        if (dates != null && start_time != null && end_time != null) {
-            renderData.start_time = start_time;
-            renderData.end_time = end_time;
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Internal server error' });
         }
-
-        res.render('reserve/reservation', renderData);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Internal server error' });
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
     }
 });
-
-
 
 
 
